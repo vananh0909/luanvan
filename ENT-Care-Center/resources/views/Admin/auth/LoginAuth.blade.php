@@ -39,7 +39,7 @@
                         <label for="inputPassword" class="col-form-label">Password:</label>
                     </div>
                     <div class="col-7">
-                        <input type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpInline"
+                        <input id="inputPassword" class="form-control" aria-describedby="passwordHelpInline" type="password"
                             name="AD_Password" required>
                     </div>
                 </div>

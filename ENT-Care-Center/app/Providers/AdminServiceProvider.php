@@ -32,7 +32,7 @@ class AdminServiceProvider extends ServiceProvider
 
         Blade::if('hasRole', function ($expression) {
             if (Auth::user()) {
-                if (Auth::user()->hasRole($expression)) {
+                if (Auth::user()->$this->hasRole($expression)) {
                     return true;
                 }
             }

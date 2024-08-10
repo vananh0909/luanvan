@@ -16,11 +16,13 @@ class admin  extends Authenticatable
     protected $primaryKey = 'id_admin';
     protected $table = 'admin';
     protected $fillable = ['id_admin', 'AD_Name', 'AD_Phone', 'AD_Email', 'AD_Password'];
-
-    public function getAuthIdentifierName()
+    public function roles()
     {
-        return 'AD_Email';
+        return $this->belongsToMany('App\Models\roles');
     }
+
+
+
 
     public function getAuthPassword()
     {

@@ -52,7 +52,15 @@ class AuthController extends Controller
 
     public function postLoginAuth(Request $request)
     {
-        // Validate the request data
+        // $credentials = $request->only('AD_Email', 'AD_Password');
+
+
+        // if (Auth::attempt($credentials)) {
+        //     return redirect()->route('Admin.trangchu')->with('status', 'Đăng nhập thành công!');
+        // } else {
+        //     return redirect()->back()->with('error', 'Email hoặc mật khẩu không chính xác.');
+        // }
+
         $credentials = $request->only('AD_Email', 'AD_Password');
 
         // Tìm người dùng theo email
