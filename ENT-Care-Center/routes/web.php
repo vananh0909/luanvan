@@ -14,9 +14,9 @@ Route::get('sendmail', [UserController::class, 'sendmail'])->name('sendmail');
 
 //phan quyen
 Route::get('auth', [AuthController::class, 'auth'])->name('auth');
-Route::post('auth', [AdminController::class, 'postauth'])->name('postauth');
+Route::post('auth', [AuthController::class, 'postauth'])->name('postauth');
 Route::get('LoginAuth', [AuthController::class, 'LoginAuth'])->name('LoginAuth');
-Route::post('LoginAuth', [AdminController::class, 'postloginAuth'])->name('postLoginAuth');
+Route::post('LoginAuth', [AuthController::class, 'postloginAuth'])->name('postLoginAuth');
 Route::post('logoutAuth', [AuthController::class, 'logoutAuth'])->name('logoutAuth');
 
 Route::get('alluser', [UserAuthController::class, 'index'])->name('alluser');
