@@ -40,7 +40,6 @@
             </script>
         @endif
 
-
         <table class="table table-striped" style="width: 100%;margin: 0 auto">
             <thead>
                 <tr>

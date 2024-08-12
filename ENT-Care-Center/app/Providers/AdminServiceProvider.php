@@ -30,13 +30,13 @@ class AdminServiceProvider extends ServiceProvider
     {
 
 
-        Blade::if('hasRole', function ($expression) {
-            if (Auth::user()) {
-                if (Auth::user()->$this->hasRole($expression)) {
-                    return true;
-                }
-            }
-            return false;
-        });
+        // Blade::if('hasRole', function ($expression) {
+        //     if (Auth::user()) {
+        //         if (Auth::user()->$this->hasRole($expression)) {
+        //             return true;
+        //         }
+        //     }
+        //     return false;
+        // });
     }
 }

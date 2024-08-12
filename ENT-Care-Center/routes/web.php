@@ -12,6 +12,16 @@ use App\Models\admin;
 Route::get('sendmail', [UserController::class, 'sendmail'])->name('sendmail');
 
 
+Route::get('fake-user', function () {
+    $user = new \App\Models\User;
+    $user->id = '1';
+    $user->name = 'VA';
+    $user->email = 'va@gmail.com';
+    $user->password = Hash::make('09102002'); // Sử dụng Hash::make để mã hóa mật khẩu
+    $user->save();
+
+    return 'User created successfully!';
+});
 //phan quyen
 Route::get('auth', [AuthController::class, 'auth'])->name('auth');
 Route::post('auth', [AuthController::class, 'postauth'])->name('postauth');

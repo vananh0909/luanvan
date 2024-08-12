@@ -11,18 +11,19 @@ use Illuminate\Notifications\Notifiable;
 class admin  extends Authenticatable
 {
     use Notifiable;
-
     public $timestamps = false;
     protected $primaryKey = 'id_admin';
     protected $table = 'admin';
     protected $fillable = ['id_admin', 'AD_Name', 'AD_Phone', 'AD_Email', 'AD_Password'];
+
+    // public function roles()
+    // {
+    //     return $this->belongsToMany('App\Models\Roles');
+    // }
     public function roles()
     {
         return $this->belongsToMany('App\Models\roles');
     }
-
-
-
 
     public function getAuthPassword()
     {
@@ -31,19 +32,24 @@ class admin  extends Authenticatable
 
 
 
-    public function hasAnyRoles($roles)
-    {
-        if (!is_array($roles)) {
-            $roles = [$roles];
-        }
-        return null !== $this->roles()->whereIn('name', $roles)->first();
-    }
-    public function hasRole($role)
-    {
-        if (!is_array($role)) {
-            $role = [$role];
-        }
+    // public function hasAnyRoles($roles)
+    // {
+    //     if (!is_array($roles)) {
+    //         $roles = [$roles];
+    //     }
+    //     return null !== $this->roles()->whereIn('name', $roles)->first();
+    // }
+    // public function hasRole($role)
+    // {
+    //     if (!is_array($role)) {
+    //         $role = [$role];
+    //     }
 
-        return null !== $this->roles()->where('name', $role)->first();
-    }
+    //     return null !== $this->roles()->where('name', $role)->first();
+
+    // if (!is_array($role)) {
+    //     $role = [$role];
+    // }
+    // return $this->roles()->whereIn('name', $role)->exists();
+    // }
 }

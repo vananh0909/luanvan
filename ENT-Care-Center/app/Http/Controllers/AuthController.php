@@ -31,7 +31,7 @@ class AuthController extends Controller
         }
 
         // Tạo và lưu thông tin người dùng mới
-        $dangky = new admin;
+        $dangky = new Admin;
 
         $dangky->AD_Name = $request->input('AD_Name');
         $dangky->AD_Phone = $request->input('AD_Phone');
@@ -52,30 +52,13 @@ class AuthController extends Controller
 
     public function postLoginAuth(Request $request)
     {
-        // $credentials = $request->only('AD_Email', 'AD_Password');
-
-
-        // if (Auth::attempt($credentials)) {
-        //     return redirect()->route('Admin.trangchu')->with('status', 'Đăng nhập thành công!');
-        // } else {
-        //     return redirect()->back()->with('error', 'Email hoặc mật khẩu không chính xác.');
-        // }
-
-        $credentials = $request->only('AD_Email', 'AD_Password');
-
-        // Tìm người dùng theo email
-        $user = admin::where('AD_Email', $credentials['AD_Email'])->first();
-
-        // Kiểm tra xem người dùng có tồn tại và mật khẩu có khớp không
-        if ($user && Hash::check($credentials['AD_Password'], $user->AD_Password)) {
-            // Đăng nhập người dùng sử dụng ID
-            Auth::loginUsingId($user->id); // Sử dụng $user->id từ model
-
-            // Chuyển hướng đến trang quản lý lịch hẹn
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            // Đăng nhập thành công, chuyển hướng đến trang dashboard hoặc trang chủ
             return redirect()->route('Admin.trangchu');
         } else {
             // Đăng nhập thất bại
-            return redirect()->back()->with('error', 'Đăng nhập không thành công. Xin vui lòng đăng nhập lại !');
+            return back()->with('error', 'Email hoặc mật khẩu không chính xác.');
         }
     }
 

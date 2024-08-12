@@ -2,17 +2,29 @@
 
 @section('content')
     @if (session('status'))
-        <div style="padding-top:60px">
-            <h4 style="width: 300px; height:10px; margin: 0 auto;font-size:18px; text-align:center; padding-bottom:40px;"
-                class="alert alert-success">
-                {{ session('status') }}</h4>
-        </div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Đăng Ký Thành Công ✅",
+                    text: "{{ session('status') }}",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                });
+            });
+        </script>
     @elseif (session('error'))
-        <div style="padding-top:60px">
-            <h4 style="width: 500px; height:10px; margin: 0 auto;font-size:18px; text-align:center; padding-bottom:40px;"
-                class="alert alert-danger">
-                {{ session('error') }}</h4>
-        </div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Đăng Ký Thất Bại ❌",
+                    text: "{{ session('error') }}",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            });
+        </script>
     @endif
     <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
         <form method="POST" action="{{ route('postLoginAuth') }}"
@@ -30,7 +42,7 @@
                     </div>
                     <div class="col-7">
                         <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelpInline"
-                            name="AD_Email" required>
+                            name="email" required>
                     </div>
                 </div>
 
@@ -39,8 +51,8 @@
                         <label for="inputPassword" class="col-form-label">Password:</label>
                     </div>
                     <div class="col-7">
-                        <input id="inputPassword" class="form-control" aria-describedby="passwordHelpInline" type="password"
-                            name="AD_Password" required>
+                        <input type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpInline"
+                            name="password" required>
                     </div>
                 </div>
 
