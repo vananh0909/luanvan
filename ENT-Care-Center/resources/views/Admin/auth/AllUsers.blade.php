@@ -9,7 +9,7 @@
     </header>
     <main>
         <div>
-            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 35px; padding-bottom:40px">
+            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 18px; padding-bottom:22px">
                 LIỆT KÊ DANH SÁCH USERS
             </h1>
         </div>
@@ -69,16 +69,16 @@
                              Cộng hai giá trị này và trừ 1 để có số thứ tự đúng trong toàn bộ danh sách. --}}
                             <td>{{ $loop->iteration + $admin->firstItem() - 1 }}</td>
 
-                            <td> {{ $ad->AD_Name }}</td>
-                            <td title="{{ $ad->AD_Email }}">{{ $ad->AD_Email }}
+                            <td> {{ $ad->name }}</td>
+                            <td title="{{ $ad->email }}">{{ $ad->email }}
 
-                                <input type="hidden" name="AD_Email" value="{{ $ad->AD_Email }}">
+                                <input type="hidden" name="email" value="{{ $ad->email }}">
 
                             </td>
-                            <td> {{ $ad->AD_Phone }}</td>
-                            <td title="{{ $ad->AD_Password }}">{{ $ad->AD_Password }} </td>
+                            <td> {{ $ad->phone }}</td>
+                            <td title="{{ $ad->password }}">{{ $ad->password }} </td>
                             <td>
-                                {{-- khi User có quyền gì thì nó sẽ so sánh bên admin và check theo --}}
+                                {{-- khi admin có quyền gì thì nó sẽ so sánh bên bảng user_roles và check theo --}}
                                 <input type="checkbox" name="admin_role" {{ $ad->hasRole('admin') ? 'checked' : '' }}>
                             </td>
 
@@ -104,14 +104,13 @@
         </table>
 
         <br>
+
         <br>
-
-
         <div class="d-flex justify-content-center">
             {{ $admin->links('pagination::bootstrap-4') }}
         </div>
 
-        <br>
+
 
     </main>
 @endsection

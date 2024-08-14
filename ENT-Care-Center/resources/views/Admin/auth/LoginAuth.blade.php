@@ -64,7 +64,9 @@
                     <div>
                         <p style="font-size:13px; margin-left: -10px; margin-top: 40px"> Bạn đã có tài khoản?
 
+
                             <a class="hover" href="{{ route('auth') }}">Đăng ký tài khoản Auth</a> |
+
                             <a class="hover" href="{{ route('LoginAuth') }}">Đăng nhập tài khoản Auth</a>
                         </p>
                     </div>

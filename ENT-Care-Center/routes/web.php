@@ -7,21 +7,20 @@ use App\Http\Controllers\UserAuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Models\admin;
 
 Route::get('sendmail', [UserController::class, 'sendmail'])->name('sendmail');
 
 
-Route::get('fake-user', function () {
-    $user = new \App\Models\User;
-    $user->id = '1';
-    $user->name = 'VA';
-    $user->email = 'va@gmail.com';
-    $user->password = Hash::make('09102002'); // Sử dụng Hash::make để mã hóa mật khẩu
-    $user->save();
+// Route::get('fake-user', function () {
+//     $user = new \App\Models\User;
+//     $user->id = '1';
+//     $user->name = 'Vân Anh';
+//     $user->email = 'va@gmail.com';
+//     $user->password = Hash::make('09102002'); // Sử dụng Hash::make để mã hóa mật khẩu
+//     $user->save();
 
-    return 'User created successfully!';
-});
+//     return 'User created successfully!';
+// });
 //phan quyen
 Route::get('auth', [AuthController::class, 'auth'])->name('auth');
 Route::post('auth', [AuthController::class, 'postauth'])->name('postauth');
@@ -34,7 +33,7 @@ Route::post('alluser', [UserAuthController::class, 'phanquyen'])->name('phanquye
 
 
 #Admin
-Route::prefix('Admin')->name('Admin.')->group(function () {
+Route::prefix('Admin')->name('Admin.')->middleware(['auth'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('Homead');
     Route::get('trangchu', [AdminController::class, 'trangchu'])->name('trangchu');
     Route::get('quanlylichhen', [AdminController::class, 'quanlylichhen'])->name('quanlylichhen');

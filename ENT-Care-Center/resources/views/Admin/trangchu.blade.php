@@ -11,7 +11,7 @@
     </div>
     <main>
         <div>
-            <h1 style="font-size:24px; text-align:center; font-weight:400; margin-top: 250px; padding-bottom:316px">
+            <h1 style="font-size:24px; text-align:center; font-weight:400; margin-top: 226px; padding-bottom:290px">
                 CHÀO MỪNG BẠN ĐẾN VỚI TRANG QUẢN TRỊ
 
             </h1>

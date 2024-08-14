@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\admin;
+use App\Models\User;
 use App\Models\roles;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +15,7 @@ class UserFactory extends Factory
      *
      * @var string
      */
-    protected $model = admin::class;
+    protected $model = User::class;
 
     /**
      * The current password being used by the factory.
@@ -30,10 +30,10 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'AD_Name' => $this->faker->name(),
-            'AD_Email' => $this->faker->unique()->safeEmail(),
-            'AD_Phone' => '0924546770',
-            'AD_Password' => '$2y$12$8U7gfzQodezKwbhHJxHw1eoTDl2g.FbllbPWwY.eO8QXXQ6dbwnYi',
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'phone' => '0924546546',
+            'password' => '$2y$12$8U7gfzQodezKwbhHJxHw1eoTDl2g.FbllbPWwY.eO8QXXQ6dbwnYi',
 
         ];
     }
@@ -45,9 +45,9 @@ class UserFactory extends Factory
      */
     public function configure()
     {
-        return $this->afterCreating(function (admin $admin) {
+        return $this->afterCreating(function (User $user) {
             $roles = roles::where('name', 'doctor')->get();
-            $admin->roles()->sync($roles->pluck('id_roles')->toArray());
+            $user->roles()->sync($roles->pluck('id_roles')->toArray());
         });
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\admin;
+use App\Models\User;
 use App\Models\roles;
 
 class UserAuthController extends Controller
@@ -13,7 +13,7 @@ class UserAuthController extends Controller
     {
         $this->data['title'] = "LIỆT KÊ ADMIN";
         //admin kèm theo quyền roles sắp xếp theo thứ tự và phân 5 người 1 trang.
-        $admin = admin::with('roles')->orderBy('id_admin', 'ASC')->paginate(6);
+        $admin = User::with('roles')->orderBy('id', 'ASC')->paginate(6);
 
 
         return view("Admin.auth.AllUsers", $this->data, compact('admin'));
@@ -23,7 +23,7 @@ class UserAuthController extends Controller
     {
 
         //ss email với email trong csdl
-        $user = admin::where('AD_Email', $request['AD_Email'])->first();
+        $user = User::where('email', $request['email'])->first();
         $user->roles()->detach(); // attach để  kết hợp, detach tách ra hết. đối lập nhau.
         // mình check quyền gì thì vào model roles thêm quyền đó
         if ($request['admin_role']) {

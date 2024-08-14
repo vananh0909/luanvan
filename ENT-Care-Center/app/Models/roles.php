@@ -13,8 +13,8 @@ class roles extends Model
     protected $primaryKey = 'id_roles';
     protected $table = 'roles';
 
-    public function admin()
+    public function User()
     {
-        return $this->belongsToMany('App\Models\admin');
+        return $this->belongsToMany('App\Models\User', 'user_roles', 'User_id', 'roles_id_roles');
     }
 }

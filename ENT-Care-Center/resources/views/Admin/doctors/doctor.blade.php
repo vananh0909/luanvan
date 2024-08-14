@@ -9,7 +9,7 @@
     </header>
     <main>
         <div>
-            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 35px; padding-bottom:40px">
+            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 35px; padding-bottom:38px">
                 ĐĂNG KÝ LỊCH TRỰC
             </h1>
         </div>
@@ -79,8 +79,7 @@
         <br>
         <br>
         <br>
-        <br>
-        <br>
+
 
     </main>
 @endsection

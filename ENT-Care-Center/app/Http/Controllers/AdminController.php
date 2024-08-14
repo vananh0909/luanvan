@@ -17,7 +17,7 @@ use App\Models\dv_dichvu1;
 use App\Models\dv_dichvu2;
 use App\Models\Users;
 use App\Models\lichhen;
-use App\Models\admin;
+
 use App\Models\roles;
 use App\Models\lt_lichtruc;
 use App\Models\lt_lichtrucbs;
@@ -38,131 +38,9 @@ class AdminController extends Controller
         return view("Admin.trangchu", $this->data);
     }
 
-    // public function postauth(Request $request)
-    // // {
-    //     // Kiểm tra xem email sdt  đã tồn tại trong cơ sở dữ liệu chưa
-    //     $emailExists = admin::where('AD_Email', $request->AD_Email)->exists();
-    //     $phoneExists = admin::where('AD_Phone', $request->AD_Phone)->exists();
-
-    //     // Nếu email hoặc số điện thoại đã tồn tại, trả về lỗi
-    //     if ($phoneExists || $emailExists) {
-    //         return back()->with('error', 'Email hoặc số điện thoại đã tồn tại!');
-    //     }
-    //     $data = $request->all();
-    //     // Tạo và lưu thông tin người dùng mới
-    //     $dangky = new admin();
-    //     $dangky->AD_Name = $data['AD_Name'];
-    //     $dangky->AD_Phone = $data['AD_Phone'];
-    //     $dangky->AD_Email = $data['AD_Email'];
-    //     $dangky->AD_Password = Hash::make($data['AD_Password']); // Mã hóa mật khẩu
-
-    //     $dangky->save();
-
-    //     return redirect()->back()->with('status', 'Thêm Thành Công!');
-    // }
-
-    // public function postLoginAuth(Request $request)
-    // {
-    //     // Lấy dữ liệu từ request
-    //     $email = $request->input('AD_Email');
-    //     $password = $request->input('AD_Password');
-
-    //     // Sử dụng Auth::attempt() với khóa 'password'
-    //     if (Auth::attempt(['AD_Email' => $email, 'AD_Password' => $password])) {
-    //         // Đăng nhập thành công, chuyển hướng đến trang dashboard hoặc trang chủ
-    //         return redirect()->route('Admin.trangchu')->with('status', 'Đăng nhập thành công!');
-    //     } else {
-    //         // Đăng nhập thất bại
-    //         return back()->with('error', 'Email hoặc mật khẩu không chính xác.');
-    //     }
 
 
 
-
-    // if (Auth::attempt(['AD_Email' => $email, 'AD_Password' => $password])) {
-    //     echo (Auth::attempt(['AD_Email' => $email, 'AD_Password' => $password]));
-    // } else {
-    //     return ' sai';
-    // }
-
-
-
-
-
-
-    // Validate the request data
-    //     $credentials = $request->only('AD_Email', 'AD_Password');
-
-    //     // Tìm người dùng theo email
-    //     $user = Admin::where('AD_Email', $credentials['AD_Email'])->first();
-
-    //     // Kiểm tra xem người dùng có tồn tại và mật khẩu có khớp không
-    //     if ($user && Hash::check($credentials['AD_Password'], $user->AD_Password)) {
-    //         // Đăng nhập người dùng sử dụng ID
-    //         Auth::loginUsingId($user->id); // Sử dụng $user->id từ model
-
-    //         // Chuyển hướng đến trang quản lý lịch hẹn
-    //         return redirect()->route('Admin.trangchu');
-    //     } else {
-    //         // Đăng nhập thất bại
-    //         return redirect()->back()->with('error', 'Đăng nhập không thành công. Xin vui lòng đăng nhập lại !');
-    //     //     }
-    // }
-
-
-
-    // public function postdangky(Request $request)
-    // {
-    //     $dangky = new admin;
-
-    //     $dangky->AD_Name = $request->input('AD_Name');
-    //     $dangky->AD_Phone = $request->input('AD_Phone');
-    //     $dangky->AD_Email = $request->input('AD_Email');
-    //     $dangky->AD_Password = Hash::make($request->input('AD_Password'));
-
-    //     $dangky->save();
-    //     // session(['admin' => $this->dangky->id]);
-    //     // Lưu chỉ id của admin vào session
-    //     $save = $dangky->id;
-    //     // session(['admin' => $dangky->id]);
-    //     session(['admin' => $save]);
-
-
-    //     return redirect()->back()->with('status', 'Thêm Thành Công!');
-    // }
-
-    // public function dangnhapad()
-    // {
-    //     $this->data['title'] = "TRANG ĐĂNG NHẬP QUẢN TRỊ";
-
-
-    //     return view("Admin.layoutsAd.bodyAd", $this->data);
-    // }
-
-
-
-
-
-
-
-    // public function login(Request $request)
-    // {
-    //     // Kiểm tra xem email sdt  đã tồn tại trong cơ sở dữ liệu chưa
-    //     $request->validate([
-    //         'AD_Email' => 'required|email',
-    //         'AD_Password' => 'required',
-    //     ]);
-
-    //     // Attempt to authenticate the user
-    //     $credentials = $request->only('AD_Email', 'AD_Password');
-    //     if (Auth::attempt($credentials)) {
-    //         // Authentication passed
-    //         return redirect()->route('alluser')->with('status', 'Đăng nhập thành công.');
-    //     } else {
-    //         // Authentication failed
-    //         return redirect()->back()->with('error', 'Đăng nhập không thành công. Xin vui lòng kiểm tra lại thông tin.');
-    //     }
-    // }
 
 
     public function quanlylichhen()

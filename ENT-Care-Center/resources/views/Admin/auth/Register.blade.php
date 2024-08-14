@@ -40,11 +40,11 @@
             <div style="margin-left: 40px; margin-top: 60px;">
                 <div class="row g-3 align-items-center mb-3">
                     <div class="col-3">
-                        <label for="AD_Name" class="col-form-label">Họ Tên: </label>
+                        <label for="name" class="col-form-label">Họ Tên: </label>
                     </div>
                     <div class="col-7">
-                        <input type="text" id="AD_Name" class="form-control" aria-describedby="nameHelpInline"
-                            name="AD_Name" required>
+                        <input type="text" id="name" class="form-control" aria-describedby="nameHelpInline"
+                            name="name" required>
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-3">
@@ -52,27 +52,27 @@
                         <label for="AD_Phone" class="col-form-label">Điện Thoại: </label>
                     </div>
                     <div class="col-7">
-                        <input type="text" id="AD_Phone" class="form-control" aria-describedby="phoneHelpInline"
-                            name="AD_Phone" required>
+                        <input type="text" id="phone" class="form-control" aria-describedby="phoneHelpInline"
+                            name="phone" required>
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-3">
                     <div class="col-3">
-                        <label for="AD_Email" class="col-form-label">Email:</label>
+                        <label for="email" class="col-form-label">Email:</label>
                     </div>
                     <div class="col-7">
                         <input type="email" class="form-control" id="AD_Email" aria-describedby="emailHelpInline"
-                            name="AD_Email" required>
+                            name="email" required>
                     </div>
                 </div>
 
                 <div class="row g-3 align-items-center mb-3">
                     <div class="col-3">
-                        <label for="AD_Password" class="col-form-label">Password</label>
+                        <label for="password" class="col-form-label">Password</label>
                     </div>
                     <div class="col-7">
                         <input type="password" id="AD_Password" class="form-control" aria-describedby="passwordHelpInline"
-                            name="AD_Password" required>
+                            name="password" required>
                     </div>
                 </div>
 
@@ -84,6 +84,7 @@
                         <p style="font-size:13px; margin-left:-10px; margin-top: 10px"> Bạn đã có tài khoản?
 
                             <a class="hover" href="{{ route('auth') }}">Đăng ký tài khoản Auth</a> |
+
                             <a class="hover" href="{{ route('LoginAuth') }}">Đăng nhập tài khoản Auth</a>
                         </p>
                     </div>

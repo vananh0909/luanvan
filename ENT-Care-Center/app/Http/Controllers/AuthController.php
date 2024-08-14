@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\admin;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -22,8 +23,8 @@ class AuthController extends Controller
 
         // Kiểm tra xem email sdt  đã tồn tại trong cơ sở dữ liệu chưa
 
-        $emailExists = admin::where('AD_Email', $request->AD_Email)->exists();
-        $phoneExists = admin::where('AD_Phone', $request->AD_Phone)->exists();
+        $emailExists = User::where('email', $request->email)->exists();
+        $phoneExists = User::where('phone', $request->phone)->exists();
 
         // Nếu email hoặc số điện thoại đã tồn tại, trả về lỗi
         if ($phoneExists || $emailExists) {
@@ -31,13 +32,13 @@ class AuthController extends Controller
         }
 
         // Tạo và lưu thông tin người dùng mới
-        $dangky = new Admin;
+        $dangky = new User;
 
-        $dangky->AD_Name = $request->input('AD_Name');
-        $dangky->AD_Phone = $request->input('AD_Phone');
-        $dangky->AD_Email = $request->input('AD_Email');
+        $dangky->name = $request->input('name');
+        $dangky->phone = $request->input('phone');
+        $dangky->email = $request->input('email');
         // $dangky->AD_Password = $request->input('AD_Password');
-        $dangky->AD_Password = Hash::make($request->input('AD_Password')); // Mã hóa mật khẩu
+        $dangky->password = Hash::make($request->input('password')); // Mã hóa mật khẩu
 
         $dangky->save();
 
