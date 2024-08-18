@@ -11,7 +11,7 @@
     </div>
     <main>
         <div>
-            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 20px; padding-bottom:20px">
+            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 20px; padding-bottom:25px">
                 PHÂN LỊCH TRỰC
 
             </h1>
@@ -44,33 +44,33 @@
             </script>
         @endif
 
-
+        {{-- PHÂN LỊCH TRỰC --}}
 
         <form method="POST" action="{{ route('Admin.postlichtruc') }}">
             @csrf
-            <table class="table table-striped" style="width: 56%; margin: 0 auto; ">
+            <table class="table table-striped" style="width: 56%; margin: 0 auto; height:320px ">
 
                 <tbody>
 
-                    <tr>
+                    <tr class="spacing-tr">
                         <th scope="row">Tên Bác Sĩ</th>
                         <td>
-                            <select class="form-select" aria-label="Default select example" name="lt_tenbacsi" required>
-                                <option selected>Tên Bác sĩ</option>
-                                @foreach ($bacsi as $bs)
-                                    <option value="{{ $bs->NV_Ten }}">{{ $bs->NV_Ten }}</option>
+                            <select class="form-select" aria-label="Default select example" name="lt_tenbs" required>
+                                <option value="" disabled selected>Chọn tên bác sĩ</option>
+                                @foreach ($doctors as $bs)
+                                    <option value="{{ $bs->name }}">{{ $bs->name }}</option>
                                 @endforeach
-
                             </select>
                         </td>
                     </tr>
-                    <tr>
+
+                    <tr class="spacing-tr">
                         <th scope="row">Ngày Trực</th>
                         <td><input type="date" name="lt_Ngaytruc" class="form-control" required> </td>
                     </tr>
 
-                    <tr>
-                        <th scope="row" style="margin-top: 12px">Giờ Đăng Ký:</th>
+                    <tr class="spacing-tr">
+                        <th scope="row" style="margin-top: 14px">Giờ Đăng Ký:</th>
                         <td>
                             @foreach (['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'] as $time)
                                 <div style="display: inline-block; margin: 5px;">
@@ -86,9 +86,8 @@
                     <tr>
                         <th scope="row"> </th>
                         <td>
-                            <button type="submit" class="btn btn-primary" style="margin-left: 300px; margin-top: 10px">Thêm
-                                Lịch
-                                Trực</button>
+                            <button type="submit" class="btn btn-primary"
+                                style="margin-left: 270px; margin-top: 16px; margin-bottom:16px">Thêm Lịch Trực</button>
                         </td>
                     </tr>
 
@@ -101,43 +100,41 @@
         </form>
 
         {{-- LỊCH TRỐNG CỦA BÁC SĨ --}}
-
+        <hr style="width:70%; margin:0 auto">
 
         <div>
-            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 35px; padding-bottom:40px"> LỊCH
-                TRỰC </h1>
-
-
+            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 40px; padding-bottom:40px"> LỊCH
+                TRỐNG CỦA BÁC SĨ </h1>
         </div>
 
         <table class="table table-striped" style="width: 100%;margin: 0 auto">
             <thead>
-                @foreach ($lichtruc as $lt)
-                    <tr>
-
-                        {{-- <th scope="col">Tên Bác Sĩ</th> --}}
-                        <th scope="col">Ngày Trống</th>
-                        <th scope="col">Giờ Trống</th>
-                        <th scope="col">Hành Động</th>
-
-                    </tr>
+                <tr>
+                    <th scope="col">Tên Bác Sĩ</th>
+                    <th scope="col">Ngày Đăng Ký</th>
+                    <th scope="col">Giờ Đăng Ký</th>
+                    <th scope="col">Hành Động</th>
+                </tr>
             </thead>
             <tbody>
+                @foreach ($Lichtrucbs as $lt)
+                    <tr>
+                        <td>{{ $lt->lt_tenbacsi }}</td>
+                        <td>{{ date('d-m-Y', strtotime($lt->lt_ngaytruc)) }}</td>
+                        <td>
+                            @foreach (explode(',', $lt->giotruc_list) as $time)
+                                <span class="btn btn-success" style="margin-left:4px">{{ $time }}</span>
+                            @endforeach
+                        </td>
+                        <td>
 
-                <tr>
-                    {{-- <td>{{ $lt->lt_tenbacsi }} </td> --}}
-                    <td> {{ $lt->lt_ngaytruc }}</td>
-                    <td> {{ $lt->lt_giotruc }}</td>
-
-
-                    <td>
-                        <a href="" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
-                        <a href="" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-                    </td>
-                </tr>
+                            <a href="" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
+
         <br>
 
 

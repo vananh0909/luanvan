@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return null !== $this->roles()->Where('name', $role)->first();
     }
+
+    public function lichTruc()
+    {
+        return $this->hasMany(lt_lichtrucbs::class, 'user_id');
+    }
 }

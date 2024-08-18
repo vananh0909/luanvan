@@ -28,7 +28,7 @@ Route::get('LoginAuth', [AuthController::class, 'LoginAuth'])->name('LoginAuth')
 Route::post('LoginAuth', [AuthController::class, 'postloginAuth'])->name('postLoginAuth');
 Route::post('logoutAuth', [AuthController::class, 'logoutAuth'])->name('logoutAuth');
 
-Route::get('alluser', [UserAuthController::class, 'index'])->name('alluser');
+Route::get('alluser', [UserAuthController::class, 'index'])->name('alluser')->middleware('admin');
 Route::post('alluser', [UserAuthController::class, 'phanquyen'])->name('phanquyen');
 
 
@@ -66,11 +66,9 @@ Route::prefix('Admin')->name('Admin.')->middleware(['auth'])->group(function () 
     Route::post('editnhanvien/{id}', [AdminController::class, 'editnhanvien'])->name('editnhanvien');
     Route::get('xoanhanvien/{id}', [AdminController::class, 'xoanhanvien'])->name('xoanhanvien');
     Route::get('thongkebaocao', [AdminController::class, 'thongkebaocao'])->name('thongkebaocao');
-
-    // Route::get('dangnhapad', [AdminController::class, 'dangnhapad'])->name('dangnhapad');
-    // Route::post('login', [AdminController::class, 'login'])->name('login');
     Route::get('thongke', [AdminController::class, 'thongke'])->name('thongke');
-    Route::get('doctor', [AdminController::class, 'doctor'])->name('doctor');
+
+    Route::get('doctor', [AdminController::class, 'doctor'])->name('doctor')->middleware('admindoctor');
     Route::post('doctor', [AdminController::class, 'postdoctor'])->name('postdoctor');
     Route::get('xemlichtruc', [AdminController::class, 'xemlichtruc'])->name('xemlichtruc');
     Route::get('sualichtruc', [AdminController::class, 'sualichtruc'])->name('sualichtruc');

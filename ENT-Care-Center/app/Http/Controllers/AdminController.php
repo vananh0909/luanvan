@@ -17,8 +17,8 @@ use App\Models\dv_dichvu1;
 use App\Models\dv_dichvu2;
 use App\Models\Users;
 use App\Models\lichhen;
-
 use App\Models\roles;
+use App\Models\User;
 use App\Models\lt_lichtruc;
 use App\Models\lt_lichtrucbs;
 
@@ -68,19 +68,23 @@ class AdminController extends Controller
     public function quanlybacsy()
     {
         $this->data['title'] = "QUẢN LÝ BÁC SỸ";
-        $bacsi = DB::table('nhanvien')->where('NV_Chucvu', 'Bác sĩ')->get();
-        $lichtruc = lt_lichtruc::orderBy('Created_at', 'DESC')->get();
+        $doctors = User::whereHas('roles', function ($query) {
+            $query->where('name', 'doctor');
+        })->get();
 
+        // Lấy và nhóm các bản ghi
+        $Lichtrucbs = DB::table('lt_lichtrucbs')
+            ->select('lt_tenbacsi', 'lt_ngaytruc', DB::raw('GROUP_CONCAT(lt_giotruc ORDER BY lt_giotruc ASC) as giotruc_list'))
+            ->groupBy('lt_tenbacsi', 'lt_ngaytruc')
+            ->get();
 
-        $lichtruc = lt_lichtrucbs::all();
-
-        return view("Admin.layoutsAd.qlbacsi", $this->data, compact('bacsi', 'lichtruc'));
+        return view("Admin.layoutsAd.qlbacsi", $this->data, compact('doctors', 'Lichtrucbs'));
     }
 
     public function postlichtruc(Request $request)
     {
 
-        $Tenbs = $request->input('lt_tenbacsi');
+        $Tenbs = $request->input('lt_tenbs');
         $ngaytruc = $request->input('lt_Ngaytruc');
         $giotruc = $request->input('lt_Giotruc'); // Đây sẽ là một mảng chứa các giờ đã chọn
 
@@ -92,59 +96,60 @@ class AdminController extends Controller
         // Lặp qua từng giờ đã chọn và lưu vào cơ sở dữ liệu
         foreach ($giotruc as $time) {
             lt_lichtruc::create([
-                'lt_tenbacsi' => $Tenbs,
+                'lt_tenbs' => $Tenbs,
                 'lt_Ngaytruc' => $ngaytruc,
                 'lt_Giotruc' => $time,
-                // Thêm các trường khác nếu cần, ví dụ: 'bacsi_id' nếu có
+
+
             ]);
         }
 
         return redirect()->back()->with('status', 'Lịch trực đã được phân thành công!');
     }
 
-    public function sualichtruc($id)
-    {
-        $this->data['title'] = "SỬA LỊCH TRỰC";
-        $bacsi = DB::table('nhanvien')->where('NV_Chucvu', 'Bác sĩ')->get();
-        $lichtruc = lt_lichtruc::where('lt_Id', $id)->first();
+    // public function sualichtruc($id)
+    // {
+    //     $this->data['title'] = "SỬA LỊCH TRỰC";
+    //     $bacsi = DB::table('nhanvien')->where('NV_Chucvu', 'Bác sĩ')->get();
+    //     $lichtruc = lt_lichtruc::where('lt_Id', $id)->first();
 
-        $Lichtruc = lt_lichtruc::all();
+    //     $Lichtruc = lt_lichtruc::all();
 
-        return view("Admin.layoutsAd.lichtruc.sualichtruc", $this->data, compact('bacsi', 'Lichtruc', 'lichtruc'));
-    }
+    //     return view("Admin.layoutsAd.lichtruc.sualichtruc", $this->data, compact('bacsi', 'Lichtruc', 'lichtruc'));
+    // }
 
-    public function editlichtruc(Request $request, $id)
-    {
-        $lichtruc = lt_lichtruc::where('lt_Id', $id)->first(); // Tìm lịch trực với $id
+    // public function editlichtruc(Request $request, $id)
+    // {
+    //     $lichtruc = lt_lichtruc::where('lt_Id', $id)->first(); // Tìm lịch trực với $id
 
-        // Cập nhật thông tin từ request
-        $lichtruc->lt_tenbacsi = $request->input('lt_tenbacsi');
-        $lichtruc->lt_Ngaytruc = $request->input('lt_Ngaytruc');
+    //     // Cập nhật thông tin từ request
+    //     $lichtruc->lt_tenbacsi = $request->input('lt_tenbacsi');
+    //     $lichtruc->lt_Ngaytruc = $request->input('lt_Ngaytruc');
 
-        // Lưu thay đổi vào cơ sở dữ liệu
-        $lichtruc->save();
+    //     // Lưu thay đổi vào cơ sở dữ liệu
+    //     $lichtruc->save();
 
-        // Redirect về trang trước với thông báo
-        return redirect()->back()->with('status', 'Cập Nhật Thành Công!');
-    }
-
-
-
-    public function xoalichtruc($id)
-    {
-
-
-        $lt = lt_lichtruc::where('lt_Id', $id)->first();
+    //     // Redirect về trang trước với thông báo
+    //     return redirect()->back()->with('status', 'Cập Nhật Thành Công!');
+    // }
 
 
 
-        $lt->delete();
+    // public function xoalichtruc($id)
+    // {
+
+
+    //     $lt = lt_lichtruc::where('lt_Id', $id)->first();
+
+
+
+    //     $lt->delete();
 
 
 
 
-        return redirect()->back()->with('status', 'Xóa thành công  !');
-    }
+    //     return redirect()->back()->with('status', 'Xóa thành công  !');
+    // }
 
 
 
@@ -466,33 +471,45 @@ class AdminController extends Controller
     {
 
         $this->data['title'] = "BÁC SĨ";
+        $user = auth()->user(); // Lấy thông tin bác sĩ đã đăng nhập
 
-        return view("Admin.doctors.doctor", $this->data);
+        return view("Admin.doctors.doctor", $this->data,  ['user' => $user]);
     }
 
     public function postdoctor(Request $request)
-    { {
-            $ngaytruc = $request->input('lt_ngaytruc');
-            $giotruc = $request->input('lt_giotruc'); // Đây sẽ là một mảng chứa các giờ đã chọn
+    {
+        $ten = $request->input('lt_tenbacsi');
 
-            // Kiểm tra xem có giờ nào được chọn không
-            if (!is_array($giotruc) || empty($giotruc)) {
-                return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
-            }
+        $ngaytruc = $request->input('lt_ngaytruc');
+        $giotruc = $request->input('lt_giotruc'); // Đây sẽ là một mảng chứa các giờ đã chọn
+        $userId = $request->input('user_id');
 
-            // Lặp qua từng giờ đã chọn và lưu vào cơ sở dữ liệu
-            foreach ($giotruc as $time) {
-                lt_lichtrucbs::create([
-                    'lt_ngaytruc' => $ngaytruc,
-                    'lt_giotruc' => $time,
-                    // Thêm các trường khác nếu cần, ví dụ: 'bacsi_id' nếu có
-                ]);
-            }
-
-            return redirect()->back()->with('status', 'Lịch trực đã được đăng ký thành công!');
+        // Kiểm tra xem có giờ nào được chọn không
+        if (!is_array($giotruc) || empty($giotruc)) {
+            return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
         }
-    }
 
+        // Lặp qua từng giờ đã chọn và lưu vào cơ sở dữ liệu
+        foreach ($giotruc as $time) {
+            $exists = lt_lichtrucbs::where('lt_tenbacsi', $ten)
+                ->where('lt_ngaytruc', $ngaytruc)
+                ->where('lt_giotruc', $time)
+                ->where('user_id', $userId)
+                ->exists();
+            if ($exists) {
+                return redirect()->back()->with('error', 'Lịch trực đã tồn tại !');
+            }
+
+            lt_lichtrucbs::create([
+                'lt_tenbacsi' => $ten,
+                'lt_ngaytruc' => $ngaytruc,
+                'lt_giotruc' => $time,
+                'user_id' => $userId,
+            ]);
+        }
+
+        return redirect()->back()->with('status', 'Lịch trực đã được đăng ký thành công!');
+    }
     public function xemlichtruc()
     {
 

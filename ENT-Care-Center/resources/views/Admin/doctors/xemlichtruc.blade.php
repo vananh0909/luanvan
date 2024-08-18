@@ -1,4 +1,4 @@
-{{-- node --}}
+{{-- node
 @extends('Admin.Clients.ClientAd')
 @section('title')
     {{ $title }}
@@ -74,4 +74,4 @@
     .hover:hover{
     color:red;
     }
-@endsection
+@endsection --}}

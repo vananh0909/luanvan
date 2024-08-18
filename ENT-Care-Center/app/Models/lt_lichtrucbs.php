@@ -16,5 +16,12 @@ class lt_lichtrucbs extends Model
     public $timestamps = false;
     // Khai báo tên bảng trong cơ sở dữ liệu
     // Khai báo các trường có thể gán (mass assignment)
-    protected $fillable = ['lt_Idlt', 'lt_ngaytruc', 'lt_giotruc'];
+    protected $fillable = ['lt_Idlt', 'lt_tenbacsi', 'lt_ngaytruc', 'lt_giotruc', 'user_id'];
+
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

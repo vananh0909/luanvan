@@ -9,7 +9,7 @@
     </header>
     <main>
         <div>
-            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 35px; padding-bottom:38px">
+            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 20px; padding-bottom:30px">
                 ĐĂNG KÝ LỊCH TRỰC
             </h1>
         </div>
@@ -40,17 +40,30 @@
             </script>
         @endif
 
-        <table class="table table-striped" style="width: 60%;margin: 0 auto ; height:315px">
-            <form action="{{ route('Admin.postdoctor') }}" method="POST">
-                @csrf
+        <form action="{{ route('Admin.postdoctor') }}" method="POST">
+            @csrf
+            <input type="hidden" name="user_id" value="{{ $user->id }}">
+
+            <table class="table table-striped" style="width: 60%; margin: 0 auto; height:370px">
                 <tbody>
                     <tr>
-                        <td>
-                            <label style="margin-top: 16px">Ngày Đăng Ký:</label>
-                            <input type="date" class="form-control" id="schedule_date" name="lt_ngaytruc"
-                                style="width:400px; margin: 0 auto" required>
+                        <td style="vertical-align: top; padding-top: 16px;">
+                            <label for="doctor_name">Tên Bác Sĩ:</label>
+                            <input type="text" class="form-control" name="lt_tenbacsi" value="{{ $user->name }}"
+                                required>
 
-                            <label style="margin-top: 12px">Giờ Đăng Ký:</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top; padding-top: 12px;">
+                            <label for="schedule_date">Ngày Đăng Ký:</label>
+                            <input type="date" id="schedule_date" class="form-control" name="lt_ngaytruc"
+                                style="width:100%;" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top; padding-top: 12px;">
+                            <label>Giờ Đăng Ký:</label>
                             <div style="text-align:center; margin:12px">
                                 @foreach (['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'] as $time)
                                     <div style="display: inline-block; margin: 5px;">
@@ -59,33 +72,31 @@
                                     </div>
                                 @endforeach
                             </div>
-
-
-                            <div class="d-flex justify-content-center" style="margin-top: 24px;">
-                                <button type="submit" class="btn btn-light">Đăng ký</button>
-                            </div>
-                            <div>
-                                <p style="font-size:13px; text-align:center; margin-top: 56px">
-                                    Vui lòng chỉ đăng ký lịch trực trong một tuần. Không đăng ký hai tuần liên tiếp !
-                                    <a href="{{ route('Admin.xemlichtruc') }}" class="hover"> Xem lịch trực</a>
-                                </p>
-                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; padding-top: 35px;">
+                            <button type="submit" class="btn btn-light">Đăng ký</button>
                         </td>
                     </tr>
                 </tbody>
-            </form>
-        </table>
+            </table>
+        </form>
+
+        <div style="text-align: center; margin-top: 12px;">
+            <p style="font-size: 13px;">
+                Vui lòng chỉ đăng ký lịch trực trong một tuần. Không đăng ký hai tuần liên tiếp !
+                <a href="{{ route('Admin.xemlichtruc') }}" class="hover">Xem lịch trực</a>
+            </p>
+        </div>
 
         <br>
-        <br>
-        <br>
-
 
     </main>
 @endsection
 
 @section('css')
-    .hover:hover{
-    color:red;
+    .hover:hover {
+    color: red;
     }
 @endsection

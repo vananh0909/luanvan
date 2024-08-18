@@ -23,7 +23,7 @@
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
-                        title: "Phân Lịch Thành Công ✅",
+                        title: "✅",
                         text: "{{ session('status') }}",
                         icon: "success",
                         confirmButtonText: "OK"
@@ -35,7 +35,7 @@
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
-                        title: "Phân Lịch Thất Bại ❌",
+                        title: "Thất bại❌",
                         text: "{{ session('error') }}",
                         icon: "error",
                         confirmButtonText: "OK"

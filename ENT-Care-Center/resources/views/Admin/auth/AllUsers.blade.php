@@ -31,7 +31,7 @@
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
-                        title: "Đặt Lịch Thất Bại ❌",
+                        title: " ❌",
                         text: "{{ session('error') }}",
                         icon: "error",
                         confirmButtonText: "OK"

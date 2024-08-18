@@ -72,5 +72,8 @@ class Kernel extends HttpKernel
         // Other middleware
 
         'auth' => \App\Http\Middleware\Authenticate::class,
+        'admin' => \App\Http\Middleware\CheckAdmin::class,
+        'admindoctor' => \App\Http\Middleware\AdminDoctor::class,
+
     ];
 }
