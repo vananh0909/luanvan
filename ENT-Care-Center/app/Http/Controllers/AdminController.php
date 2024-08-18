@@ -107,6 +107,19 @@ class AdminController extends Controller
         return redirect()->back()->with('status', 'Lịch trực đã được phân thành công!');
     }
 
+    public function xemlichsap()
+    {
+
+        $this->data['title'] = "LỊCH TRỰC";
+
+        $lichtruc = DB::table('lt_lichtruc')
+            ->select('lt_tenbs', 'lt_Ngaytruc', DB::raw('GROUP_CONCAT(lt_Giotruc ORDER BY lt_Giotruc ASC) as giotruc_list'))
+            ->groupBy('lt_tenbs', 'lt_Ngaytruc')
+            ->get();
+
+        return view("Admin.layoutsAd.lichtruc.xemlichsap", $this->data, compact('lichtruc'));
+    }
+
     // public function sualichtruc($id)
     // {
     //     $this->data['title'] = "SỬA LỊCH TRỰC";
@@ -510,14 +523,14 @@ class AdminController extends Controller
 
         return redirect()->back()->with('status', 'Lịch trực đã được đăng ký thành công!');
     }
-    public function xemlichtruc()
-    {
+    // public function xemlichtruc()
+    // {
 
-        $this->data['title'] = "LỊCH TRỰC";
-        $xemlichtruc = lt_lichtrucbs::all();
+    //     $this->data['title'] = "LỊCH TRỰC";
+    //     $xemlichtruc = lt_lichtrucbs::all();
 
-        return view("Admin.doctors.xemlichtruc", $this->data, compact('xemlichtruc'));
-    }
+    //     return view("Admin.doctors.xemlichtruc", $this->data, compact('xemlichtruc'));
+    // }
 
     public function sualichtrucbs()
     {

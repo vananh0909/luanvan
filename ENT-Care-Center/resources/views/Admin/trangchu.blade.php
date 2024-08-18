@@ -56,7 +56,3 @@
 
     </div>
 @endsection
-
-
-@section('css')
-@endsection

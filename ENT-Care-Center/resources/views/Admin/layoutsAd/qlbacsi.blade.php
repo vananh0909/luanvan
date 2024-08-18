@@ -48,7 +48,7 @@
 
         <form method="POST" action="{{ route('Admin.postlichtruc') }}">
             @csrf
-            <table class="table table-striped" style="width: 56%; margin: 0 auto; height:320px ">
+            <table class="table table-striped" style="width: 56%; margin: 0 auto; height:350px ">
 
                 <tbody>
 
@@ -70,7 +70,7 @@
                     </tr>
 
                     <tr class="spacing-tr">
-                        <th scope="row" style="margin-top: 14px">Giờ Đăng Ký:</th>
+                        <th scope="row" style="margin-top: 14px">Giờ Trực:</th>
                         <td>
                             @foreach (['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'] as $time)
                                 <div style="display: inline-block; margin: 5px;">
@@ -87,8 +87,19 @@
                         <th scope="row"> </th>
                         <td>
                             <button type="submit" class="btn btn-primary"
-                                style="margin-left: 270px; margin-top: 16px; margin-bottom:16px">Thêm Lịch Trực</button>
+                                style="margin-left: 270px; margin-top: 25px; margin-bottom:20px">Thêm Lịch Trực</button>
+
+                            <div
+                                style="margin-left: 288px; margin-top: 16px; margin-bottom:15px; font-size:15px; font-weight:bold">
+                                <a href="{{ route('Admin.xemlichsap') }}" class="hover">Xem Lịch Trực</a>
+                            </div>
+
                         </td>
+
+
+
+
+
                     </tr>
 
 
@@ -148,4 +159,7 @@
 
 
 @section('css')
+    .hover:hover{
+    color:red
+    }
 @endsection

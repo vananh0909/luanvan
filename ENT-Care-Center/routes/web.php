@@ -37,14 +37,13 @@ Route::prefix('Admin')->name('Admin.')->middleware(['auth'])->group(function () 
     Route::get('/', [AdminController::class, 'index'])->name('Homead');
     Route::get('trangchu', [AdminController::class, 'trangchu'])->name('trangchu');
     Route::get('quanlylichhen', [AdminController::class, 'quanlylichhen'])->name('quanlylichhen');
-    // Route::get('xoalichhen/{id}', [AdminController::class, 'xoalichhen'])->name('xoalichhen');
-    // Route::get('thongtin/{id}', [AdminController::class, 'modal_thongtin'])->name('modalthongtin');
     Route::get('quanlybenhnhan', [AdminController::class, 'quanlybenhnhan'])->name('quanlybenhnhan');
     Route::get('suathongtin/{id}', [AdminController::class, 'suathongtin'])->name('suathongtin');
     Route::post('editthongtin/{id}', [AdminController::class, 'editthongtin'])->name('editthongtin');
     Route::get('xoabenhnhan/{id}', [AdminController::class, 'xoabenhnhan'])->name('xoabenhnhan');
     Route::get('quanlybacsy', [AdminController::class, 'quanlybacsy'])->name('quanlybacsy');
     Route::post('postlichtruc', [AdminController::class, 'postlichtruc'])->name('postlichtruc');
+    Route::get('xemlichsap', [AdminController::class, 'xemlichsap'])->name('xemlichsap');
     Route::get('sualichtruc/{id}', [AdminController::class, 'sualichtruc'])->name('sualichtruc');
     Route::post('editlichtruc/{id}', [AdminController::class, 'editlichtruc'])->name('editlichtruc');
     Route::get('xoalichtruc/{id}', [AdminController::class, 'xoalichtruc'])->name('xoalichtruc');
