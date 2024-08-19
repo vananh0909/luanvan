@@ -9,9 +9,29 @@
     </header>
     <main>
         @if (session('status'))
-            <h4 style="width: 750px; height:30px; margin: 0 auto;font-size:20px; text-align:center; padding-bottom:40px"
-                class="alert alert-success">
-                {{ session('status') }}</h4>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: " Thành Công ✅",
+                        text: "{{ session('status') }}",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    });
+                });
+            </script>
+        @elseif (session('error'))
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: "Thất Bại ❌",
+                        text: "{{ session('error') }}",
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+                });
+            </script>
         @endif
         <div>
             <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 35px; padding-bottom:40px">

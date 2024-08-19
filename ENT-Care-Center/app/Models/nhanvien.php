@@ -19,5 +19,10 @@ class nhanvien extends Model
     // Khai báo tên bảng trong cơ sở dữ liệu
 
     // Khai báo các trường có thể gán (mass assignment)
-    protected $fillable = ['NV_Avatar', 'NV_Ten', 'NV_Birthday', 'NV_Gioitinh', 'NV_Diachi', 'NV_Email', 'NV_Sdt', 'NV_Trinhdo', 'NV_Chucvu', 'NV_Gioithieu'];
+    protected $fillable = ['NV_Avatar', 'NV_Ten', 'NV_Birthday', 'NV_Gioitinh', 'NV_Diachi', 'NV_Email', 'NV_Sdt', 'NV_Trinhdo', 'NV_Chucvu', 'NV_Gioithieu', 'id_user'];
+    // NhanVien.php
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
 }

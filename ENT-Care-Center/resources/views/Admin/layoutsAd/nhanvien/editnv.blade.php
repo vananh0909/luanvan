@@ -17,15 +17,37 @@
 
         </div>
         @if (session('status'))
-            <h4 style="width: 750px; height:30px; margin: 0 auto;font-size:20px; text-align:center; padding-bottom:40px"
-                class="alert alert-success">
-                {{ session('status') }}</h4>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: " Thành Công ✅",
+                        text: "{{ session('status') }}",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    });
+                });
+            </script>
+        @elseif (session('error'))
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: "Thất Bại ❌",
+                        text: "{{ session('error') }}",
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+                });
+            </script>
         @endif
 
 
-        <form method="POST" action="{{ route('Admin.editnhanvien', ['id' => $Nhanvien->NV_Id]) }}"
+        <form method="POST" action="{{ route('Admin.editnhanvien', ['id' => $Nhanvien->NV_Id ?? $Nhanvien->id_user]) }}"
             enctype="multipart/form-data">
+
             @csrf
+            <input type="hidden" name="id_user" value="{{ $user->id }}">
             <table class="table table-striped" style="width: 50%; margin: 0 auto; ">
 
                 <tbody>

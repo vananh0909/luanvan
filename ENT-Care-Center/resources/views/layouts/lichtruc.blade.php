@@ -1,9 +1,9 @@
-@extends('Clients.Client')
+{{-- @extends('Clients.Client')
 @section('title')
     {{ $title }}
 @endsection
 @section('content')
-    {{-- <h1>Trang home nef</h1> --}}
+
     <div style=" background: linear-gradient(rgba(127, 168, 209, 0.3) ,rgba(68, 158, 210, 0.8)); height: 728px;
         position: fixed;  top: 0; left: 0; bottom: 0; "
         class="col-md-1">
@@ -72,7 +72,7 @@
 
 
     </div>
-@endsection
+@endsection --}}
 
 
 

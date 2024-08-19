@@ -61,4 +61,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(lt_lichtrucbs::class, 'user_id');
     }
+
+
+    public function nhanviens()
+    {
+        return $this->hasMany(nhanvien::class, 'id_user');
+    }
 }

@@ -373,19 +373,25 @@ class AdminController extends Controller
     public function quanlynhanvien()
     {
         $this->data['title'] = "QUẢN LÝ NHÂN VIÊN";
+        $Nhanvien = DB::table('users')
+            ->leftJoin('nhanvien', 'users.id', '=', 'nhanvien.id_user')
+            ->select('users.id', 'users.name', 'users.phone', 'users.email', 'nhanvien.*')
+            ->get();
 
-        $Nhanvien = nhanvien::all();
-        return view("Admin.layoutsAd.qlinhanvien", $this->data, compact('Nhanvien'));
+
+
+        // Truyền dữ liệu đến view
+        return view('Admin.layoutsAd.qlinhanvien', $this->data, compact('Nhanvien'));
     }
 
-    public function themnhanvien()
-    {
-        $this->data['title'] = "THÊM NHÂN VIÊN";
+    // public function themnhanvien()
+    // {
+    //     $this->data['title'] = "THÊM NHÂN VIÊN";
 
-        $chucvu = roles::all();
+    //     $chucvu = roles::all();
 
-        return view("Admin.layoutsAd.nhanvien.addnv", $this->data, compact('chucvu'));
-    }
+    //     return view("Admin.layoutsAd.nhanvien.addnv", $this->data, compact('chucvu'));
+    // }
 
     public function postnhanvien(Request $request)
     {
@@ -415,32 +421,78 @@ class AdminController extends Controller
     {
         $this->data['title'] = "SỬA NHÂN VIÊN";
         $chucvu = roles::all();
-        $Nhanvien = nhanvien::where('NV_Id', $id)->first();
+        // Tìm kiếm thông tin nhân viên bằng id_user
+        // Tìm kiếm thông tin nhân viên bằng id_user
+        $Nhanvien = DB::table('nhanvien')->where('id_user', $id)->first();
+
+        // Nếu nhân viên không tồn tại, tạo bản ghi mới từ bảng users
+        if (!$Nhanvien) {
+            $user = DB::table('users')->where('id', $id)->first();
+
+            // Tạo một đối tượng nhân viên với các thông tin cơ bản từ bảng users
+            $Nhanvien = (object) [
+                'NV_Id' => null,
+                'NV_Avatar' => null,
+                'NV_Ten' => $user->name,
+                'NV_Birthday' => null,
+                'NV_Gioitinh' => null,
+                'NV_Diachi' => null,
+                'NV_Email' => $user->email,
+                'NV_Sdt' => $user->phone,
+                'NV_Trinhdo' => null,
+                'NV_Chucvu' => null,
+                'NV_Gioithieu' => null,
+                'id_user' => $user->id
+            ];
+        } else {
+            $user = DB::table('users')->where('id', $Nhanvien->id_user)->first();
+        }
 
 
 
-        return view("Admin.layoutsAd.nhanvien.editnv", $this->data, compact('Nhanvien', 'chucvu'));
+        return view("Admin.layoutsAd.nhanvien.editnv", $this->data, compact('Nhanvien', 'chucvu', 'user'));
     }
 
     public function editnhanvien(Request $request, $id)
     {
         $this->data['title'] = "SỬA NHÂN VIÊN";
 
-        $Nhanvien = nhanvien::where('NV_Id', $id)->first();
+        // Lấy thông tin người dùng từ bảng users
+        $user = DB::table('users')->where('id', $id)->first();
 
+        // Kiểm tra nếu người dùng không tồn tại
+        if (!$user) {
+            return redirect()->route('Admin.quanlynhanvien')->with('error', 'Người dùng không tồn tại.');
+        }
+
+        // Tìm thông tin nhân viên theo id_user, nếu không có thì tạo mới
+        $Nhanvien = DB::table('nhanvien')->where('id_user', $id)->first();
+        if (!$Nhanvien) {
+            // Nếu không tìm thấy thông tin nhân viên, tạo mới
+            $Nhanvien = new nhanvien();
+            // $Nhanvien->id_user = $id;  // Đặt id_user từ thông tin người dùng
+        } else {
+            // Nếu đã tồn tại thông tin nhân viên, lấy thông tin chi tiết
+            $Nhanvien = nhanvien::find($Nhanvien->NV_Id);
+        }
 
         if ($request->hasFile('NV_Avatar')) {
-            //neu cos file dinh kem trong form update thi thim file cu va xoa, khong thi thoi
+            // Xóa ảnh cũ nếu tồn tại
             $avtcu = 'uploads/avtnhanvien/' . $Nhanvien->NV_Avatar;
             if (File::exists($avtcu)) {
                 File::delete($avtcu);
             }
+
+            // Xử lý file mới
             $file = $request->file('NV_Avatar');
-            $extension = $file->getClientOriginalExtension(); //lay ten mo rong duoi jpg, png,..
+            $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension;
-            $file->move('uploads/avtnhanvien/', $filename); //upload lên thư mục
+            $file->move('uploads/avtnhanvien/', $filename);
+
             $Nhanvien->NV_Avatar = $filename;
         }
+
+        // Cập nhật các thuộc tính khác
         $Nhanvien->NV_Ten = $request->input('NV_Ten');
         $Nhanvien->NV_Birthday = $request->input('NV_Birthday');
         $Nhanvien->NV_Gioitinh = $request->input('NV_Gioitinh');
@@ -450,22 +502,39 @@ class AdminController extends Controller
         $Nhanvien->NV_Trinhdo = $request->input('NV_Trinhdo');
         $Nhanvien->NV_Chucvu = $request->input('NV_Chucvu');
         $Nhanvien->NV_Gioithieu = $request->input('NV_Gioithieu');
-        $Nhanvien->update();
+        $Nhanvien->id_user = $request->input('id_user');
 
-        return redirect()->back()->with('status', 'Cập nhật thành công !');
+        // Lưu thông tin vào cơ sở dữ liệu
+        $Nhanvien->save();
+
+        return redirect()->back()->with('status', 'Thông tin nhân viên đã được cập nhật.');
     }
 
-    public function xoanhanvien($id)
-    {
-        $Nv = nhanvien::where('NV_Id', $id)->first();
 
+    public function xoanhanvien($id_user)
+    {
+        // Tìm nhân viên dựa trên id_user
+        $Nv = nhanvien::where('id_user', $id_user)->first();
+
+        // Kiểm tra nếu bản ghi không tồn tại
+        if (!$Nv) {
+            return redirect()->back()->with('error', 'Nhân viên không tồn tại!');
+        }
+
+        // Xóa ảnh đại diện nếu có
         $avt = 'uploads/avtnhanvien/' . $Nv->NV_Avatar;
         if (File::exists($avt)) {
             File::delete($avt);
         }
+
+        // Xóa bản ghi nhân viên
         $Nv->delete();
-        return redirect()->back()->with('status', 'Xóa thành công  !');
+
+        // Chuyển hướng lại và hiển thị thông báo thành công
+        return redirect()->back()->with('status', 'Xóa thành công!');
     }
+
+
 
 
 

@@ -31,15 +31,15 @@ class UserController extends Controller
     public function index()
     {
         $this->data['title'] = "TRANG CHỦ";
-        $bacsitruc = DB::table('nhanvien')
-            ->join('lt_lichtruc', 'nhanvien.NV_Ten', '=', 'lt_lichtruc.lt_tenbacsi')
-            ->select('nhanvien.*', 'lt_lichtruc.*') // Chọn tất cả các cột từ cả hai bảng
-            ->distinct()
-            ->orderBy('lt_lichtruc.lt_Id', 'desc') // Sắp xếp theo khóa chính của bảng lt_lichtruc
-            ->take(3) // Giới hạn chỉ trả về 3 bản ghi
-            ->get();
+        // $bacsitruc = DB::table('nhanvien')
+        //     ->join('lt_lichtruc', 'nhanvien.NV_Ten', '=', 'lt_lichtruc.lt_tenbacsi')
+        //     ->select('nhanvien.*', 'lt_lichtruc.*') // Chọn tất cả các cột từ cả hai bảng
+        //     ->distinct()
+        //     ->orderBy('lt_lichtruc.lt_Id', 'desc') // Sắp xếp theo khóa chính của bảng lt_lichtruc
+        //     ->take(3) // Giới hạn chỉ trả về 3 bản ghi
+        //     ->get();
 
-        return view("Home", $this->data, compact('bacsitruc'));
+        return view("Home", $this->data);
     }
 
 
