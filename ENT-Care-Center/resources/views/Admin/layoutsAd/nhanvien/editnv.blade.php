@@ -53,7 +53,7 @@
                 <tbody>
                     <tr>
                         <th scope="row">Ảnh</th>
-                        <td><input type="file" name="NV_Avatar" class="form-control">
+                        <td><input type="file" name="NV_Avatar" class="form-control" required>
                             <img src="{{ asset('uploads/avtnhanvien/' . $Nhanvien->NV_Avatar) }} "
                                 style="width:70px; height: 70px">
                         </td>

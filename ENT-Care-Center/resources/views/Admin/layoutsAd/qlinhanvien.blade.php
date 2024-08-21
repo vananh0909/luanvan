@@ -39,7 +39,7 @@
                 });
             </script>
         @endif
-        {{-- 
+        {{--
         <a href="{{ route('Admin.themnhanvien') }}" class="btn btn-primary" style="margin-left:12px; margin-bottom: 10px">Thêm
             nhân viên</a> --}}
 

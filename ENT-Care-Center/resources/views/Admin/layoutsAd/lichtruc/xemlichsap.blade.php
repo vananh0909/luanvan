@@ -43,7 +43,11 @@
                 LỊCH TRỰC</h1>
         </div>
 
-        <table class="table table-striped" style="width: 100%;margin: 0 auto">
+        <div style="margin: 10px 0 30px 80px; font-size:20px">
+            <a href="{{ route('Admin.quanlybacsy') }}"><i style="color:rgb(99, 96, 96)" class="fas fa-backward"></i></a>
+        </div>
+
+        <table class="table table-striped" style="width: 90%;margin: 0 auto">
             <thead>
                 <tr>
                     <th scope="col">Tên Bác Sĩ</th>

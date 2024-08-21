@@ -71,8 +71,8 @@ Route::prefix('Admin')->name('Admin.')->middleware(['auth'])->group(function () 
     Route::post('doctor', [AdminController::class, 'postdoctor'])->name('postdoctor');
     Route::get('xemlichtruc', [AdminController::class, 'xemlichtruc'])->name('xemlichtruc');
     Route::get('sualichtruc', [AdminController::class, 'sualichtruc'])->name('sualichtruc');
-    Route::post('sualichtruc', [AdminController::class, 'postsualichtrucbs'])->name('postsualichtruc');
-    Route::post('xoalichtruc', [AdminController::class, 'xoalichtrucbs'])->name('xoalichtrucbs');
+    Route::post('sualichtruc/{id}', [AdminController::class, 'postsualichtrucbs'])->name('postsualichtruc');
+    Route::post('xoalichtruc/{id}', [AdminController::class, 'xoalichtrucbs'])->name('xoalichtrucbs');
 });
 
 

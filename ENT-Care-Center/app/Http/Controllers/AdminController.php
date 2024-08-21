@@ -72,13 +72,23 @@ class AdminController extends Controller
             $query->where('name', 'doctor');
         })->get();
 
-        // Lấy và nhóm các bản ghi
+
         $Lichtrucbs = DB::table('lt_lichtrucbs')
-            ->select('lt_tenbacsi', 'lt_ngaytruc', DB::raw('GROUP_CONCAT(lt_giotruc ORDER BY lt_giotruc ASC) as giotruc_list'))
+            ->select(
+                'lt_tenbacsi',
+                'lt_ngaytruc',
+                DB::raw('GROUP_CONCAT(lt_Idlt ORDER BY lt_Idlt ASC SEPARATOR ", ") as id_list'),
+                DB::raw('GROUP_CONCAT(lt_giotruc ORDER BY lt_giotruc ASC SEPARATOR ", ") as giotruc_list')
+            )
             ->groupBy('lt_tenbacsi', 'lt_ngaytruc')
             ->get();
 
-        return view("Admin.layoutsAd.qlbacsi", $this->data, compact('doctors', 'Lichtrucbs'));
+
+
+
+
+
+        return view("Admin.layoutsAd.qlbacsi", $this->data, compact('doctors', 'Lichtrucbs',));
     }
 
     public function postlichtruc(Request $request)
@@ -421,7 +431,7 @@ class AdminController extends Controller
     {
         $this->data['title'] = "SỬA NHÂN VIÊN";
         $chucvu = roles::all();
-        // Tìm kiếm thông tin nhân viên bằng id_user
+
         // Tìm kiếm thông tin nhân viên bằng id_user
         $Nhanvien = DB::table('nhanvien')->where('id_user', $id)->first();
 
@@ -513,26 +523,32 @@ class AdminController extends Controller
 
     public function xoanhanvien($id_user)
     {
-        // Tìm nhân viên dựa trên id_user
+        // Tìm nhân viên dựa trên id_user trong bảng nhanvien
         $Nv = nhanvien::where('id_user', $id_user)->first();
 
-        // Kiểm tra nếu bản ghi không tồn tại
-        if (!$Nv) {
-            return redirect()->back()->with('error', 'Nhân viên không tồn tại!');
+        // Nếu có bản ghi trong bảng nhanvien, thực hiện xóa
+        if ($Nv) {
+            // Xóa ảnh đại diện nếu có
+            $avt = 'uploads/avtnhanvien/' . $Nv->NV_Avatar;
+            if (File::exists($avt)) {
+                File::delete($avt);
+            }
+
+            // Xóa bản ghi nhân viên trong bảng nhanvien
+            $Nv->delete();
         }
 
-        // Xóa ảnh đại diện nếu có
-        $avt = 'uploads/avtnhanvien/' . $Nv->NV_Avatar;
-        if (File::exists($avt)) {
-            File::delete($avt);
+        // Xóa thông tin tương ứng trong bảng users
+        $user = User::find($id_user);
+        if ($user) {
+            $user->delete();
         }
-
-        // Xóa bản ghi nhân viên
-        $Nv->delete();
 
         // Chuyển hướng lại và hiển thị thông báo thành công
         return redirect()->back()->with('status', 'Xóa thành công!');
     }
+
+
 
 
 
@@ -612,5 +628,21 @@ class AdminController extends Controller
 
     public function postsualichtruc() {}
 
-    public function xoalichtrucbs() {}
+    public function xoalichtrucbs($id)
+    {
+        // Tìm bản ghi đầu tiên với id này
+        $lichtruc = DB::table('lt_lichtrucbs')->where('lt_Idlt', $id)->first();
+
+        if ($lichtruc) {
+            // Xóa tất cả các bản ghi có cùng lt_tenbacsi và lt_ngaytruc
+            DB::table('lt_lichtrucbs')
+                ->where('lt_tenbacsi', $lichtruc->lt_tenbacsi)
+                ->where('lt_ngaytruc', $lichtruc->lt_ngaytruc)
+                ->delete();
+
+            return redirect()->back()->with('status', 'Xóa lịch trực thành công');
+        } else {
+            return redirect()->back()->with('error', 'Không tìm thấy lịch trực');
+        }
+    }
 }

@@ -133,16 +133,26 @@
                         <td>{{ $lt->lt_tenbacsi }}</td>
                         <td>{{ date('d-m-Y', strtotime($lt->lt_ngaytruc)) }}</td>
                         <td>
-                            @foreach (explode(',', $lt->giotruc_list) as $time)
+                            @foreach (explode(', ', $lt->giotruc_list) as $time)
                                 <span class="btn btn-success" style="margin-left:4px">{{ $time }}</span>
                             @endforeach
                         </td>
                         <td>
-
-                            <a href="" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                            <!-- Lấy id đầu tiên từ id_list và sử dụng nó để xóa cả nhóm -->
+                            @php
+                                $first_id = explode(', ', $lt->id_list)[0];
+                            @endphp
+                            <form action="{{ route('Admin.xoalichtrucbs', ['id' => $first_id]) }}" method="POST"
+                                onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhóm lịch trực này?');">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
+
             </tbody>
         </table>
 
