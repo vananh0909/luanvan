@@ -1,4 +1,3 @@
-{{-- node
 @extends('Admin.Clients.ClientAd')
 @section('title')
     {{ $title }}
@@ -23,7 +22,7 @@
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
-                        title: "Đặt Lịch Thành Công ✅",
+                        title: "Thành Công ✅",
                         text: "{{ session('status') }}",
                         icon: "success",
                         confirmButtonText: "OK"
@@ -49,11 +48,28 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ date('d-m-Y', strtotime($ltbs->lt_ngaytruc)) }}</td>
-                        <td> {{ $ltbs->lt_giotruc }}</td>
                         <td>
-                            <a href="#" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
-                            <a href="#" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                            @foreach (explode(',', $ltbs->giotruc_list) as $time)
+                                <span class="btn btn-success" style="margin-left:4px">{{ $time }}</span>
+                            @endforeach
                         </td>
+                        <td>
+                            <a href="#" class="btn btn-primary d-inline-block"><i
+                                    class="fa-regular fa-pen-to-square"></i></a>
+
+                            @php
+                                $first_id = explode(', ', $ltbs->id_list)[0];
+                            @endphp
+                            <form action="{{ route('Admin.xoalichtrucbs', ['id' => $first_id]) }}" method="POST"
+                                class="d-inline-block"
+                                onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhóm lịch trực này?');">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+
 
                     </tr>
                 @endforeach
@@ -74,4 +90,4 @@
     .hover:hover{
     color:red;
     }
-@endsection --}}
+@endsection

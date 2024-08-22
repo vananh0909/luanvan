@@ -608,14 +608,25 @@ class AdminController extends Controller
 
         return redirect()->back()->with('status', 'Lịch trực đã được đăng ký thành công!');
     }
-    // public function xemlichtruc()
-    // {
 
-    //     $this->data['title'] = "LỊCH TRỰC";
-    //     $xemlichtruc = lt_lichtrucbs::all();
+    public function xemlichtruc()
+    {
 
-    //     return view("Admin.doctors.xemlichtruc", $this->data, compact('xemlichtruc'));
-    // }
+        $this->data['title'] = "LỊCH TRỰC";
+
+        $xemlichtruc = DB::table('lt_lichtrucbs')
+            ->select(
+                'lt_tenbacsi',
+                'lt_ngaytruc',
+                DB::raw('GROUP_CONCAT(lt_Idlt ORDER BY lt_Idlt ASC SEPARATOR ", ") as id_list'),
+                DB::raw('GROUP_CONCAT(lt_giotruc ORDER BY lt_giotruc ASC SEPARATOR ", ") as giotruc_list')
+            )
+            ->groupBy('lt_tenbacsi', 'lt_ngaytruc')
+            ->get();
+
+
+        return view("Admin.doctors.xemlichtruc", $this->data, compact('xemlichtruc'));
+    }
 
     public function sualichtrucbs()
     {

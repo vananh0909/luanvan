@@ -9,7 +9,7 @@
     </header>
     <main>
         <div>
-            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 18px; padding-bottom:22px">
+            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 18px; padding-bottom:32px">
                 LIỆT KÊ DANH SÁCH USERS
             </h1>
         </div>
@@ -103,7 +103,6 @@
             </tbody>
         </table>
 
-        <br>
 
         <br>
         <div class="d-flex justify-content-center">
