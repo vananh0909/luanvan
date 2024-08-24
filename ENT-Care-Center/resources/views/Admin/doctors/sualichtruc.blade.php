@@ -39,19 +39,16 @@
                 });
             </script>
         @endif
-
-        <form action="{{ route('Admin.postsualichtruc', ['id' => $sualichtruc->lt_Idlt]) }}" method="POST">
+        <form action="{{ route('Admin.postsualichtruc', ['id' => $first_id]) }}" method="POST">
             @csrf
             <input type="hidden" name="user_id" value="{{ $user->id }}">
-
             <table class="table table-striped" style="width: 60%; margin: 0 auto; height:370px">
                 <tbody>
                     <tr>
                         <td style="vertical-align: top; padding-top: 16px;">
                             <label for="doctor_name">Tên Bác Sĩ:</label>
-                            <input type="text" class="form-control" name="lt_tenbacsi" value="{{ $user->name }}"
-                                required>
-
+                            <input type="text" class="form-control" name="lt_tenbacsi"
+                                value="{{ $sualichtruc->lt_tenbacsi }}" required>
                         </td>
                     </tr>
                     <tr>
@@ -83,6 +80,8 @@
                 </tbody>
             </table>
         </form>
+
+
 
         <div style="text-align: center; margin-top: 12px;">
             <p style="font-size: 13px;">

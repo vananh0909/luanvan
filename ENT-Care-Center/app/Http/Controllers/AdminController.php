@@ -578,6 +578,7 @@ class AdminController extends Controller
                 DB::raw('GROUP_CONCAT(lt_giotruc ORDER BY lt_giotruc ASC SEPARATOR ", ") as giotruc_list')
             )
             ->groupBy('lt_tenbacsi', 'lt_ngaytruc')
+            ->where('user_id', $user->id)
             ->get();
         return view("Admin.doctors.doctor", $this->data,  compact('user', 'lichtruc'));
     }
@@ -638,23 +639,36 @@ class AdminController extends Controller
     public function sualichtrucbs($id)
     {
         $user = auth()->user();
-        $this->data['title'] = "LỊCH TRỰC";
+        $this->data['title'] = "SỬA LỊCH TRỰC";
 
         // Lấy bản ghi của bác sĩ trong ngày
-        $sualichtruc = DB::table('lt_lichtrucbs')->where('lt_Idlt', $id)->where('user_id', $user->id)->first();
+        // Giả sử bạn đã có biến $user lưu thông tin người dùng đang đăng nhập
+        $sualichtruc = DB::table('lt_lichtrucbs')
+            ->select(
+                'lt_tenbacsi',
+                'lt_ngaytruc',
+                DB::raw('GROUP_CONCAT(DISTINCT lt_Idlt ORDER BY lt_Idlt ASC SEPARATOR ", ") as id_list'),
+                DB::raw('GROUP_CONCAT(DISTINCT lt_giotruc ORDER BY lt_giotruc ASC SEPARATOR ", ") as giotruc_list')
+            )
+            ->where('user_id', $user->id) // Kiểm tra user_id khớp với ID của người dùng đang đăng nhập
+            ->groupBy('lt_tenbacsi', 'lt_ngaytruc')
+            ->first();
 
-        // Kiểm tra nếu bản ghi tồn tại
         if ($sualichtruc) {
-            // Chia chuỗi giờ trực thành mảng
-            $giotruc = explode(', ', $sualichtruc->lt_giotruc);
+            $giotruc = explode(', ', $sualichtruc->giotruc_list);
+            $id_list = explode(', ', $sualichtruc->id_list);
+
+            $first_id = $id_list[0];
         } else {
-            // Nếu không có bản ghi, khởi tạo mảng trống
             $giotruc = [];
+            $id_list = [];
         }
 
 
-        return view("Admin.doctors.sualichtruc", array_merge($this->data, compact('user', 'sualichtruc', 'giotruc')));
+
+        return view("Admin.doctors.sualichtruc", array_merge($this->data, compact('user', 'sualichtruc', 'giotruc', 'first_id')));
     }
+
 
 
     public function postsualichtruc(Request $request, $id)
