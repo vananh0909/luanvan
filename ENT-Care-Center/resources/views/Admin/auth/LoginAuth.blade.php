@@ -32,7 +32,8 @@
             @csrf
 
             <div style="margin-top: 35px">
-                <h1 style="font-size:16px; text-align:center">ĐĂNG NHẬP TÀI KHOẢN AUTH <i class="fas fa-user"></i></h1>
+                <h1 style="font-size:16px; text-align:center; font-weight:bold">ĐĂNG NHẬP TRANG QUẢN TRỊ <i
+                        class="fas fa-user"></i></h1>
             </div>
 
             <div style="margin-left: 40px; margin-top: 60px;">
@@ -62,9 +63,9 @@
                             Nhập</button>
                     </div>
                     <div>
-                        <p style="font-size:13px; margin-left: -10px; margin-top: 40px"> Bạn đã có tài khoản?
+                        <p style="font-size:13px; margin-top: 40px; margin-left:20px">
 
-
+                            <a class="hover" href="#">Quên mật khẩu ?</a> |
                             <a class="hover" href="{{ route('auth') }}">Đăng ký tài khoản Auth</a> |
 
                             <a class="hover" href="{{ route('LoginAuth') }}">Đăng nhập tài khoản Auth</a>

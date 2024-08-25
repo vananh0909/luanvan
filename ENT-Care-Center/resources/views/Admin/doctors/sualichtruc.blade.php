@@ -39,6 +39,11 @@
                 });
             </script>
         @endif
+
+        <div style="margin-left: 154px">
+            <a href="{{ route('Admin.doctor') }}"><i style="color:rgb(99, 96, 96)" class="fas fa-backward"></i></a>
+        </div>
+
         <form action="{{ route('Admin.postsualichtruc', ['id' => $first_id]) }}" method="POST">
             @csrf
             <input type="hidden" name="user_id" value="{{ $user->id }}">

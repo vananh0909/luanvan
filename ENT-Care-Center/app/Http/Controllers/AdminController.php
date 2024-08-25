@@ -673,25 +673,30 @@ class AdminController extends Controller
 
     public function postsualichtruc(Request $request, $id)
     {
-        $lichtruc = DB::table('lt_lichtrucbs')->where('lt_Idlt', $id)->first();
+        $user = auth()->user();
+        $lt_tenbacsi = $request->input('lt_tenbacsi');
+        $lt_ngaytruc = $request->input('lt_ngaytruc');
+        $lt_giotruc = $request->input('lt_giotruc', []); // Mảng giờ trực từ request
 
-        if ($lichtruc) {
-            // Cập nhật tất cả các bản ghi có cùng lt_tenbacsi và lt_ngaytruc
-            DB::table('lt_lichtrucbs')
-                ->where('lt_tenbacsi', $lichtruc->lt_tenbacsi)
-                ->where('lt_ngaytruc', $lichtruc->lt_ngaytruc)
-                ->update([
-                    'lt_tenbacsi' => $request->input('lt_tenbacsi'),
-                    'lt_ngaytruc' => $request->input('lt_ngaytruc'),
-                    // Chuyển đổi mảng giờ trực thành chuỗi, sử dụng ', ' làm separator
-                    'lt_giotruc' => implode(', ', $request->input('lt_giotruc', [])),
-                ]);
+        // Xóa các bản ghi cũ có cùng tên bác sĩ và ngày trực
+        DB::table('lt_lichtrucbs')
+            ->where('lt_tenbacsi', $lt_tenbacsi)
+            ->where('lt_ngaytruc', $lt_ngaytruc)
+            ->delete();
 
-            return redirect()->back()->with('status', 'Cập nhật lịch trực thành công');
-        } else {
-            return redirect()->back()->with('error', 'Không tìm thấy lịch trực');
+        // Thêm các bản ghi mới cho từng giờ trực
+        foreach ($lt_giotruc as $gio) {
+            DB::table('lt_lichtrucbs')->insert([
+                'lt_tenbacsi' => $lt_tenbacsi,
+                'lt_ngaytruc' => $lt_ngaytruc,
+                'lt_giotruc' => $gio,
+                'user_id' => $user->id, // Thêm ID người dùng nếu cần
+            ]);
         }
+
+        return redirect()->back()->with('status', 'Cập nhật lịch trực thành công');
     }
+
 
 
     public function xoalichtrucbs($id)

@@ -35,6 +35,6 @@ class UserAuthController extends Controller
         if ($request['nv_role']) {
             $user->roles()->attach(roles::where('name', 'nhanvienquanli')->first());
         }
-        return redirect()->back();
+        return redirect()->back()->with('status', 'Thành Công');
     }
 }
