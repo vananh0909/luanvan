@@ -103,18 +103,27 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
         }
 
+        // Lấy ID của bác sĩ từ bảng users dựa trên tên bác sĩ
+        $user = User::where('name', $Tenbs)->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Không tìm thấy bác sĩ với tên đã chọn.');
+        }
+
+
+        $user_id = $user->id; // Lấy ID của bác sĩ
+
         // Lặp qua từng giờ đã chọn và lưu vào cơ sở dữ liệu
         foreach ($giotruc as $time) {
             lt_lichtruc::create([
                 'lt_tenbs' => $Tenbs,
                 'lt_Ngaytruc' => $ngaytruc,
                 'lt_Giotruc' => $time,
-
-
+                'user_id' => $user_id, // Sử dụng user_id để lưu ID bác sĩ
             ]);
         }
 
-        return redirect()->back()->with('status', 'Lịch trực đã được phân thành công!');
+        return redirect()->back()->with('status', 'Lịch trực đã được thêm thành công.');
     }
 
     public function xemlichsap()
@@ -622,15 +631,11 @@ class AdminController extends Controller
     {
 
         $this->data['title'] = "LỊCH TRỰC";
-
-        $xemlichtruc = DB::table('lt_lichtrucbs')
-            ->select(
-                'lt_tenbacsi',
-                'lt_ngaytruc',
-                DB::raw('GROUP_CONCAT(lt_Idlt ORDER BY lt_Idlt ASC SEPARATOR ", ") as id_list'),
-                DB::raw('GROUP_CONCAT(lt_giotruc ORDER BY lt_giotruc ASC SEPARATOR ", ") as giotruc_list')
-            )
-            ->groupBy('lt_tenbacsi', 'lt_ngaytruc')
+        $user = auth()->user();
+        $xemlichtruc = DB::table('lt_lichtruc')
+            ->select('lt_tenbs', 'lt_Ngaytruc', DB::raw('GROUP_CONCAT(lt_Giotruc ORDER BY lt_Giotruc ASC) as giotruc_list'))
+            ->groupBy('lt_tenbs', 'lt_Ngaytruc')
+            ->where('user_id', $user->id)
             ->get();
 
 

@@ -1,4 +1,4 @@
-{{-- @extends('Admin.Clients.ClientAd')
+@extends('Admin.Clients.ClientAd')
 @section('title')
     {{ $title }}
 @endsection
@@ -47,7 +47,7 @@
                 @foreach ($xemlichtruc as $ltbs)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ date('d-m-Y', strtotime($ltbs->lt_ngaytruc)) }}</td>
+                        <td>{{ date('d-m-Y', strtotime($ltbs->lt_Ngaytruc)) }}</td>
                         <td>
                             @foreach (explode(',', $ltbs->giotruc_list) as $time)
                                 <span class="btn btn-success" style="margin-left:4px">{{ $time }}</span>
@@ -56,7 +56,7 @@
                         <td>
                             <a href="#" class="btn btn-primary d-inline-block"><i
                                     class="fa-regular fa-pen-to-square"></i></a>
-
+                            {{-- 
                             @php
                                 $first_id = explode(', ', $ltbs->id_list)[0];
                             @endphp
@@ -67,7 +67,7 @@
                                 <button type="submit" class="btn btn-danger">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
-                            </form>
+                            </form> --}}
                         </td>
 
 
@@ -90,4 +90,4 @@
     .hover:hover{
     color:red;
     }
-@endsection --}}
+@endsection

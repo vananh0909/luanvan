@@ -18,5 +18,5 @@ class lt_lichtruc extends Model
     // Khai báo tên bảng trong cơ sở dữ liệu
 
     // Khai báo các trường có thể gán (mass assignment)
-    protected $fillable = ['lt_Id', 'lt_tenbs', 'lt_Ngaytruc', 'lt_Giotruc', 'NV_Id'];
+    protected $fillable = ['lt_Id', 'lt_tenbs', 'lt_Ngaytruc', 'lt_Giotruc', 'user_id'];
 }

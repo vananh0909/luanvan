@@ -33,7 +33,7 @@
 
             <div style="margin-top: 35px">
                 <h1 style="font-size:16px; text-align:center; font-weight:bold">ĐĂNG NHẬP TRANG QUẢN TRỊ <i
-                        class="fas fa-user"></i></h1>
+                        class="fas fa-user" style="margin-left:6px"></i></h1>
             </div>
 
             <div style="margin-left: 40px; margin-top: 60px;">
