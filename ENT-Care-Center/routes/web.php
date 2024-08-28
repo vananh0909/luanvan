@@ -11,29 +11,9 @@ use Illuminate\Support\Facades\Auth;
 Route::get('sendmail', [UserController::class, 'sendmail'])->name('sendmail');
 
 
-// Route::get('fake-user', function () {
-//     $user = new \App\Models\User;
-//     $user->id = '1';
-//     $user->name = 'Vân Anh';
-//     $user->email = 'va@gmail.com';
-//     $user->password = Hash::make('09102002'); // Sử dụng Hash::make để mã hóa mật khẩu
-//     $user->save();
-
-//     return 'User created successfully!';
-// });
-//phan quyen
-Route::get('auth', [AuthController::class, 'auth'])->name('auth');
-Route::post('auth', [AuthController::class, 'postauth'])->name('postauth');
-Route::get('LoginAuth', [AuthController::class, 'LoginAuth'])->name('LoginAuth');
-Route::post('LoginAuth', [AuthController::class, 'postloginAuth'])->name('postLoginAuth');
-Route::post('logoutAuth', [AuthController::class, 'logoutAuth'])->name('logoutAuth');
-
-Route::get('alluser', [UserAuthController::class, 'index'])->name('alluser')->middleware('admin');
-Route::post('alluser', [UserAuthController::class, 'phanquyen'])->name('phanquyen');
-
 
 #Admin
-Route::prefix('Admin')->name('Admin.')->middleware(['auth'])->group(function () {
+Route::prefix('Admin')->name('Admin.')->middleware(['auth', 'checkroles'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('Homead');
     Route::get('trangchu', [AdminController::class, 'trangchu'])->name('trangchu');
     Route::get('quanlylichhen', [AdminController::class, 'quanlylichhen'])->name('quanlylichhen');
@@ -41,13 +21,13 @@ Route::prefix('Admin')->name('Admin.')->middleware(['auth'])->group(function () 
     Route::get('suathongtin/{id}', [AdminController::class, 'suathongtin'])->name('suathongtin');
     Route::post('editthongtin/{id}', [AdminController::class, 'editthongtin'])->name('editthongtin');
     Route::get('xoabenhnhan/{id}', [AdminController::class, 'xoabenhnhan'])->name('xoabenhnhan');
-    Route::get('quanlybacsy', [AdminController::class, 'quanlybacsy'])->name('quanlybacsy');
+    Route::get('quanlybacsy', [AdminController::class, 'quanlybacsy'])->name('quanlybacsy')->middleware('adminquanly');
     Route::post('postlichtruc', [AdminController::class, 'postlichtruc'])->name('postlichtruc');
     Route::get('xemlichsap', [AdminController::class, 'xemlichsap'])->name('xemlichsap');
     Route::get('sualichtruc/{id}', [AdminController::class, 'sualichtruc'])->name('sualichtruc');
     Route::post('editlichtruc/{id}', [AdminController::class, 'editlichtruc'])->name('editlichtruc');
     Route::get('xoalichtruc/{id}', [AdminController::class, 'xoalichtruc'])->name('xoalichtruc');
-    Route::get('quanlydichvu', [AdminController::class, 'quanlydichvu'])->name('quanlydichvu');
+    Route::get('quanlydichvu', [AdminController::class, 'quanlydichvu'])->name('quanlydichvu')->middleware('adminquanly');
     Route::get('themdichvu', [AdminController::class, 'themdichvu'])->name('themdichvu');
     Route::get('themgoidichvu', [AdminController::class, 'themgoidichvu'])->name('themgoidichvu');
     Route::post('themdichvu', [AdminController::class, 'postdichvu1'])->name('postdichvu1');
@@ -58,7 +38,7 @@ Route::prefix('Admin')->name('Admin.')->middleware(['auth'])->group(function () 
     Route::post('editgoidichvu/{id}', [AdminController::class, 'editgoidichvu'])->name('editgoidichvu');
     Route::get('xoagoidichvu/{id}', [AdminController::class, 'xoagoidichvu'])->name('xoagoidichvu');
     Route::post('themgoidichvu', [AdminController::class, 'postdichvu2'])->name('postdichvu2');
-    Route::get('quanlynhanvien', [AdminController::class, 'quanlynhanvien'])->name('quanlynhanvien');
+    Route::get('quanlynhanvien', [AdminController::class, 'quanlynhanvien'])->name('quanlynhanvien')->middleware('adminquanly');
     Route::get('themnhanvien', [AdminController::class, 'themnhanvien'])->name('themnhanvien');
     Route::post('themnhanvien', [AdminController::class, 'postnhanvien'])->name('postnhanvien');
     Route::get('suanhanvien/{id}', [AdminController::class, 'suanhanvien'])->name('suanhanvien');
@@ -75,7 +55,15 @@ Route::prefix('Admin')->name('Admin.')->middleware(['auth'])->group(function () 
     Route::post('xoalichtruc/{id}', [AdminController::class, 'xoalichtrucbs'])->name('xoalichtrucbs');
 });
 
+//phan quyen
+Route::get('auth', [AuthController::class, 'auth'])->name('auth');
+Route::post('auth', [AuthController::class, 'postauth'])->name('postauth');
+Route::get('LoginAuth', [AuthController::class, 'LoginAuth'])->name('LoginAuth');
+Route::post('LoginAuth', [AuthController::class, 'postloginAuth'])->name('postLoginAuth');
+Route::post('logoutAuth', [AuthController::class, 'logoutAuth'])->name('logoutAuth');
 
+Route::get('alluser', [UserAuthController::class, 'index'])->name('alluser')->middleware('admin');
+Route::post('alluser', [UserAuthController::class, 'phanquyen'])->name('phanquyen');
 
 
 

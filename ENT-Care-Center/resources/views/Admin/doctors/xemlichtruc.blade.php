@@ -30,16 +30,16 @@
                 });
             </script>
         @endif
-        <div style="margin-left: 154px">
-            <a href="{{ route('Admin.doctor') }}"><i style="color:rgb(99, 96, 96)" class="fas fa-backward"></i></a>
+        <div style="margin-left: 154px; margin-bottom:10px">
+            <a href="{{ route('Admin.doctor') }}"><i style="color:rgb(99, 96, 96); font-size: 20px"
+                    class="fas fa-backward"></i></a>
         </div>
-        <table class="table table-striped" style="width: 80%;margin: 0 auto">
+        <table class="table table-striped" style="width: 75%;margin: 0 auto">
             <thead>
                 <tr>
                     <th scope="col">STT</th>
                     <th scope="col">Ngày Trực </th>
                     <th scope="col">Giờ Trực </th>
-                    <th scope="col"></th>
 
                 </tr>
             </thead>
@@ -53,22 +53,7 @@
                                 <span class="btn btn-success" style="margin-left:4px">{{ $time }}</span>
                             @endforeach
                         </td>
-                        <td>
-                            <a href="#" class="btn btn-primary d-inline-block"><i
-                                    class="fa-regular fa-pen-to-square"></i></a>
-                            {{-- 
-                            @php
-                                $first_id = explode(', ', $ltbs->id_list)[0];
-                            @endphp
-                            <form action="{{ route('Admin.xoalichtrucbs', ['id' => $first_id]) }}" method="POST"
-                                class="d-inline-block"
-                                onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhóm lịch trực này?');">
-                                @csrf
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </form> --}}
-                        </td>
+
 
 
                     </tr>
