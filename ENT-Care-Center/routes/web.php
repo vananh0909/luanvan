@@ -86,4 +86,8 @@ Route::prefix('User')->name('User.')->group(function () {
 
     Route::post('dangky', [UserController::class, 'dangky'])->name('dangky');
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
+
+    //doctor
+    Route::get('bacsi', [UserController::class, 'bacsi'])->name('bacsi');
+    Route::get('lichhen', [UserController::class, 'lichhen'])->name('lichhen');
 });

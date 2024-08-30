@@ -11,13 +11,12 @@
     </div>
     <main>
 
-
         @if (session('status'))
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
-                        title: "Phân Lịch Thành Công ✅",
+                        title: "Thành Công ✅",
                         text: "{{ session('status') }}",
                         icon: "success",
                         confirmButtonText: "OK"
@@ -29,7 +28,7 @@
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
-                        title: "Phân Lịch Thất Bại ❌",
+                        title: "Thất Bại ❌",
                         text: "{{ session('error') }}",
                         icon: "error",
                         confirmButtonText: "OK"

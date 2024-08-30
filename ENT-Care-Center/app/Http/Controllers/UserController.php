@@ -13,6 +13,7 @@ use App\Models\dv_dichvu2;
 use App\Models\lt_lichtruc;
 use App\Models\nhanvien;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 // băm pass
 use Illuminate\Support\Facades\Hash;
 
@@ -43,6 +44,124 @@ class UserController extends Controller
     }
 
 
+    public function dangky(Request $request)
+    {
+        $emailExists = Users::where('CUS_Email', $request->CUS_Email)->exists();
+        $phoneExists = Users::where('CUS_Phone', $request->CUS_Phone)->exists();
+
+        // Nếu email hoặc số điện thoại đã tồn tại, trả về lỗi
+        if ($phoneExists || $emailExists) {
+            return back()->with('error', 'Email hoặc số điện thoại đã tồn tại!');
+        }
+
+        $customer = new Users;
+        $customer->CUS_Name = $request->input('CUS_Name');
+        $customer->CUS_PASS = Hash::make($request->input('CUS_PASS'));
+        $customer->CUS_Birthday = $request->input('CUS_Birthday');
+        if ($request->hasFile('CUS_Avatar')) {
+            $file = $request->file('CUS_Avatar');
+            $extension = $file->getClientOriginalExtension(); //lay ten mo rong duoi jpg, png,..
+            $filename = time() . '.' . $extension;
+            $file->move('uploads/avtkhachhang/', $filename); //upload lên thư mục
+            $customer->CUS_Avatar = $filename;
+        }
+        $customer->CUS_Phone = $request->input('CUS_Phone');
+        $customer->CUS_Email = $request->input('CUS_Email');
+        $customer->CUS_Address = $request->input('CUS_Address');
+        $customer->CUS_Gender = $request->input('CUS_Gender');
+        $customer->CUS_Nganhang = $request->input('CUS_Nganhang');
+        $customer->CUS_Stk = $request->input('CUS_Stk');
+
+
+
+        $customer->save();
+
+        // Thêm khách hàng vào cơ sở dữ liệu
+        // $this->customer->addCustomer($dataInsert);
+
+        // Lưu ID vào session
+        session(['user' => $this->customer->id]);
+
+        return redirect()->route('User.dangnhap')->with('msg', 'Đăng ký thành công!');
+    }
+
+
+    public function dangnhap()
+    {
+        $this->data['title'] = 'ĐĂNG NHẬP';
+
+
+        return view("layouts.dangnhap", $this->data);
+    }
+
+    public function postdangnhap(Request $request)
+    {
+        // Xác thực người dùng và lấy thông tin người dùng
+        // $user = Users::authenticate(
+        //     $request->input('CUS_Phone'),
+        //     $request->input('CUS_PASS')
+        // );
+
+        // if ($user) {
+        //     // Đăng nhập thành công, lưu thông tin người dùng vào session
+        //     session(['user' => $user]);
+
+        //     // Chuyển hướng đến trang lịch khám
+        //     return redirect()->route('User.lichkham');
+        // } else {
+        //     // Đăng nhập thất bại, chuyển hướng đến trang đăng nhập và hiển thị thông báo
+        //     return redirect()->route('User.dangnhap')->with('error', 'Đăng nhập không thành công.');
+        // }
+
+        $login = $request->only('CUS_Phone', 'CUS_PASS');
+
+        // Kiểm tra trong bảng `customer`
+        $user = Users::where('CUS_Phone', $login['CUS_Phone'])->first();
+
+        if ($customer && Hash::check($login['CUS_PASS'], $customer->CUS_PASS)) {
+            session(['user' => $user]);
+            return redirect()->route('User.lichkham');
+        }
+
+        // Nếu không tìm thấy trong bảng `customer`, kiểm tra trong bảng `user`
+        $user = User::where('phone', $login['CUS_Phone'])->first();
+
+        if ($user && Hash::check($login['CUS_PASS'], $user->password)) {
+            Auth::login($user);
+            // Lấy vai trò đầu tiên của người dùng
+            $role = $user->roles->first();
+
+            if ($role) {
+                $roleName = $role->name;
+
+                if ($roleName == 'doctor') {
+                    return redirect()->route('User.bacsi'); // Điều hướng tới trang của bác sĩ
+                } else {
+                    return redirect()->back(); // Điều hướng tới trang lịch khám
+                }
+            } else {
+                // Nếu không có vai trò, điều hướng tới trang đăng nhập với thông báo lỗi
+                return redirect()->back()->with('error', 'Đăng nhập không thành công.');
+            }
+        }
+
+        // Nếu không tìm thấy thông tin cả trong bảng `customer` và `user`
+        return redirect()->back()->with('error', 'Số điện thoại hoặc mật khẩu không đúng.');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('User.Home');
+    }
+
+
+
     public function lichtruc()
     {
         $this->data['title'] = "DANH SÁCH BÁC SĨ TRỰC";
@@ -56,6 +175,31 @@ class UserController extends Controller
         return view("layouts.lichtruc", $this->data, compact('bacsitruc'));
     }
 
+
+    //bacsi
+
+    public function bacsi()
+    {
+        $this->data['title'] = "BÁC SỸ";
+
+
+        return view("layouts.doctor.doctor", $this->data);
+    }
+
+
+
+    public function lichhen()
+    {
+        $this->data['title'] = "LỊCH HẸN";
+        // Thực hiện truy vấn để lấy ra thông tin của những người có lịch hẹn
+        $Lichhen = DB::select('
+        SELECT customer.*, lichhen.LH_BSkham, lichhen.LH_Id, lichhen.LH_Email, lichhen.LH_Ngaykham, lichhen.LH_Giokham, lichhen.LH_trieuchung
+        FROM customer
+        INNER JOIN lichhen ON customer.CUS_Id = lichhen.LH_CustomerID
+        ORDER BY  LH_Ngaykham ASC');
+
+        return view("layouts.doctor.lichhen", $this->data, compact('Lichhen'));
+    }
 
 
 
@@ -165,87 +309,6 @@ class UserController extends Controller
         return view("layouts.lichsukham", $this->data, compact('lichhen'));
     }
 
-    public function dangky(Request $request)
-    {
-        $emailExists = Users::where('CUS_Email', $request->CUS_Email)->exists();
-        $phoneExists = Users::where('CUS_Phone', $request->CUS_Phone)->exists();
-
-        // Nếu email hoặc số điện thoại đã tồn tại, trả về lỗi
-        if ($phoneExists || $emailExists) {
-            return back()->with('error', 'Email hoặc số điện thoại đã tồn tại!');
-        }
-
-        $customer = new Users;
-        $customer->CUS_Name = $request->input('CUS_Name');
-        $customer->CUS_PASS = Hash::make($request->input('CUS_PASS'));
-        $customer->CUS_Birthday = $request->input('CUS_Birthday');
-        if ($request->hasFile('CUS_Avatar')) {
-            $file = $request->file('CUS_Avatar');
-            $extension = $file->getClientOriginalExtension(); //lay ten mo rong duoi jpg, png,..
-            $filename = time() . '.' . $extension;
-            $file->move('uploads/avtkhachhang/', $filename); //upload lên thư mục
-            $customer->CUS_Avatar = $filename;
-        }
-        $customer->CUS_Phone = $request->input('CUS_Phone');
-        $customer->CUS_Email = $request->input('CUS_Email');
-        $customer->CUS_Address = $request->input('CUS_Address');
-        $customer->CUS_Gender = $request->input('CUS_Gender');
-        $customer->CUS_Nganhang = $request->input('CUS_Nganhang');
-        $customer->CUS_Stk = $request->input('CUS_Stk');
-
-
-
-        $customer->save();
-
-        // Thêm khách hàng vào cơ sở dữ liệu
-        // $this->customer->addCustomer($dataInsert);
-
-        // Lưu ID vào session
-        session(['user' => $this->customer->id]);
-
-        return redirect()->route('User.dangnhap')->with('msg', 'Đăng ký thành công!');
-    }
-
-
-    public function dangnhap()
-    {
-        $this->data['title'] = 'ĐĂNG NHẬP';
-
-
-        return view("layouts.dangnhap", $this->data);
-    }
-
-    public function postdangnhap(Request $request)
-    {
-        // Xác thực người dùng và lấy thông tin người dùng
-        $user = Users::authenticate(
-            $request->input('CUS_Phone'),
-            $request->input('CUS_PASS')
-        );
-
-        if ($user) {
-            // Đăng nhập thành công, lưu thông tin người dùng vào session
-            session(['user' => $user]);
-
-            // Chuyển hướng đến trang lịch khám
-            return redirect()->route('User.lichkham');
-        } else {
-            // Đăng nhập thất bại, chuyển hướng đến trang đăng nhập và hiển thị thông báo
-            return redirect()->route('User.dangnhap')->with('error', 'Đăng nhập không thành công.');
-        }
-    }
-
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect()->route('User.Home');
-    }
 
 
     public function showPassword()

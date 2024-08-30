@@ -20,13 +20,13 @@
 
                     <form style="margin: 0 auto">
 
-                        <div style="text-align:center; margin-top: 6px; padding-bottom: 8px">
+                        <div style="text-align:center; margin-top: 2px; padding-bottom: 8px">
                             <h1 style=" font-size: 22px; "> CÀI ĐẶT TÀI KHOẢN</h1>
 
                         </div>
 
 
-                        <div style=" width: 1000px; height:599px; border-radius:6px; margin:0 auto;  border: 1px solid rgb(154, 153, 153);"
+                        <div style=" width: 1000px; height:594px; border-radius:6px; margin:0 auto;  border: 1px solid rgb(154, 153, 153);"
                             class="col-md-6">
 
                             @if (session('user'))

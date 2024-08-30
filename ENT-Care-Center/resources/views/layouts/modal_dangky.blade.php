@@ -157,7 +157,7 @@
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {
                                 Swal.fire({
-                                    title: "ĐĂNG KÝ THẤT BẠI ❌",
+                                    title: " THẤT BẠI ❌",
                                     text: "{{ session('error') }}",
                                     icon: "error",
                                     confirmButtonText: "OK"

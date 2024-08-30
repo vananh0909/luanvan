@@ -52,12 +52,9 @@ class AdminController extends Controller
         SELECT customer.*, lichhen.LH_BSkham, lichhen.LH_Id, lichhen.LH_Email, lichhen.LH_Ngaykham, lichhen.LH_Giokham, lichhen.LH_trieuchung
         FROM customer
         INNER JOIN lichhen ON customer.CUS_Id = lichhen.LH_CustomerID
-        ORDER BY  LH_Ngaykham ASC
+        ORDER BY  LH_Ngaykham ASC');
 
 
-    ');
-
-        // Trả về view để hiển thị thông tin lịch hẹn
         return view("Admin.layoutsAd.qllichhen", $this->data, compact('Lichhen'));
     }
 
