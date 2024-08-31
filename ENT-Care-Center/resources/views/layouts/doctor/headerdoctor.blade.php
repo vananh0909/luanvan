@@ -33,7 +33,7 @@
 <div
     style="display: flex; justify-content: flex-end; color:#757575; margin-top:8px;  margin-bottom: 32px; margin-right:20px">
 
-    <form id="logout-form" action="{{ route('logoutAuth') }}" method="POST" style="margin: 4px;">
+    <form id="logout-form" action="{{ route('User.logout') }}" method="POST" style="margin: 4px;">
         @csrf
         <button class="btn btn-light" type="submit">Đăng Xuất <i class="fas fa-sign-out-alt"></i></button>
     </form>

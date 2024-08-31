@@ -43,7 +43,7 @@
 
         <table class="table table-striped" style="width: 100%;margin: 0 auto">
             <thead>
-                <tr>
+                <tr style="text-align: center">
                     <th scope="col">STT</th>
                     <th scope="col">Tên Bệnh Nhân</th>
                     <th scope="col">Ngày Sinh</th>
@@ -58,7 +58,7 @@
             </thead>
             <tbody>
                 @foreach ($Lichhen as $lh)
-                    <tr>
+                    <tr style="text-align: center">
                         <td>{{ $loop->iteration }}</td>
 
                         <td> {{ $lh->CUS_Name }}</td>

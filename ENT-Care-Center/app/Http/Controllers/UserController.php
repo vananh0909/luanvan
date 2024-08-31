@@ -139,9 +139,6 @@ class UserController extends Controller
                 } else {
                     return redirect()->back(); // Điều hướng tới trang lịch khám
                 }
-            } else {
-                // Nếu không có vai trò, điều hướng tới trang đăng nhập với thông báo lỗi
-                return redirect()->back()->with('error', 'Đăng nhập không thành công.');
             }
         }
 
