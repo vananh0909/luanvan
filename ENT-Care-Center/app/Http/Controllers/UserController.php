@@ -118,18 +118,18 @@ class UserController extends Controller
         // Kiểm tra trong bảng `customer`
         $user = Users::where('CUS_Phone', $login['CUS_Phone'])->first();
 
-        if ($customer && Hash::check($login['CUS_PASS'], $customer->CUS_PASS)) {
+        if ($user && Hash::check($login['CUS_PASS'], $user->CUS_PASS)) {
             session(['user' => $user]);
             return redirect()->route('User.lichkham');
         }
 
         // Nếu không tìm thấy trong bảng `customer`, kiểm tra trong bảng `user`
-        $user = User::where('phone', $login['CUS_Phone'])->first();
+        $doctor = User::where('phone', $login['CUS_Phone'])->first();
 
-        if ($user && Hash::check($login['CUS_PASS'], $user->password)) {
-            Auth::login($user);
+        if ($doctor && Hash::check($login['CUS_PASS'], $doctor->password)) {
+            Auth::login($doctor);
             // Lấy vai trò đầu tiên của người dùng
-            $role = $user->roles->first();
+            $role = $doctor->roles->first();
 
             if ($role) {
                 $roleName = $role->name;

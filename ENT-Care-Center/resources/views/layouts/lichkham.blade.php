@@ -36,7 +36,7 @@
                                         aria-label="Default select example" name="LH_BSkham" required>
                                         <option required selected> Chọn bác sĩ khám </option>
                                         @foreach ($bacsitruc as $bs)
-                                            <option value="{{ $bs->lt_tenbacsi }}">{{ $bs->lt_tenbacsi }}</option>
+                                            <option value="{{ $bs->lt_tenbs }}">{{ $bs->lt_tenbs }}</option>
                                         @endforeach
                                     </select>
                                 </div>

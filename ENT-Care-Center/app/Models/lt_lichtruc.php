@@ -15,8 +15,8 @@ class lt_lichtruc extends Model
     protected $table = 'lt_lichtruc';
     protected $primaryKey = 'lt_Id';
     public $timestamps = false;
-    // Khai báo tên bảng trong cơ sở dữ liệu
 
-    // Khai báo các trường có thể gán (mass assignment)
+
+    // Khai báo các trường có thể gán
     protected $fillable = ['lt_Id', 'lt_tenbs', 'lt_Ngaytruc', 'lt_Giotruc', 'user_id'];
 }
