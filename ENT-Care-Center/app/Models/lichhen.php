@@ -13,8 +13,8 @@ class lichhen extends Model
     use HasFactory;
     protected $primaryKey = 'LH_Id';
     protected $table = 'lichhen';
-
-    protected $fillable = ['LH_Id', 'LH_CustomerID', 'LH_BSkham', 'LH_Ngaykham', 'LH_Giokham', 'LH_Email', 'LH_trieuchung'];
+    public $timestamps = false;
+    protected $fillable = ['LH_Id', 'id_user', 'LH_CustomerID', 'LH_BSkham', 'LH_Ngaykham', 'LH_Giokham', 'LH_Email', 'LH_trieuchung'];
 
 
 

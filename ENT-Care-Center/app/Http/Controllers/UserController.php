@@ -12,6 +12,7 @@ use App\Models\dv_dichvu1;
 use App\Models\dv_dichvu2;
 use App\Models\lt_lichtruc;
 use App\Models\nhanvien;
+use App\Models\lt_lichtrucbs;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 // băm pass
@@ -96,22 +97,7 @@ class UserController extends Controller
 
     public function postdangnhap(Request $request)
     {
-        // Xác thực người dùng và lấy thông tin người dùng
-        // $user = Users::authenticate(
-        //     $request->input('CUS_Phone'),
-        //     $request->input('CUS_PASS')
-        // );
 
-        // if ($user) {
-        //     // Đăng nhập thành công, lưu thông tin người dùng vào session
-        //     session(['user' => $user]);
-
-        //     // Chuyển hướng đến trang lịch khám
-        //     return redirect()->route('User.lichkham');
-        // } else {
-        //     // Đăng nhập thất bại, chuyển hướng đến trang đăng nhập và hiển thị thông báo
-        //     return redirect()->route('User.dangnhap')->with('error', 'Đăng nhập không thành công.');
-        // }
 
         $login = $request->only('CUS_Phone', 'CUS_PASS');
 
@@ -173,35 +159,6 @@ class UserController extends Controller
     }
 
 
-    //bacsi
-
-    public function bacsi()
-    {
-        $this->data['title'] = "BÁC SỸ";
-
-
-        return view("layouts.doctor.doctor", $this->data);
-    }
-
-
-
-    public function lichhen()
-    {
-        $this->data['title'] = "LỊCH HẸN";
-        // Thực hiện truy vấn để lấy ra thông tin của những người có lịch hẹn
-        $Lichhen = DB::select('
-        SELECT customer.*, lichhen.LH_BSkham, lichhen.LH_Id, lichhen.LH_Email, lichhen.LH_Ngaykham, lichhen.LH_Giokham, lichhen.LH_trieuchung
-        FROM customer
-        INNER JOIN lichhen ON customer.CUS_Id = lichhen.LH_CustomerID
-        ORDER BY  LH_Ngaykham ASC');
-
-        return view("layouts.doctor.lichhen", $this->data, compact('Lichhen'));
-    }
-
-
-
-
-
     public function lichkham()
     {
         $this->data['title'] = "ĐẶT LỊCH KHÁM";
@@ -214,44 +171,47 @@ class UserController extends Controller
         return view("layouts.lichkham", $this->data, compact('bacsitruc'));
     }
 
-
-
-
     public function postlichkham(Request $request)
     {
-
         // Lấy ID của người dùng từ session
         $customerId = session('user')['CUS_Id'];
-
-
-        // Kiểm tra xem có ID của người dùng trong session không
-        if ($customerId) {
-            $existingAppointment = lichhen::where('LH_BSkham', $request->LH_BSkham)
-                ->where('LH_Ngaykham', $request->LH_Ngaykham)
-                ->where('LH_Giokham', $request->LH_Giokham)
-                ->exists();
-
-            // Nếu có lịch khám trùng, trả về thông báo lỗi
-            if ($existingAppointment) {
-                return redirect()->back()->with('error', 'Lịch khám trùng với lịch đã có. Vui lòng chọn thời gian khác.');
-            }
-            // Tạo một mảng dữ liệu cho việc chèn vào bảng lichhen
-            $data = [
-                $customerId,
-                $request->LH_BSkham,
-                $request->LH_Ngaykham,
-                $request->LH_Giokham,
-                $request->LH_Email,
-                $request->LH_trieuchung
-            ];
-
-            // Thực hiện chèn dữ liệu vào cơ sở dữ liệu
-            $this->lichhen->addlichhen($data);
-
-            return redirect()->route('User.lichkham2')->with('success', 'thành công');
-        } else {
-            return redirect()->route('User.Home')->with('error', 'thất bại');
+        if (!$customerId) {
+            return redirect()->route('User.Home')->with('error', 'Thất bại');
         }
+
+        // Tìm bác sĩ theo tên
+        $user = User::where('name', $request->LH_BSkham)->first();
+
+        // Kiểm tra xem có tìm thấy người dùng không
+        if (!$user) {
+            return redirect()->back()->with('error', 'Không tìm thấy bác sĩ với tên đã chọn.');
+        }
+
+        $lichhen = lichhen::where('LH_BSkham', $request->LH_BSkham)
+            ->where('LH_Ngaykham', $request->LH_Ngaykham)
+            ->where('LH_Giokham', $request->LH_Giokham)
+            ->exists();
+
+        if ($lichhen) {
+            return redirect()->back()->with('error', 'Lịch khám trùng với lịch đã có. Vui lòng chọn thời gian khác.');
+        }
+
+        $id_user = $user->id;
+
+
+        $data = [
+            'LH_CustomerID' => $customerId,
+            'id_user' => $id_user,
+            'LH_BSkham' => $request->LH_BSkham,
+            'LH_Ngaykham' => $request->LH_Ngaykham,
+            'LH_Giokham' => $request->LH_Giokham,
+            'LH_Email' => $request->LH_Email,
+            'LH_trieuchung' => $request->LH_trieuchung,
+        ];
+
+        $this->lichhen->create($data);
+
+        return redirect()->route('User.lichkham2')->with('success', 'Thành công');
     }
 
 
@@ -339,5 +299,96 @@ class UserController extends Controller
             });
         }
         return redirect()->back();
+    }
+
+
+
+    //bacsi
+
+    public function bacsi()
+    {
+        $this->data['title'] = "BÁC SỸ";
+
+
+        return view("layouts.doctor.doctor", $this->data);
+    }
+
+
+
+    public function lichhen()
+    {
+        $this->data['title'] = "LỊCH HẸN";
+        $user = auth()->user();
+        // Thực hiện truy vấn để lấy ra thông tin của những người có lịch hẹn
+        $Lichhen = DB::table('customer')
+            ->join('lichhen', 'customer.CUS_Id', '=', 'lichhen.LH_CustomerID')
+            ->select(
+                'customer.*',
+                'lichhen.LH_BSkham',
+                'lichhen.LH_Id',
+                'lichhen.LH_Email',
+                'lichhen.LH_Ngaykham',
+                'lichhen.LH_Giokham',
+                'lichhen.LH_trieuchung'
+            )
+            ->where('lichhen.id_user', $user->id)
+            ->orderBy('lichhen.LH_Ngaykham', 'ASC')
+            ->get();
+
+
+        return view("layouts.doctor.lichhen", $this->data, compact('Lichhen'));
+    }
+
+    public function dklichtruc()
+    {
+        $this->data['title'] = "ĐĂNG KÝ LỊCH TRỰC";
+        $this->data['title'] = "BÁC SĨ";
+        $user = auth()->user(); // Lấy thông tin bác sĩ đã đăng nhập
+        $lichtruc = DB::table('lt_lichtrucbs')
+            ->select(
+                'lt_tenbacsi',
+                'lt_ngaytruc',
+                DB::raw('GROUP_CONCAT(lt_Idlt ORDER BY lt_Idlt ASC SEPARATOR ", ") as id_list'),
+                DB::raw('GROUP_CONCAT(lt_giotruc ORDER BY lt_giotruc ASC SEPARATOR ", ") as giotruc_list')
+            )
+            ->groupBy('lt_tenbacsi', 'lt_ngaytruc')
+            ->where('user_id', $user->id)
+            ->get();
+
+        return view("layouts.doctor.dklichtruc", $this->data, compact('user', 'lichtruc'));
+    }
+
+
+    public function sualichtrucdk($id)
+    {
+        $user = auth()->user();
+        $this->data['title'] = "SỬA LỊCH TRỰC";
+
+        // Lấy bản ghi của bác sĩ trong ngày
+        // Giả sử bạn đã có biến $user lưu thông tin người dùng đang đăng nhập
+        $sualichtruc = DB::table('lt_lichtrucbs')
+            ->select(
+                'lt_tenbacsi',
+                'lt_ngaytruc',
+                DB::raw('GROUP_CONCAT(DISTINCT lt_Idlt ORDER BY lt_Idlt ASC SEPARATOR ", ") as id_list'),
+                DB::raw('GROUP_CONCAT(DISTINCT lt_giotruc ORDER BY lt_giotruc ASC SEPARATOR ", ") as giotruc_list')
+            )
+            ->where('user_id', $user->id) // Kiểm tra user_id khớp với ID của người dùng đang đăng nhập
+            ->groupBy('lt_tenbacsi', 'lt_ngaytruc')
+            ->first();
+
+        if ($sualichtruc) {
+            $giotruc = explode(', ', $sualichtruc->giotruc_list);
+            $id_list = explode(', ', $sualichtruc->id_list);
+
+            $first_id = $id_list[0];
+        } else {
+            $giotruc = [];
+            $id_list = [];
+        }
+
+
+
+        return view("layouts.doctor.sualichtrucdk", $this->data, compact('user', 'sualichtruc', 'giotruc', 'first_id'));
     }
 }

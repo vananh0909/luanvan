@@ -44,7 +44,7 @@
             <a href="{{ route('Admin.doctor') }}"><i style="color:rgb(99, 96, 96)" class="fas fa-backward"></i></a>
         </div>
 
-        <form action="{{ route('Admin.postsualichtruc', ['id' => $first_id]) }}" method="POST">
+        <form action="{{ route('Admin.postsualichtruc', ['id' => $id]) }}" method="POST">
             @csrf
             <input type="hidden" name="user_id" value="{{ $user->id }}">
             <table class="table table-striped" style="width: 60%; margin: 0 auto; height:370px">
@@ -76,6 +76,7 @@
                                 @endforeach
                             </div>
                         </td>
+
                     </tr>
                     <tr>
                         <td style="text-align: center; padding-top: 35px;">

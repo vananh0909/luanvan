@@ -7,12 +7,12 @@
             <a class="nav-link" href="{{ route('User.lichhen') }}" style="color:rgb(86, 86, 86);">DANH SÁCH LỊCH HẸN</a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="" style="color:rgb(86, 86, 86);"> BỆNH NHÂN</a>
-        </li>
+        {{-- <li class="nav-item">
+            <a class="nav-link" href="" style="color:rgb(86, 86, 86);"> LỊCH SỬ </a>
+        </li> --}}
 
         <li class="nav-item">
-            <a class="nav-link" href="" style="color:rgb(86, 86, 86);"> ĐĂNG KÝ LỊCH
+            <a class="nav-link" href="{{ route('User.dklichtruc') }}" style="color:rgb(86, 86, 86);"> ĐĂNG KÝ LỊCH
                 TRỰC</a>
         </li>
 

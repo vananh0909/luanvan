@@ -90,4 +90,7 @@ Route::prefix('User')->name('User.')->group(function () {
     //doctor
     Route::get('bacsi', [UserController::class, 'bacsi'])->name('bacsi');
     Route::get('lichhen', [UserController::class, 'lichhen'])->name('lichhen');
+    Route::get('dklichtruc', [UserController::class, 'dklichtruc'])->name('dklichtruc');
+    Route::get('sualichtrucdk/{id}', [UserController::class, 'sualichtrucdk'])->name('sualichtrucdk');
+    // Route::post('dklichtruc', [UserController::class, 'postlichtruc'])->name('postlichtruc');
 });

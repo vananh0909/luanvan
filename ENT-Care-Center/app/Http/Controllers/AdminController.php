@@ -573,56 +573,57 @@ class AdminController extends Controller
 
     public function doctor()
     {
-
         $this->data['title'] = "BÁC SĨ";
         $user = auth()->user(); // Lấy thông tin bác sĩ đã đăng nhập
+
+        // Lấy tất cả bản ghi của bác sĩ từ bảng lt_lichtrucbs
         $lichtruc = DB::table('lt_lichtrucbs')
-            ->select(
-                'lt_tenbacsi',
-                'lt_ngaytruc',
-                DB::raw('GROUP_CONCAT(lt_Idlt ORDER BY lt_Idlt ASC SEPARATOR ", ") as id_list'),
-                DB::raw('GROUP_CONCAT(lt_giotruc ORDER BY lt_giotruc ASC SEPARATOR ", ") as giotruc_list')
-            )
-            ->groupBy('lt_tenbacsi', 'lt_ngaytruc')
+            ->select('lt_Idlt', 'lt_tenbacsi', 'lt_ngaytruc', 'lt_giotruc')
             ->where('user_id', $user->id)
             ->get();
-        return view("Admin.doctors.doctor", $this->data,  compact('user', 'lichtruc'));
+
+        return view("Admin.doctors.doctor", array_merge($this->data, compact('user', 'lichtruc')));
     }
+
 
     public function postdoctor(Request $request)
     {
         $ten = $request->input('lt_tenbacsi');
-
         $ngaytruc = $request->input('lt_ngaytruc');
         $giotruc = $request->input('lt_giotruc'); // Đây sẽ là một mảng chứa các giờ đã chọn
         $userId = $request->input('user_id');
 
-        // Kiểm tra xem có giờ nào được chọn không
         if (!is_array($giotruc) || empty($giotruc)) {
             return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
         }
 
-        // Lặp qua từng giờ đã chọn và lưu vào cơ sở dữ liệu
-        foreach ($giotruc as $time) {
-            $exists = lt_lichtrucbs::where('lt_tenbacsi', $ten)
-                ->where('lt_ngaytruc', $ngaytruc)
-                ->where('lt_giotruc', $time)
-                ->where('user_id', $userId)
-                ->exists();
-            if ($exists) {
-                return redirect()->back()->with('error', 'Lịch trực đã tồn tại !');
-            }
+        // Chuyển mảng giờ trực thành chuỗi
+        $giotruc_list = implode(', ', $giotruc);
 
-            lt_lichtrucbs::create([
+        // Kiểm tra xem đã có bản ghi nào cho ngày và bác sĩ cụ thể chưa
+        $lichtruc = DB::table('lt_lichtrucbs')
+            ->where('lt_giotruc', $giotruc_list)
+            ->where('lt_ngaytruc', $ngaytruc)
+            ->where('user_id', $userId)
+            ->first();
+
+        if ($lichtruc) {
+
+            return redirect()->back()->with('error', 'Lịch trực đã tồn tại!');
+        } else {
+            // Nếu chưa có bản ghi, thêm mới
+            DB::table('lt_lichtrucbs')->insert([
                 'lt_tenbacsi' => $ten,
                 'lt_ngaytruc' => $ngaytruc,
-                'lt_giotruc' => $time,
+                'lt_giotruc' => $giotruc_list,
                 'user_id' => $userId,
             ]);
         }
 
         return redirect()->back()->with('status', 'Lịch trực đã được đăng ký thành công!');
     }
+
+
 
     public function xemlichtruc()
     {
@@ -649,32 +650,21 @@ class AdminController extends Controller
         $this->data['title'] = "SỬA LỊCH TRỰC";
 
         // Lấy bản ghi của bác sĩ trong ngày
-        // Giả sử bạn đã có biến $user lưu thông tin người dùng đang đăng nhập
         $sualichtruc = DB::table('lt_lichtrucbs')
-            ->select(
-                'lt_tenbacsi',
-                'lt_ngaytruc',
-                DB::raw('GROUP_CONCAT(DISTINCT lt_Idlt ORDER BY lt_Idlt ASC SEPARATOR ", ") as id_list'),
-                DB::raw('GROUP_CONCAT(DISTINCT lt_giotruc ORDER BY lt_giotruc ASC SEPARATOR ", ") as giotruc_list')
-            )
-            ->where('user_id', $user->id) // Kiểm tra user_id khớp với ID của người dùng đang đăng nhập
-            ->groupBy('lt_tenbacsi', 'lt_ngaytruc')
-            ->first();
+            ->select('lt_Idlt', 'lt_tenbacsi', 'lt_ngaytruc', 'lt_giotruc')
+            ->where('lt_ngaytruc', $id)
+            ->where('user_id', $user->id)
+            ->get(); // Sử dụng get() để lấy tất cả các bản ghi trong ngày
 
-        if ($sualichtruc) {
-            $giotruc = explode(', ', $sualichtruc->giotruc_list);
-            $id_list = explode(', ', $sualichtruc->id_list);
-
-            $first_id = $id_list[0];
-        } else {
-            $giotruc = [];
-            $id_list = [];
+        // Chuyển dữ liệu sang dạng dễ xử lý hơn trong view
+        $giotruc = [];
+        foreach ($sualichtruc as $record) {
+            $giotruc[] = $record->lt_giotruc; // Tạo mảng các giờ trực từ kết quả
         }
 
-
-
-        return view("Admin.doctors.sualichtruc", array_merge($this->data, compact('user', 'sualichtruc', 'giotruc', 'first_id')));
+        return view("Admin.doctors.sualichtruc", array_merge($this->data, compact('user', 'sualichtruc', 'giotruc', 'id')));
     }
+
 
 
 

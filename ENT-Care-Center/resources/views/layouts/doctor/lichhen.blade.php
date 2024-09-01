@@ -66,7 +66,7 @@
                         <td> {{ $lh->CUS_Phone }}</td>
                         <td> {{ $lh->LH_BSkham }}</td>
                         <td>{{ $lh->LH_Giokham }} </td>
-                        <td> {{ $lh->LH_Ngaykham }}</td>
+                        <td>{{ date('d-m-Y', strtotime($lh->LH_Ngaykham)) }}</td>
                         <td> {{ $lh->LH_trieuchung }}</td>
                         <td><a class="btn btn-success">Khám Bệnh</a></td>
 
