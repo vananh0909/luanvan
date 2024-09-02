@@ -652,15 +652,15 @@ class AdminController extends Controller
         // Lấy bản ghi của bác sĩ trong ngày
         $sualichtruc = DB::table('lt_lichtrucbs')
             ->select('lt_Idlt', 'lt_tenbacsi', 'lt_ngaytruc', 'lt_giotruc')
-            ->where('lt_ngaytruc', $id)
+            ->where('lt_Idlt', $id)
             ->where('user_id', $user->id)
-            ->get(); // Sử dụng get() để lấy tất cả các bản ghi trong ngày
+            ->first();
 
-        // Chuyển dữ liệu sang dạng dễ xử lý hơn trong view
-        $giotruc = [];
-        foreach ($sualichtruc as $record) {
-            $giotruc[] = $record->lt_giotruc; // Tạo mảng các giờ trực từ kết quả
+        if (!$sualichtruc) {
+            return back()->with('error', 'Không tìm thấy lịch trực');
         }
+
+        $giotruc = $sualichtruc->lt_giotruc ? explode(', ', $sualichtruc->lt_giotruc) : [];
 
         return view("Admin.doctors.sualichtruc", array_merge($this->data, compact('user', 'sualichtruc', 'giotruc', 'id')));
     }
@@ -675,19 +675,36 @@ class AdminController extends Controller
         $lt_ngaytruc = $request->input('lt_ngaytruc');
         $lt_giotruc = $request->input('lt_giotruc', []); // Mảng giờ trực từ request
 
-        // Xóa các bản ghi cũ có cùng tên bác sĩ và ngày trực
-        DB::table('lt_lichtrucbs')
+        if (!is_array($lt_giotruc) || empty($lt_giotruc)) {
+            return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
+        }
+
+        // Chuyển mảng giờ trực thành chuỗi
+        $giotruc_list = implode(', ', $lt_giotruc);
+
+        // Kiểm tra xem đã có bản ghi nào cho ngày và bác sĩ cụ thể chưa
+        $lichtruc = DB::table('lt_lichtrucbs')
             ->where('lt_tenbacsi', $lt_tenbacsi)
             ->where('lt_ngaytruc', $lt_ngaytruc)
-            ->delete();
+            ->where('user_id', $user->id)
+            ->first();
 
-        // Thêm các bản ghi mới cho từng giờ trực
-        foreach ($lt_giotruc as $gio) {
+        if ($lichtruc) {
+
+            DB::table('lt_lichtrucbs')
+                ->where('lt_tenbacsi', $lt_tenbacsi)
+                ->where('lt_ngaytruc', $lt_ngaytruc)
+                ->where('user_id', $user->id)
+                ->update([
+                    'lt_giotruc' => $giotruc_list,
+                ]);
+        } else {
+
             DB::table('lt_lichtrucbs')->insert([
                 'lt_tenbacsi' => $lt_tenbacsi,
                 'lt_ngaytruc' => $lt_ngaytruc,
-                'lt_giotruc' => $gio,
-                'user_id' => $user->id, // Thêm ID người dùng nếu cần
+                'lt_giotruc' => $giotruc_list,
+                'user_id' => $user->id,
             ]);
         }
 

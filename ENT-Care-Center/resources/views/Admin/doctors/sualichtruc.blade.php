@@ -9,7 +9,11 @@
     </header>
     <main>
         <div>
-            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 20px; padding-bottom:30px">
+            <div style="margin-left: 266px; margin-bottom:6px; margin-top:-10px">
+                <a href="{{ route('Admin.doctor') }}"><i style="color:rgb(99, 96, 96); font-size:20px;"
+                        class="fas fa-backward"></i></a>
+            </div>
+            <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 6px; padding-bottom:30px">
                 SỬA LỊCH TRỰC
             </h1>
         </div>
@@ -40,11 +44,9 @@
             </script>
         @endif
 
-        <div style="margin-left: 154px">
-            <a href="{{ route('Admin.doctor') }}"><i style="color:rgb(99, 96, 96)" class="fas fa-backward"></i></a>
-        </div>
 
-        <form action="{{ route('Admin.postsualichtruc', ['id' => $id]) }}" method="POST">
+
+        <form action="{{ route('Admin.postsualichtruc', ['id' => $sualichtruc->lt_Idlt]) }}" method="POST">
             @csrf
             <input type="hidden" name="user_id" value="{{ $user->id }}">
             <table class="table table-striped" style="width: 60%; margin: 0 auto; height:370px">
@@ -67,16 +69,18 @@
                         <td style="vertical-align: top; padding-top: 12px;">
                             <label>Giờ Đăng Ký:</label>
                             <div style="text-align:center; margin:12px">
+                                @php
+                                    $selectedTimes = explode(', ', $sualichtruc->lt_giotruc);
+                                @endphp
                                 @foreach (['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'] as $time)
                                     <div style="display: inline-block; margin: 5px;">
                                         <input type="checkbox" name="lt_giotruc[]" value="{{ $time }}"
-                                            {{ in_array($time, $giotruc) ? 'checked' : '' }}>
+                                            {{ in_array($time, $selectedTimes) ? 'checked' : '' }}>
                                         {{ $time }}
                                     </div>
                                 @endforeach
                             </div>
                         </td>
-
                     </tr>
                     <tr>
                         <td style="text-align: center; padding-top: 35px;">
@@ -87,16 +91,12 @@
             </table>
         </form>
 
-
-
         <div style="text-align: center; margin-top: 12px;">
             <p style="font-size: 13px;">
-                Vui lòng chỉ đăng ký lịch trực trong một tuần. Không đăng ký hai tuần liên tiếp !
+                Vui lòng chỉ đăng ký lịch trực trong một tuần. Không đăng ký hai tuần liên tiếp!
                 <a href="{{ route('Admin.xemlichtruc') }}" class="hover">Xem lịch trực</a>
             </p>
         </div>
-
-        <br>
 
         <br>
 
