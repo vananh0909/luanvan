@@ -24,9 +24,9 @@ Route::prefix('Admin')->name('Admin.')->middleware(['auth', 'checkroles'])->grou
     Route::get('quanlybacsy', [AdminController::class, 'quanlybacsy'])->name('quanlybacsy')->middleware('adminquanly');
     Route::post('postlichtruc', [AdminController::class, 'postlichtruc'])->name('postlichtruc');
     Route::get('xemlichsap', [AdminController::class, 'xemlichsap'])->name('xemlichsap');
-    Route::get('sualichtruc/{id}', [AdminController::class, 'sualichtruc'])->name('sualichtruc');
-    Route::post('editlichtruc/{id}', [AdminController::class, 'editlichtruc'])->name('editlichtruc');
-    Route::get('xoalichtruc/{id}', [AdminController::class, 'xoalichtruc'])->name('xoalichtruc');
+    Route::get('sualichsap/{id}', [AdminController::class, 'sualichsap'])->name('sualichsap');
+    Route::post('editlichsap/{id}', [AdminController::class, 'editlichsap'])->name('editlichsap');
+    Route::post('xoalichsap/{id}', [AdminController::class, 'xoalichsap'])->name('xoalichsap');
     Route::get('quanlydichvu', [AdminController::class, 'quanlydichvu'])->name('quanlydichvu')->middleware('adminquanly');
     Route::get('themdichvu', [AdminController::class, 'themdichvu'])->name('themdichvu');
     Route::get('themgoidichvu', [AdminController::class, 'themgoidichvu'])->name('themgoidichvu');

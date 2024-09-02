@@ -29,6 +29,18 @@
                     });
                 });
             </script>
+        @elseif (session('error'))
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: "Thất Bại ❌",
+                        text: "{{ session('error') }}",
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+                });
+            </script>
         @endif
         <div style="margin-left: 154px; margin-bottom:10px">
             <a href="{{ route('Admin.doctor') }}"><i style="color:rgb(99, 96, 96); font-size: 20px"
