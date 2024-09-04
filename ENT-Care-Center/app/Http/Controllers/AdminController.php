@@ -736,19 +736,14 @@ class AdminController extends Controller
 
     public function xoalichtrucbs($id)
     {
-        // Tìm bản ghi đầu tiên với id này
-        $lichtruc = DB::table('lt_lichtrucbs')->where('lt_Idlt', $id)->first();
 
-        if ($lichtruc) {
-            // Xóa tất cả các bản ghi có cùng lt_tenbacsi và lt_ngaytruc
-            DB::table('lt_lichtrucbs')
-                ->where('lt_tenbacsi', $lichtruc->lt_tenbacsi)
-                ->where('lt_ngaytruc', $lichtruc->lt_ngaytruc)
-                ->delete();
 
-            return redirect()->back()->with('status', 'Xóa lịch trực thành công');
-        } else {
-            return redirect()->back()->with('error', 'Không tìm thấy lịch trực');
-        }
+        $lichtruc = lt_lichtrucbs::where('lt_Idlt', $id)->first();
+
+
+
+        $lichtruc->delete();
+
+        return redirect()->back()->with('status', 'Xóa thành công  !');
     }
 }

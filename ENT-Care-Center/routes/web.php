@@ -91,6 +91,8 @@ Route::prefix('User')->name('User.')->group(function () {
     Route::get('bacsi', [UserController::class, 'bacsi'])->name('bacsi');
     Route::get('lichhen', [UserController::class, 'lichhen'])->name('lichhen');
     Route::get('dklichtruc', [UserController::class, 'dklichtruc'])->name('dklichtruc');
+    Route::post('dklichtruc', [UserController::class, 'postdklichtruc'])->name('postdklichtruc');
     Route::get('sualichtrucdk/{id}', [UserController::class, 'sualichtrucdk'])->name('sualichtrucdk');
-    // Route::post('dklichtruc', [UserController::class, 'postlichtruc'])->name('postlichtruc');
+    Route::post('sualichtrucdk/{id}', [UserController::class, 'postsualichtrucdk'])->name('postsualichtrucdk');
+    Route::post('xoalichtrucdk/{id}', [UserController::class, 'xoalichtrucdk'])->name('xoalichtrucdk');
 });

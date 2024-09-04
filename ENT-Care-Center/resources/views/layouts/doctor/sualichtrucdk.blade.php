@@ -44,7 +44,7 @@
             <a href="{{ route('User.dklichtruc') }}"><i style="color:rgb(99, 96, 96)" class="fas fa-backward"></i></a>
         </div>
 
-        <form action="{{ route('Admin.postsualichtruc', ['id' => $first_id]) }}" method="POST">
+        <form action="{{ route('User.postsualichtrucdk', ['id' => $sualichtruc->lt_Idlt]) }}" method="POST">
             @csrf
             <input type="hidden" name="user_id" value="{{ $user->id }}">
             <table class="table table-striped" style="width: 60%; margin: 0 auto; height:370px">

@@ -42,7 +42,7 @@
             </script>
         @endif
 
-        <form action="{{ route('Admin.postdoctor') }}" method="POST">
+        <form action="{{ route('User.postdklichtruc') }}" method="POST">
             @csrf
             <input type="hidden" name="user_id" value="{{ $user->id }}">
 
@@ -120,23 +120,20 @@
                         <td>{{ $lt->lt_tenbacsi }}</td>
                         <td>{{ date('d-m-Y', strtotime($lt->lt_ngaytruc)) }}</td>
                         <td>
-                            @foreach (explode(', ', $lt->giotruc_list) as $time)
+                            @foreach (explode(', ', $lt->lt_giotruc) as $time)
                                 <span class="btn btn-success" style="margin-left:4px">{{ $time }}</span>
                             @endforeach
                         </td>
                         <td class="d-flex align-items-center">
-                            <!-- Lấy id đầu tiên từ id_list và sử dụng nó để xóa cả nhóm -->
-                            @php
-                                $first_id = explode(', ', $lt->id_list)[0];
-                            @endphp
 
-                            <a href="{{ route('User.sualichtrucdk', ['id' => $first_id]) }}" class="btn btn-primary"
+
+                            <a href="{{ route('User.sualichtrucdk', ['id' => $lt->lt_Idlt]) }}" class="btn btn-primary"
                                 style="margin-right: 10px">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </a>
 
 
-                            <form action="{{ route('Admin.xoalichtrucbs', ['id' => $first_id]) }}" method="POST"
+                            <form action="{{ route('User.xoalichtrucdk', ['id' => $lt->lt_Idlt]) }}" method="POST"
                                 onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhóm lịch trực này?');">
                                 @csrf
                                 <button type="submit" class="btn btn-danger">
