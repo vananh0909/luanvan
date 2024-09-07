@@ -652,13 +652,7 @@ class AdminController extends Controller
         $this->data['title'] = "LỊCH TRỰC";
         $user = auth()->user();
         $xemlichtruc = DB::table('lt_lichtruc')
-            ->select(
-                'lt_tenbs',
-                'lt_Ngaytruc',
-                DB::raw('GROUP_CONCAT(DISTINCT lt_Id ORDER BY lt_Id ASC SEPARATOR ", ") as id_list'),
-                DB::raw('GROUP_CONCAT(lt_Giotruc ORDER BY lt_Giotruc ASC) as giotruc_list')
-            )
-            ->groupBy('lt_tenbs', 'lt_Ngaytruc')
+
             ->where('user_id', $user->id)
             ->get();
 

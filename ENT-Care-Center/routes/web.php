@@ -95,4 +95,6 @@ Route::prefix('User')->name('User.')->group(function () {
     Route::get('sualichtrucdk/{id}', [UserController::class, 'sualichtrucdk'])->name('sualichtrucdk');
     Route::post('sualichtrucdk/{id}', [UserController::class, 'postsualichtrucdk'])->name('postsualichtrucdk');
     Route::post('xoalichtrucdk/{id}', [UserController::class, 'xoalichtrucdk'])->name('xoalichtrucdk');
+    Route::get('xemlichtruc', [UserController::class, 'xemlichtrucbs'])->name('xemlichtrucbs');
+    Route::get('khambenh/{id}', [UserController::class, 'khambenh'])->name('khambenh');
 });

@@ -319,7 +319,6 @@ class UserController extends Controller
     {
         $this->data['title'] = "LỊCH HẸN";
         $user = auth()->user();
-        // Thực hiện truy vấn để lấy ra thông tin của những người có lịch hẹn
         $Lichhen = DB::table('customer')
             ->join('lichhen', 'customer.CUS_Id', '=', 'lichhen.LH_CustomerID')
             ->select(
@@ -468,5 +467,43 @@ class UserController extends Controller
         $lichtruc->delete();
 
         return redirect()->back()->with('status', 'Xóa thành công  !');
+    }
+
+
+    public function xemlichtrucbs()
+    {
+
+        $this->data['title'] = "LỊCH TRỰC";
+        $user = auth()->user();
+        $xemlichtruc = DB::table('lt_lichtruc')
+
+            ->where('user_id', $user->id)
+            ->get();
+
+        return view("layouts.doctor.xemlichtruc", $this->data, compact('xemlichtruc'));
+    }
+
+    public function khambenh($id)
+    {
+
+        $this->data['title'] = "KHÁM  BỆNH";
+        $user = auth()->user();
+        $benhnhan = DB::table('customer')
+            ->join('lichhen', 'customer.CUS_Id', '=', 'lichhen.LH_CustomerID')
+            ->select(
+                'customer.*',
+                'lichhen.LH_BSkham',
+                'lichhen.LH_Id',
+                'lichhen.LH_Email',
+                'lichhen.LH_Ngaykham',
+                'lichhen.LH_Giokham',
+                'lichhen.LH_trieuchung'
+            )
+            ->where('lichhen.id_user', $user->id)
+            ->where('lichhen.LH_Id', $id)
+            ->orderBy('lichhen.LH_Ngaykham', 'ASC')
+            ->first();
+
+        return view("layouts.doctor.khambenh", $this->data, compact('benhnhan'));
     }
 }

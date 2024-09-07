@@ -61,7 +61,7 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ date('d-m-Y', strtotime($ltbs->lt_Ngaytruc)) }}</td>
                         <td>
-                            @foreach (explode(',', $ltbs->giotruc_list) as $time)
+                            @foreach (explode(', ', $ltbs->lt_Giotruc) as $time)
                                 <span class="btn btn-success" style="margin-left:4px">{{ $time }}</span>
                             @endforeach
                         </td>
