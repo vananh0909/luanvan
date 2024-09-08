@@ -11,5 +11,5 @@ class Benhan extends Model
     protected $primaryKey = 'id_benhan';
     protected $table = 'benhan';
     public $timestamps = false;
-    protected $fillable = ['id_benhan', 'id_lh', 'huyetap', 'nhiptim', 'nhietdo', 'chuandoan', 'ghichu'];
+    protected $fillable = ['id_benhan', 'id_lh', 'ten', 'huyetap', 'nhiptim', 'nhietdo', 'chuandoan', 'ghichu'];
 }

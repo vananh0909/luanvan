@@ -15,6 +15,8 @@ use App\Models\nhanvien;
 use App\Models\lt_lichtrucbs;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\Benhan;
+use App\Models\DonThuoc;
 // băm pass
 use Illuminate\Support\Facades\Hash;
 
@@ -505,5 +507,33 @@ class UserController extends Controller
             ->first();
 
         return view("layouts.doctor.khambenh", $this->data, compact('benhnhan'));
+    }
+
+    public function postbenhandonthuoc(Request $request)
+    {
+        // 1. Lưu thông tin bệnh án vào bảng 'benhan' và lấy id_benhan
+        $benhan = benhan::create([
+            'id_lh'      => $request->input('id_lh'),
+            'ten'        => $request->input('ten'),
+            'chuandoan'  => $request->input('chuandoan'),
+            'huyetap'    => $request->input('huyetap'),
+            'nhiptim'    => $request->input('nhiptim'),
+            'nhietdo'    => $request->input('nhietdo'),
+            'ghichu'     => $request->input('ghichu'),
+        ]);
+
+        $tenthuoc = implode(',', $request->input('tenthuoc'));
+        $lieuluong = implode(',', $request->input('lieuluong'));
+        $cachsd = implode(',', $request->input('cachsd'));
+
+        // Tạo mới một đơn thuốc và lưu vào cơ sở dữ liệu
+        DonThuoc::create([
+            'id_benhan'  => $benhan->id_benhan,
+            'tenthuoc' => $tenthuoc,
+            'lieuluong' => $lieuluong,
+            'cachsd' => $cachsd,
+        ]);
+
+        return redirect()->back()->with('status', 'Lưu bệnh án và kê đơn thành công');
     }
 }

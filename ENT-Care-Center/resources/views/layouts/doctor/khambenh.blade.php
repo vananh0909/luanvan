@@ -94,9 +94,10 @@
                         <h4 style="margin-top: 5px">Nhập Bệnh Án & Kê Đơn Thuốc</h4>
                     </div>
                     <div class="card-body">
-                        <form action="" method="POST">
+                        <form action="{{ route('User.postbenhandonthuoc') }}" method="POST">
                             @csrf
                             <input type="hidden" name="id_lh" value="{{ $benhnhan->LH_Id }}">
+                            <input type="hidden" name="ten" value="{{ $benhnhan->CUS_Name }}">
 
                             <div class="form-group mb-3">
                                 <label for="chuandoan"><strong>Chẩn Đoán:</strong></label>
@@ -129,7 +130,7 @@
                                     <div class="row" style="margin-top: 5px; margin-bottom: 5px">
                                         <div class="col-md-3">
 
-                                            <select class="form-select" name="thuoc[]" required>
+                                            <select class="form-select" name="tenthuoc[]" required>
                                                 <option required selected> Tên Thuốc </option>
                                                 <option value="ví dụ">ví dụ</option>
                                                 {{-- @foreach ($bacsitruc as $bs)
@@ -139,16 +140,17 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                            <select class="form-select" name="lieu[]" placeholder="Liều Lượng" required>
+                                            <select class="form-select" name="lieuluong[]" placeholder="Liều Lượng"
+                                                required>
                                                 <option required selected> Liều Lượng </option>
-                                                <option value="ví dụ">Ngày 1 lần</option>
+                                                <option value="Ngày 1 lần">Ngày 1 lần</option>
                                             </select>
                                         </div>
 
                                         <div class="col-md-4">
-                                            <select class="form-select" name="cach_dung[]" placeholder="Cách Dùng" required>
+                                            <select class="form-select" name="cachsd[]" placeholder="Cách Dùng" required>
                                                 <option required selected> Cách Dùng </option>
-                                                <option value="ví dụ">Uống trước khi ăn</option>
+                                                <option value="Uống trước khi ă">Uống trước khi ăn</option>
                                             </select>
                                         </div>
                                         <div class="col-md-1">
@@ -185,23 +187,23 @@
             var newMedicine = `
                 <div class="row mb-3">
                     <div class="col-md-3">
-                        <select class="form-select" name="thuoc[]" required>
+                        <select class="form-select" name="tenthuoc[]" required>
                             <option required selected>Tên Thuốc</option>
-                            <option value="ví dụ">Thuốc A</option>
+                            <option value="Thuốc A">Thuốc A</option>
 
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <select class="form-select" name="lieu[]" required>
+                        <select class="form-select" name="lieuluong[]" required>
                             <option required selected>Liều Lượng</option>
-                            <option value="ví dụ">Ngày 1 lần</option>
+                            <option value="Ngày 2 lần">Ngày 2 lần</option>
                             {{-- Thêm các liều lượng khác --}}
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <select class="form-select" name="cach_dung[]" required>
+                        <select class="form-select" name="cachsd[]" required>
                             <option required selected>Cách Dùng</option>
-                            <option value="ví dụ">Uống trước khi ăn</option>
+                            <option value="Uống trước khi ăn">Uống trước khi ăn</option>
                             {{-- Thêm các cách dùng khác --}}
                         </select>
                     </div>
