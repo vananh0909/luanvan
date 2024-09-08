@@ -533,7 +533,25 @@ class UserController extends Controller
             'lieuluong' => $lieuluong,
             'cachsd' => $cachsd,
         ]);
+        $id_benhan = $benhan->id_benhan;
+        return redirect()->route('User.donthuoc', ['id' => $id_benhan]);
+    }
 
-        return redirect()->back()->with('status', 'Lưu bệnh án và kê đơn thành công');
+    public function donthuoc($id)
+    {
+
+        $this->data['title'] = "ĐƠN THUỐC";
+        $user = auth()->user();
+        // Truy vấn lấy thông tin đơn thuốc, bệnh nhân và khách hàng
+        $donthuoc = DB::table('donthuoc')
+            ->join('benhan', 'donthuoc.id_benhan', '=', 'benhan.id_benhan')
+            ->join('lichhen', 'benhan.id_lh', '=', 'lichhen.LH_Id')
+            ->join('customer', 'lichhen.LH_CustomerID', '=', 'customer.CUS_Id')
+            ->where('donthuoc.id_benhan', $id)
+            ->select('donthuoc.*', 'benhan.*', 'lichhen.*', 'customer.*')
+            ->first();
+
+
+        return view("layouts.doctor.donthuoc", $this->data, compact('donthuoc', 'user'));
     }
 }

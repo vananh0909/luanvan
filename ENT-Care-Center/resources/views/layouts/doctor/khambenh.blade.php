@@ -150,7 +150,7 @@
                                         <div class="col-md-4">
                                             <select class="form-select" name="cachsd[]" placeholder="Cách Dùng" required>
                                                 <option required selected> Cách Dùng </option>
-                                                <option value="Uống trước khi ă">Uống trước khi ăn</option>
+                                                <option value="Uống trước khi ăn">Uống trước khi ăn</option>
                                             </select>
                                         </div>
                                         <div class="col-md-1">
