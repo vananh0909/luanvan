@@ -11,5 +11,5 @@ class DonThuoc extends Model
     protected $primaryKey = 'id_donthuoc';
     protected $table = 'donthuoc';
     public $timestamps = false;
-    protected $fillable = ['id_donthuoc', 'id_benhan', 'tenthuoc', 'lieuluong', 'cachsd', 'id_thuoc'];
+    protected $fillable = ['id_donthuoc', 'id_benhan', 'tenthuoc', 'lieuluong', 'cachsd', 'id_thuoc', 'soluong'];
 }

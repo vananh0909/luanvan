@@ -21,6 +21,7 @@ use App\Models\roles;
 use App\Models\User;
 use App\Models\lt_lichtruc;
 use App\Models\lt_lichtrucbs;
+use App\Models\KhoThuoc;
 
 class AdminController extends Controller
 {
@@ -577,7 +578,81 @@ class AdminController extends Controller
 
 
 
+    public function khothuoc()
+    {
 
+        $this->data['title'] = "KHO THUỐC";
+        $khothuoc = DB::table('khothuoc')
+            ->get();
+
+        return view("Admin.layoutsAd..khothuoc.khothuoc", $this->data, compact('khothuoc'));
+    }
+
+    public function themthuoc()
+    {
+
+        $this->data['title'] = "THÊM THUỐC";
+        return view("Admin.layoutsAd.khothuoc.themthuoc", $this->data);
+    }
+
+    public function postthemthuoc(Request $request)
+    {
+        khothuoc::create([
+            'tenthuoc' => $request->input('tenthuoc'),
+            'soluong' => $request->input('soluong'),
+            'donvi' => $request->input('donvi'),
+            'giathuoc' => $request->input('giathuoc'),
+            'mota' => $request->input('mota'),
+        ]);
+
+        return  redirect()->back()->with('status', 'Thành công');
+    }
+    public function suathuoc($id)
+    {
+
+        $this->data['title'] = "SỬA THUỐC";
+        $suathuoc = DB::table('khothuoc')
+            ->where('id_thuoc', $id)
+            ->first();
+
+        return view("Admin.layoutsAd..khothuoc.suathuoc", $this->data, compact('suathuoc'));
+    }
+
+    public function postsuathuoc(Request $request, $id)
+    {
+
+        $thuoc = khothuoc::find($id);
+
+        if (!$thuoc) {
+            return redirect()->back()->with('error', 'Thuốc không tồn tại.');
+        }
+
+        $thuoc->update([
+            'tenthuoc' => $request->input('tenthuoc'),
+            'soluong' => $request->input('soluong'),
+            'donvi' => $request->input('donvi'),
+            'giathuoc' => $request->input('giathuoc'),
+            'mota' => $request->input('mota'),
+        ]);
+
+        return redirect()->back()->with('status', 'Thành công.');
+    }
+
+    public function xoathuoc($id)
+    {
+
+        $thuoc = khothuoc::find($id);
+
+        if (!$thuoc) {
+            return redirect()->back()->with('error', 'Thuốc không tồn tại.');
+        }
+
+
+        $thuoc->delete();
+
+
+        return redirect()->back()->with('status', 'Thành công.');
+    }
 
 
 
@@ -587,6 +662,9 @@ class AdminController extends Controller
         $this->data['title'] = "THỐNG KÊ SỐ LƯỢNG BỆNH NHÂN";
         return view("Admin.layoutsAd.thongkebaocao", $this->data);
     }
+
+
+
 
 
 

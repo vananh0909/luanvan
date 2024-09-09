@@ -54,6 +54,7 @@
                                 <thead>
                                     <tr>
                                         <th>Tên thuốc</th>
+                                        <th>Số lượng</th>
                                         <th>Liều lượng</th>
                                         <th>Hướng dẫn sử dụng</th>
                                     </tr>
@@ -61,6 +62,7 @@
                                 <tbody>
                                     @php
                                         $tenthuocArray = explode(',', $donthuoc->tenthuoc);
+                                        $soluongArray = explode(',', $donthuoc->soluong);
                                         $lieuLuongArray = explode(',', $donthuoc->lieuluong);
                                         $cachSdArray = explode(',', $donthuoc->cachsd);
                                     @endphp
@@ -68,6 +70,8 @@
                                     @foreach ($tenthuocArray as $index => $tenthuoc)
                                         <tr>
                                             <td>{{ trim($tenthuoc) }}</td>
+                                            <td>{{ isset($soluongArray[$index]) ? trim($soluongArray[$index]) : 'N/A' }}
+                                            </td>
                                             <td>{{ isset($lieuLuongArray[$index]) ? trim($lieuLuongArray[$index]) : 'N/A' }}
                                             </td>
                                             <td>{{ isset($cachSdArray[$index]) ? trim($cachSdArray[$index]) : 'N/A' }}
@@ -94,4 +98,41 @@
 @endsection
 
 @section('css')
+    @media print {
+    /* Ẩn header, footer hoặc các thành phần không cần thiết khi in */
+    header, footer, .btn, .card-body hr {
+    display: none;
+    }
+
+    /* Điều chỉnh chiều rộng nội dung cho bản in */
+    .container-fluid {
+    width: 100% !important;
+
+    background-color: white !important;
+    }
+
+    /* Điều chỉnh font chữ, căn lề cho đẹp */
+    body {
+    font-size: 14pt;
+    line-height: 1.5;
+    }
+
+    /* Điều chỉnh lại margin của các thành phần */
+    .card {
+    margin: 0 !important;
+    border: none;
+    }
+
+    /* Đảm bảo bảng thuốc in rõ ràng, không tràn ra ngoài */
+    table {
+    width: 100%;
+    border-collapse: collapse;
+    }
+
+    th, td {
+    padding: 8px;
+    border: 1px solid black;
+    }
+    }
+    </style>
 @endsection

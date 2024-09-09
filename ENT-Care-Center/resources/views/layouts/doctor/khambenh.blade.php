@@ -36,7 +36,7 @@
         @endif
 
         <div class="row" style="margin-top: -20px; margin-bottom: 5px">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card">
                     <div class="card-header bg-success text-white text-center">
                         <h4 style="margin-top: 5px">Thông Tin Bệnh Nhân</h4>
@@ -88,7 +88,7 @@
 
 
 
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="card">
                     <div class="card-header bg-secondary text-white text-center">
                         <h4 style="margin-top: 5px">Nhập Bệnh Án & Kê Đơn Thuốc</h4>
@@ -139,7 +139,12 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" id="soluong" name="soluong[]"
+                                                placeholder="Số Lượng" required>
+                                        </div>
+
+                                        <div class="col-md-3">
                                             <select class="form-select" name="lieuluong[]" placeholder="Liều Lượng"
                                                 required>
                                                 <option required selected> Liều Lượng </option>
@@ -147,7 +152,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <select class="form-select" name="cachsd[]" placeholder="Cách Dùng" required>
                                                 <option required selected> Cách Dùng </option>
                                                 <option value="Uống trước khi ăn">Uống trước khi ăn</option>
@@ -193,14 +198,20 @@
 
                         </select>
                     </div>
-                    <div class="col-md-4">
+
+                    <div class="col-md-2">
+                         <input type="text" class="form-control" id="soluong" name="soluong[]"
+                         placeholder="Số Lượng"  required>
+                    </div>
+
+                    <div class="col-md-3">
                         <select class="form-select" name="lieuluong[]" required>
                             <option required selected>Liều Lượng</option>
                             <option value="Ngày 2 lần">Ngày 2 lần</option>
                             {{-- Thêm các liều lượng khác --}}
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <select class="form-select" name="cachsd[]" required>
                             <option required selected>Cách Dùng</option>
                             <option value="Uống trước khi ăn">Uống trước khi ăn</option>

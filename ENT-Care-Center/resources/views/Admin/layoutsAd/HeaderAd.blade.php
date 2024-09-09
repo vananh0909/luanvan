@@ -24,6 +24,10 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link " href="{{ route('Admin.khothuoc') }}" style="color:rgb(86, 86, 86);">KHO THUỐC </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link " href="{{ route('Admin.thongkebaocao') }}" style="color:rgb(86, 86, 86);">THỐNG KÊ </a>
         </li>
     </ul>

@@ -525,12 +525,14 @@ class UserController extends Controller
         $tenthuoc = implode(',', $request->input('tenthuoc'));
         $lieuluong = implode(',', $request->input('lieuluong'));
         $cachsd = implode(',', $request->input('cachsd'));
+        $soluong = implode(',', $request->input('soluong'));
 
         // Tạo mới một đơn thuốc và lưu vào cơ sở dữ liệu
         DonThuoc::create([
             'id_benhan'  => $benhan->id_benhan,
             'tenthuoc' => $tenthuoc,
             'lieuluong' => $lieuluong,
+            'soluong' => $soluong,
             'cachsd' => $cachsd,
         ]);
         $id_benhan = $benhan->id_benhan;
