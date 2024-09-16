@@ -60,6 +60,18 @@
                 <input type="number" class="form-control" id="giathuoc" name="giathuoc" value="{{ $suathuoc->giathuoc }}"
                     step="0.01" required>
             </div>
+
+            <div class="form-group">
+                <label for="donvi" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Liều Lượng: </label>
+                <input type="text" class="form-control" id="lieuluong" name="lieuluong" placeholder="Liều lượng dùng"
+                    required>
+            </div>
+            <div class="form-group">
+                <label for="giathuoc" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Cách Dùng: </label>
+                <input type="text" class="form-control" id="cachdung" name="cachdung" placeholder="Cách sử dụng"
+                    required>
+            </div>
+
             <div class="form-group">
                 <label for="mota" style="font-weight:bold;margin-bottom:4px; margin-top:4px">Mô Tả: </label>
                 <textarea class="form-control" id="mota" name="mota" rows="3">{{ $suathuoc->mota }}</textarea>
@@ -68,7 +80,7 @@
             <div class="text-center mt-3">
                 <a href="{{ route('Admin.khothuoc') }}" class="btn btn-secondary" style="margin-right:4px; width:80px">Trở
                     về</a>
-                <button type="submit" class="btn btn-primary" style=" width:80px">Sửa</button>
+                <button type="submit" class="btn btn-primary" style=" width:100px">Cập nhật</button>
 
             </div>
         </form>

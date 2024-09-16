@@ -52,6 +52,8 @@
                         <th>Số Lượng</th>
                         <th>Đơn Vị</th>
                         <th>Giá Thuốc</th>
+                        <th>Liều Lượng</th>
+                        <th>Cách Dùng</th>
                         <th>Mô Tả</th>
                         <th>Hành Động</th>
                     </tr>
@@ -64,6 +66,8 @@
                             <td>{{ $kt->soluong }}</td>
                             <td>{{ $kt->donvi }}</td>
                             <td>{{ $kt->giathuoc }}</td>
+                            <td>{{ $kt->lieuluong }}</td>
+                            <td>{{ $kt->cachdung }}</td>
                             <td>{{ $kt->mota }}</td>
                             <td class="d-flex align-items-center">
                                 <a href="{{ route('Admin.suathuoc', ['id' => $kt->id_thuoc]) }}"

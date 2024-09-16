@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Benhan;
 use App\Models\DonThuoc;
+use App\Models\KhoThuoc;
 // băm pass
 use Illuminate\Support\Facades\Hash;
 
@@ -484,12 +485,11 @@ class UserController extends Controller
 
         return view("layouts.doctor.xemlichtruc", $this->data, compact('xemlichtruc'));
     }
-
     public function khambenh($id)
     {
-
-        $this->data['title'] = "KHÁM  BỆNH";
+        $this->data['title'] = "KHÁM BỆNH";
         $user = auth()->user();
+
         $benhnhan = DB::table('customer')
             ->join('lichhen', 'customer.CUS_Id', '=', 'lichhen.LH_CustomerID')
             ->select(
@@ -506,12 +506,20 @@ class UserController extends Controller
             ->orderBy('lichhen.LH_Ngaykham', 'ASC')
             ->first();
 
-        return view("layouts.doctor.khambenh", $this->data, compact('benhnhan'));
+        if (!$benhnhan) {
+            return redirect()->back()->with('error', 'Bệnh nhân không được tìm thấy.');
+        }
+
+        $dichvu = DB::table('dv_dichvu1')->get();
+        $khothuoc = DB::table('khothuoc')->orderBy('tenthuoc', 'asc')->get();
+
+
+        return view("layouts.doctor.khambenh", $this->data, compact('benhnhan', 'khothuoc', 'dichvu'));
     }
+
 
     public function postbenhandonthuoc(Request $request)
     {
-        // 1. Lưu thông tin bệnh án vào bảng 'benhan' và lấy id_benhan
         $benhan = benhan::create([
             'id_lh'      => $request->input('id_lh'),
             'ten'        => $request->input('ten'),
@@ -522,22 +530,43 @@ class UserController extends Controller
             'ghichu'     => $request->input('ghichu'),
         ]);
 
-        $tenthuoc = implode(',', $request->input('tenthuoc'));
-        $lieuluong = implode(',', $request->input('lieuluong'));
-        $cachsd = implode(',', $request->input('cachsd'));
-        $soluong = implode(',', $request->input('soluong'));
 
-        // Tạo mới một đơn thuốc và lưu vào cơ sở dữ liệu
+        $tenthuoc = $request->input('tenthuoc');
+        $lieuluong = $request->input('lieuluong');
+        $cachsd = $request->input('cachsd');
+        $soluong = $request->input('soluong');
+        $tonggia_thuoc = 0;
+        foreach ($tenthuoc as $index => $ten) {
+
+            $thuoc = DB::table('khothuoc')->where('tenthuoc', $ten)->first();
+            if ($thuoc) {
+                $tongtien_thuoc = $thuoc->giathuoc * $soluong[$index];
+                $tonggia_thuoc += $tongtien_thuoc;
+            }
+            DB::table('khothuoc')->where('tenthuoc', $ten)->decrement('soluong', $soluong[$index]);
+        }
+
+        $dichvukham = $request->input('dichvukham');
+        $dichvu = DB::table('dv_dichvu1')->where('DV_Tendv', $dichvukham)->first();
+        $DV_Gia = $dichvu ? $dichvu->DV_Gia : 0;
+
+
+        $tonggia = $tonggia_thuoc + $DV_Gia;
+
         DonThuoc::create([
             'id_benhan'  => $benhan->id_benhan,
-            'tenthuoc' => $tenthuoc,
-            'lieuluong' => $lieuluong,
-            'soluong' => $soluong,
-            'cachsd' => $cachsd,
+            'tenthuoc'   => implode(',', $tenthuoc),
+            'lieuluong'  => implode(',', $lieuluong),
+            'soluong'    => implode(',', $soluong),
+            'cachsd'     => implode(',', $cachsd),
+            'tonggia'    => $tonggia,
+            'dichvukham' => $dichvukham,
         ]);
+
         $id_benhan = $benhan->id_benhan;
         return redirect()->route('User.donthuoc', ['id' => $id_benhan]);
     }
+
 
     public function donthuoc($id)
     {

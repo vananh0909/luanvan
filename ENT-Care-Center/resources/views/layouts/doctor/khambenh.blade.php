@@ -119,9 +119,23 @@
                                 </div>
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label for="ghichu"><strong>Ghi Chú:</strong></label>
-                                <textarea class="form-control" name="ghichu" id="ghichu" rows="2"></textarea>
+                            <div class="row mb-3">
+
+                                <div class="col-md-4">
+                                    <label for="dichvu"><strong>Dịch vụ:</strong></label>
+                                    <select class="form-select" name="dichvukham" required>
+                                        <option required selected>Dịch vụ</option>
+                                        @foreach ($dichvu as $dv)
+                                            <option value="{{ $dv->DV_Tendv }}">{{ $dv->DV_Tendv }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4" style="width:400px">
+                                    <label for="ghichu"><strong>Ghi Chú:</strong></label>
+                                    <textarea class="form-control" name="ghichu" id="ghichu" rows="1"></textarea>
+                                </div>
+
                             </div>
 
                             <div class="form-group mb-3">
@@ -129,14 +143,13 @@
                                 <div id="thuoc-list">
                                     <div class="row" style="margin-top: 5px; margin-bottom: 5px">
                                         <div class="col-md-3">
-
                                             <select class="form-select" name="tenthuoc[]" required>
-                                                <option required selected> Tên Thuốc </option>
-                                                <option value="ví dụ">ví dụ</option>
-                                                {{-- @foreach ($bacsitruc as $bs)
-                                        <option value="{{ $bs->lt_tenbs }}">{{ $bs->lt_tenbs }}</option>
-                                    @endforeach --}}
+                                                <option required selected> Tên</option>
+                                                @foreach ($khothuoc as $kt)
+                                                    <option value="{{ $kt->tenthuoc }}">{{ $kt->tenthuoc }}</option>
+                                                @endforeach
                                             </select>
+
                                         </div>
 
                                         <div class="col-md-2">
@@ -148,16 +161,21 @@
                                             <select class="form-select" name="lieuluong[]" placeholder="Liều Lượng"
                                                 required>
                                                 <option required selected> Liều Lượng </option>
-                                                <option value="Ngày 1 lần">Ngày 1 lần</option>
+                                                @foreach ($khothuoc as $kt)
+                                                    <option value="{{ $kt->lieuluong }}">{{ $kt->lieuluong }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
 
                                         <div class="col-md-3">
                                             <select class="form-select" name="cachsd[]" placeholder="Cách Dùng" required>
                                                 <option required selected> Cách Dùng </option>
-                                                <option value="Uống trước khi ăn">Uống trước khi ăn</option>
+                                                @foreach ($khothuoc as $kt)
+                                                    <option value="{{ $kt->cachdung }}">{{ $kt->cachdung }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
+
                                         <div class="col-md-1">
                                             <button type="button"
                                                 class="btn btn-danger btn-mg remove-medicine">Xóa</button>
@@ -174,50 +192,61 @@
                             </div>
                             <div class="text-center mt-4" style=" margin-bottom:8px">
                                 <button type="submit" class="btn btn-secondary"
-                                    style="margin-top:-5px; margin-bottom:-10px">Lưu Bệnh Án & Kê Đơn</button>
+                                    style="margin-top:-5px; margin-bottom:-10px">Lưu Bệnh Án
+                                    & Kê Đơn</button>
                             </div>
                         </form>
+                        <br>
                     </div>
+
                 </div>
+
+
             </div>
         </div>
 
     </main>
 
-    <br>
 
     <script>
         document.getElementById('add-medicine').addEventListener('click', function() {
             var thuocList = document.getElementById('thuoc-list');
             var newMedicine = `
                 <div class="row mb-3">
-                    <div class="col-md-3">
-                        <select class="form-select" name="tenthuoc[]" required>
-                            <option required selected>Tên Thuốc</option>
-                            <option value="Thuốc A">Thuốc A</option>
+                                                 <div class="col-md-3">
+                                            <select class="form-select" name="tenthuoc[]" required>
+                                                <option required selected> Tên Thuốc</option>
+                                                @foreach ($khothuoc as $kt)
+                                                    <option value="{{ $kt->tenthuoc }}">{{ $kt->tenthuoc }}</option>
+                                                @endforeach
+                                            </select>
 
-                        </select>
-                    </div>
+                                        </div>
 
-                    <div class="col-md-2">
-                         <input type="text" class="form-control" id="soluong" name="soluong[]"
-                         placeholder="Số Lượng"  required>
-                    </div>
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" id="soluong" name="soluong[]"
+                                                placeholder="Số Lượng" required>
+                                        </div>
 
-                    <div class="col-md-3">
-                        <select class="form-select" name="lieuluong[]" required>
-                            <option required selected>Liều Lượng</option>
-                            <option value="Ngày 2 lần">Ngày 2 lần</option>
-                            {{-- Thêm các liều lượng khác --}}
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <select class="form-select" name="cachsd[]" required>
-                            <option required selected>Cách Dùng</option>
-                            <option value="Uống trước khi ăn">Uống trước khi ăn</option>
-                            {{-- Thêm các cách dùng khác --}}
-                        </select>
-                    </div>
+                                        <div class="col-md-3">
+                                            <select class="form-select" name="lieuluong[]" placeholder="Liều Lượng"
+                                                required>
+                                                <option required selected> Liều Lượng </option>
+                                                @foreach ($khothuoc as $kt)
+                                                    <option value="{{ $kt->lieuluong }}">{{ $kt->lieuluong }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <select class="form-select" name="cachsd[]" placeholder="Cách Dùng" required>
+                                                <option required selected> Cách Dùng </option>
+                                                @foreach ($khothuoc as $kt)
+                                                    <option value="{{ $kt->cachdung }}">{{ $kt->cachdung }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
                     <div class="col-md-1">
                         <button type="button" class="btn btn-danger btn-mg remove-medicine">Xóa</button>
                         </select>

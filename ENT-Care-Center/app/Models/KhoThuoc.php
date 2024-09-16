@@ -11,5 +11,5 @@ class KhoThuoc extends Model
     protected $primaryKey = 'id_thuoc';
     protected $table = 'khothuoc';
     public $timestamps = false;
-    protected $fillable = ['id_thuoc', 'tenthuoc', 'soluong', 'donvi', 'giathuoc', 'mota'];
+    protected $fillable = ['id_thuoc', 'tenthuoc', 'soluong', 'donvi', 'giathuoc', 'cachdung', 'lieuluong', 'mota'];
 }

@@ -602,6 +602,8 @@ class AdminController extends Controller
             'soluong' => $request->input('soluong'),
             'donvi' => $request->input('donvi'),
             'giathuoc' => $request->input('giathuoc'),
+            'lieuluong' => $request->input('lieuluong'),
+            'cachdung' => $request->input('cachdung'),
             'mota' => $request->input('mota'),
         ]);
 
@@ -632,6 +634,8 @@ class AdminController extends Controller
             'soluong' => $request->input('soluong'),
             'donvi' => $request->input('donvi'),
             'giathuoc' => $request->input('giathuoc'),
+            'lieuluong' => $request->input('lieuluong'),
+            'cachdung' => $request->input('cachdung'),
             'mota' => $request->input('mota'),
         ]);
 
