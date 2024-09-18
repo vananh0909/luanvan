@@ -585,4 +585,45 @@ class UserController extends Controller
 
         return view("layouts.doctor.donthuoc", $this->data, compact('donthuoc', 'user'));
     }
+
+    public function trangcanhan()
+    {
+
+        $this->data['title'] = "TRANG CÁ NHÂN";
+        $user = auth()->user();
+
+        $users = DB::table('users')
+            ->where('users.id', $user->id)
+            ->first();
+        return view('layouts.doctor.xemtrang', $this->data, compact('users', 'user'));
+    }
+    public function suathongtin($id)
+    {
+
+        $this->data['title'] = "SỬA TRANG CÁ NHÂN";
+        $user = auth()->user();
+
+        $users = DB::table('users')
+            ->where('users.id', $id)
+            ->first();
+        return view('layouts.doctor.suathongtin', $this->data, compact('users', 'user'));
+    }
+
+    public function postsuathongtin(Request $request, $id)
+    {
+        $thongtin = user::where('id', $id)->first();
+
+        if (!$thongtin) {
+            return redirect()->back()->with('error', 'Thuốc không tồn tại.');
+        }
+
+        $thongtin->update([
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+
+        ]);
+
+        return redirect()->route('User.trangcanhan')->with('status', 'Thành công.');
+    }
 }

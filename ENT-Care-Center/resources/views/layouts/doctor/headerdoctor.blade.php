@@ -27,7 +27,8 @@
 @if (Auth::check())
     <div
         style="display: flex; justify-content: flex-end; color:#757575; padding-top: 70px;  margin-bottom: 10px; margin-right:20px">
-        <a class="btn btn-light"style="padding-left: 135px; padding-right: 135px;font-weight:bold; font-size:18px">Bs:
+        <a href="{{ route('User.trangcanhan') }}"
+            class="btn btn-light"style="padding-left: 135px; padding-right: 135px;font-weight:bold; font-size:18px">Bs:
             {{ Auth::user()->name }}</a>
     </div>
 @endif
