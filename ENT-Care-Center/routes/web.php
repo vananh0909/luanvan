@@ -84,7 +84,8 @@ Route::prefix('User')->name('User.')->group(function () {
     Route::get('doctors', [UserController::class, 'doctors'])->name('doctors');
     Route::get('dichvu', [UserController::class, 'dichvu'])->name('dichvu');
     Route::get('caidattaikhoan', [UserController::class, 'Setting'])->name('Setting');
-    Route::post('caidattaikhoan/{id}', [UserController::class, 'editsetting'])->name('editsetting');
+    Route::get('suatrangcanhan/{id}', [UserController::class, 'suatrangcanhan'])->name('suatrangcanhan');
+    Route::post('posttrangcanhan/{id}', [UserController::class, 'posttrangcanhan'])->name('posttrangcanhan');
     Route::get('lichsukham', [UserController::class, 'lichsukham'])->name('lichsukham');
 
     Route::get('dangnhap', [UserController::class, 'dangnhap'])->name('dangnhap');

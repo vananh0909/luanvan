@@ -20,7 +20,7 @@ use App\Models\DonThuoc;
 use App\Models\KhoThuoc;
 // băm pass
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\File;
 
 
 class UserController extends Controller
@@ -253,10 +253,53 @@ class UserController extends Controller
         return view(
             "layouts.Setting",
             $this->data,
-            // compact('customerList')
         );
     }
 
+    public function suatrangcanhan($id)
+    {
+
+        $this->data['title'] = 'SỬA THÔNG TIN';
+        $userId = session('user')['CUS_Id'];
+        $trangcn = DB::table('customer')
+            ->where('customer.CUS_Id',  $userId)
+            ->first();
+        return view("layouts.suatrangcanhan", $this->data, compact('trangcn'));
+    }
+
+    public function posttrangcanhan(Request $request, $id)
+    {
+
+        $this->data['title'] = "SỬA THÔNG TIN";
+
+        $kh = Users::where('CUS_Id', $id)->first();
+
+        if ($request->hasFile('CUS_Avatar')) {
+            //neu cos file dinh kem trong form update thi thim file cu va xoa, khong thi thoi
+            $avtcu = 'uploads/avtkhachhang/' . $kh->CUS_Avatar;
+            if (File::exists($avtcu)) {
+                File::delete($avtcu);
+            }
+            $file = $request->file('CUS_Avatar');
+            $extension = $file->getClientOriginalExtension(); //lay ten mo rong duoi jpg, png,..
+            $filename = time() . '.' . $extension;
+            $file->move('uploads/avtkhachhang/', $filename); //upload lên thư mục
+            $kh->CUS_Avatar = $filename;
+        }
+        $kh->CUS_Name = $request->input('CUS_Name');
+        $kh->CUS_Birthday = $request->input('CUS_Birthday');
+        $kh->CUS_Gender = $request->input('CUS_Gender');
+        $kh->CUS_Address = $request->input('CUS_Address');
+        $kh->CUS_Email = $request->input('CUS_Email');
+        $kh->CUS_Phone = $request->input('CUS_Phone');
+        $kh->CUS_Nganhang = $request->input('CUS_Nganhang');
+        $kh->CUS_Stk = $request->input('CUS_Stk');
+
+        $kh->update();
+        // Cập nhật lại session
+        session(['user' => $kh]);
+        return redirect()->back()->with('status', 'Cập nhật thành công !');
+    }
 
     public function lichsukham()
     {
@@ -306,7 +349,7 @@ class UserController extends Controller
 
 
 
-    //bacsi
+    //BÁC SĨ
 
     public function bacsi()
     {
