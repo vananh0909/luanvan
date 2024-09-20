@@ -18,9 +18,10 @@
         </li>
 
 
-        {{-- <li class="nav-item">
-            <a class="nav-link" href="" style="color:rgb(86, 86, 86);"> LỊCH SỬ </a>
-        </li> --}}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('User.lichsukhambs') }}" style="color:rgb(86, 86, 86);"> LỊCH SỬ
+                KHÁM</a>
+        </li>
 
     </ul>
 </div>

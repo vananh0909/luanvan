@@ -306,10 +306,15 @@ class UserController extends Controller
         $this->data['title'] = 'LỊCH SỬ KHÁM';
         $userId = session('user')['CUS_Id'];
 
-        // Lấy lịch hẹn của người dùng đó từ cơ sở dữ liệu
-        $lichhen = lichhen::where('LH_CustomerID', $userId)->orderBy('LH_Ngaykham', 'DESC')->get();
+        $lichhen = DB::table('lichhen')
+            ->join('benhan', 'lichhen.LH_Id', '=', 'benhan.id_lh')
+            ->join('donthuoc', 'benhan.id_benhan', '=', 'donthuoc.id_benhan')
+            ->where('lichhen.LH_CustomerID', $userId)
+            ->orderBy('lichhen.LH_Ngaykham', 'DESC')
+            ->select('lichhen.*', 'benhan.*', 'donthuoc.*') // Chọn các cột cần thiết
+            ->get();
 
-        return view("layouts.lichsukham", $this->data, compact('lichhen'));
+        return view("layouts.lichsukham", $this->data, compact('lichhen', 'userId'));
     }
 
 
@@ -377,7 +382,7 @@ class UserController extends Controller
                 'lichhen.LH_trieuchung'
             )
             ->where('lichhen.id_user', $user->id)
-            ->orderBy('lichhen.LH_Ngaykham', 'ASC')
+            ->orderBy('lichhen.LH_Ngaykham', 'desc')
             ->get();
 
 
@@ -668,5 +673,22 @@ class UserController extends Controller
         ]);
 
         return redirect()->route('User.trangcanhan')->with('status', 'Thành công.');
+    }
+
+    public function lichsukhambs()
+    {
+        $this->data['title'] = 'LỊCH SỬ KHÁM';
+        $userId = auth()->user();
+        $lskham = DB::table('lichhen')
+            ->join('benhan', 'lichhen.LH_Id', '=', 'benhan.id_lh')
+            ->join('donthuoc', 'benhan.id_benhan', '=', 'donthuoc.id_benhan')
+            ->join('customer', 'lichhen.LH_CustomerID', '=', 'customer.CUS_Id')
+            ->where('lichhen.id_user', $userId->id)
+            ->orderBy('lichhen.LH_Ngaykham', 'DESC')
+            ->select('lichhen.*', 'benhan.*', 'donthuoc.*', 'customer.*') // Lấy tất cả thông tin từ các bảng
+            ->get();
+
+
+        return view("layouts.doctor.lichsukhambs", $this->data, compact('lskham', 'userId'));
     }
 }

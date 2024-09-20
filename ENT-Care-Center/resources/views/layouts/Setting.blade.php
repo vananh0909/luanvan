@@ -39,35 +39,36 @@
 
 
                                     <div class="row mb-3">
-                                        <div class="col-sm-4 font-weight-bold">Tên:</div>
+                                        <div class="col-sm-4 " style="font-weight: bold">Tên:</div>
                                         <div class="col-sm-8">{{ session('user')->CUS_Name }}</div>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col-sm-4 font-weight-bold">Ngày Sinh:</div>
-                                        <div class="col-sm-8">{{ session('user')->CUS_Birthday }}</div>
+                                        <div class="col-sm-4 " style="font-weight: bold">Ngày Sinh:</div>
+                                        <div class="col-sm-8">{{ date('d-m-Y', strtotime(session('user')->CUS_Birthday)) }}
+                                        </div>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col-sm-4 font-weight-bold">Giới tính:</div>
+                                        <div class="col-sm-4 " style="font-weight: bold">Giới tính:</div>
                                         <div class="col-sm-8">{{ session('user')->CUS_Gender }}</div>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col-sm-4 font-weight-bold">Số điện thoại:</div>
+                                        <div class="col-sm-4 " style="font-weight: bold">Số điện thoại:</div>
                                         <div class="col-sm-8">{{ session('user')->CUS_Phone }}</div>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col-sm-4 font-weight-bold">Email:</div>
+                                        <div class="col-sm-4 " style="font-weight: bold">Email:</div>
                                         <div class="col-sm-8">{{ session('user')->CUS_Email }}</div>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col-sm-4 font-weight-bold">Địa chỉ:</div>
+                                        <div class="col-sm-4 " style="font-weight: bold">Địa chỉ:</div>
                                         <div class="col-sm-8">{{ session('user')->CUS_Address }}</div>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col-sm-4 font-weight-bold">Ngân Hàng:</div>
+                                        <div class="col-sm-4 "style="font-weight: bold">Ngân Hàng:</div>
                                         <div class="col-sm-8">{{ session('user')->CUS_Nganhang }}</div>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col-sm-4 font-weight-bold">Số tài khoản:</div>
+                                        <div class="col-sm-4 " style="font-weight: bold">Số tài khoản:</div>
                                         <div class="col-sm-8">{{ session('user')->CUS_Stk }}</div>
                                     </div>
 

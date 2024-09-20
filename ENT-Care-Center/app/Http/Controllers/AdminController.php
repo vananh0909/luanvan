@@ -73,6 +73,7 @@ class AdminController extends Controller
 
         $Lichtrucbs = DB::table('lt_lichtrucbs')
             ->select('lt_Idlt', 'lt_tenbacsi', 'lt_ngaytruc', 'lt_giotruc')
+            ->orderBy('lt_ngaytruc', 'desc')
             ->get();
 
 
@@ -120,6 +121,7 @@ class AdminController extends Controller
 
         $lichtruc = DB::table('lt_lichtruc')
             ->select('lt_Id', 'lt_tenbs', 'lt_Ngaytruc', 'lt_Giotruc', 'user_id')
+            ->orderBy('lt_Ngaytruc', 'desc')
             ->get();
 
 
