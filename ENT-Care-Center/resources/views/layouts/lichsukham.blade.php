@@ -3,30 +3,26 @@
     {{ $title }}
 @endsection
 @section('content')
-    {{-- <h1>Trang home nef</h1> --}}
-    <div style=" background: linear-gradient(rgba(127, 168, 209, 0.3) ,rgba(68, 158, 210, 0.8)); height: 728px;
-        position: fixed;  top: 0; left: 0; bottom: 0; "
+    <div style="background: linear-gradient(rgba(127, 168, 209, 0.3), rgba(68, 158, 210, 0.8)); height: 728px; position: fixed; top: 0; left: 0; bottom: 0;"
         class="col-md-1">
         @include('layouts.Sidebar')
     </div>
-    <div style=" flex: 1;padding-left: 104px;" class="col-md-11">
+    <div style="flex: 1; padding-left: 104px;" class="col-md-11">
         <header>
             @include('layouts.Header')
         </header>
         <main>
-
             <div class="row">
                 <div class="col-md-8" style="background-color:rgb(234, 235, 239); margin-left: 6px">
                     <div style="text-align:center; margin-top: 6px; padding-bottom: 8px">
-                        <h1 style=" font-size: 24px; "> LỊCH SỬ KHÁM </h1>
-
+                        <h1 style="font-size: 24px;"> LỊCH SỬ KHÁM </h1>
                     </div>
-                    @if (session('user') && $lichhen)
+
+                    @if (session('user') && $lichhen->isNotEmpty())
                         <div style="background-color: #ffffff; width: 1000px; border-radius:6px; margin:0 auto"
                             class="col-md-6">
-
                             <table class="table table-striped table-hover"
-                                style=" width:98%; margin: 0 auto; font-weight:400;">
+                                style="width:98%; margin: 0 auto; font-weight:400;">
                                 <thead>
                                     <tr style="color: rgba(68, 158, 210, 0.8);">
                                         <th scope="col">STT</th>
@@ -35,11 +31,9 @@
                                         <th scope="col">Bác sĩ</th>
                                         <th scope="col">Triệu chứng</th>
                                         <th scope="col">Bệnh án & Đơn thuốc</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     @foreach ($lichhen as $index => $ls)
                                         <tr>
                                             <th style="color: rgba(68, 158, 210, 0.8);" scope="row">{{ $index + 1 }}
@@ -48,12 +42,10 @@
                                             <th scope="col">{{ $ls->LH_Giokham }}</th>
                                             <th scope="col">{{ $ls->LH_BSkham }}</th>
                                             <th scope="col">{{ $ls->LH_trieuchung }}</th>
-
                                             <td>
                                                 <i style="margin-left:55px" id="icon" data-bs-toggle="modal"
                                                     data-bs-target="#modal-{{ $index }}"
                                                     class="fa-solid fa-pills"></i>
-
                                                 <div class="modal fade" id="modal-{{ $index }}" tabindex="-1"
                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-lg">
@@ -67,19 +59,19 @@
                                                                 <table class="table table-bordered">
                                                                     <tr>
                                                                         <th scope="col">Chuẩn Đoán</th>
-                                                                        <td>{{ $ls->chuandoan }}</td>
+                                                                        <td>{{ $ls->chuandoan ?? 'Chưa cập nhật' }}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th scope="col">Huyết Áp</th>
-                                                                        <td>{{ $ls->huyetap }}/80</td>
+                                                                        <td>{{ $ls->huyetap ?? 'N/A' }}/80</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th scope="col">Nhiệt Độ</th>
-                                                                        <td>{{ $ls->nhietdo }}°C</td>
+                                                                        <td>{{ $ls->nhietdo ?? 'N/A' }}°C</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th scope="col">Nhịp Tim</th>
-                                                                        <td>{{ $ls->nhiptim }} bpm</td>
+                                                                        <td>{{ $ls->nhiptim ?? 'N/A' }} bpm</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th scope="col">Ghi Chú</th>
@@ -102,16 +94,21 @@
                                                                         @php
                                                                             $tenthuocArray = explode(
                                                                                 ',',
-                                                                                $ls->tenthuoc,
+                                                                                $ls->tenthuoc ?? '',
                                                                             );
-                                                                            $soluongArray = explode(',', $ls->soluong);
+                                                                            $soluongArray = explode(
+                                                                                ',',
+                                                                                $ls->soluong ?? '',
+                                                                            );
                                                                             $lieuluongArray = explode(
                                                                                 ',',
-                                                                                $ls->lieuluong,
+                                                                                $ls->lieuluong ?? '',
                                                                             );
-                                                                            $cachsdArray = explode(',', $ls->cachsd);
+                                                                            $cachsdArray = explode(
+                                                                                ',',
+                                                                                $ls->cachsd ?? '',
+                                                                            );
                                                                         @endphp
-
                                                                         @foreach ($tenthuocArray as $i => $tenthuoc)
                                                                             <tr>
                                                                                 <th scope="row">{{ $i + 1 }}</th>
@@ -131,12 +128,12 @@
                                                                     <tbody>
                                                                         <tr>
                                                                             <td><strong>Dịch vụ khám:</strong></td>
-                                                                            <td>{{ $ls->dichvukham }}</td>
+                                                                            <td>{{ $ls->dichvukham ?? 'Không có' }}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td><strong>Tổng tiền:</strong></td>
                                                                             <td style="font-weight:bold">
-                                                                                {{ $ls->tonggia }} đ</td>
+                                                                                {{ $ls->tonggia ?? 0 }} đ</td>
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>
@@ -147,12 +144,8 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
-
                                 </tbody>
-
                             </table>
-
                             <br>
                         </div>
                     @else
@@ -164,56 +157,10 @@
                     @endif
                 </div>
 
-                <div class="col-md-3"
-                    style="background-color:#ffffff; width:356px; border-radius: 6px;margin-left:16px;margin-bottom:6px;height:642px;">
+                <div class="col-md-3" style="background-color:#ffff; margin-left: 9px; height: 647px">
                     @include('layouts.Right')
                 </div>
             </div>
-
-
         </main>
-
-
     </div>
-
-
-
-    </div>
-@endsection
-
-
-
-
-@section('css')
-    {{-- #icon {
-    text-align: center;
-    width: 25px;
-    height: 22px;
-    border: 1px solid rgb(154, 153, 153);
-    border-radius: 4px;
-    padding-top: 2px;
-    } --}}
-
-
-    {{-- .col-md-1{
-    margin-right:34px;
-    width:65px;
-    }
-
-    .header{
-    height:60px;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
-    }
-
-    .col-md-8{
-    width: 1000px;
-    margin-right:25px;
-    border-radius: 6px;
-
-    }
-
-    footer{
-    background-color:green;
-    } --}}
 @endsection

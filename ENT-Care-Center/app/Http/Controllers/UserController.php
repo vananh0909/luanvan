@@ -21,7 +21,7 @@ use App\Models\KhoThuoc;
 // băm pass
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
-
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -315,20 +315,60 @@ class UserController extends Controller
     public function lichsukham()
     {
         $this->data['title'] = 'LỊCH SỬ KHÁM';
-        $userId = session('user')['CUS_Id'];
+        $userId = session('user')['CUS_Id'] ?? null;
 
-        $lichhen = DB::table('lichhen')
-            ->join('benhan', 'lichhen.LH_Id', '=', 'benhan.id_lh')
-            ->join('donthuoc', 'benhan.id_benhan', '=', 'donthuoc.id_benhan')
-            ->where('lichhen.LH_CustomerID', $userId)
-            ->orderBy('lichhen.LH_Ngaykham', 'DESC')
-            ->select('lichhen.*', 'benhan.*', 'donthuoc.*') // Chọn các cột cần thiết
-            ->get();
 
-        return view("layouts.lichsukham", $this->data, compact('lichhen', 'userId'));
+        if ($userId) {
+            $lichhen = DB::table('lichhen')
+                ->join('benhan', 'lichhen.LH_Id', '=', 'benhan.id_lh')
+                ->join('donthuoc', 'benhan.id_benhan', '=', 'donthuoc.id_benhan')
+                ->where('lichhen.LH_CustomerID', $userId)
+                ->orderBy('lichhen.LH_Ngaykham', 'DESC')
+                ->select('lichhen.*', 'benhan.*', 'donthuoc.*')
+                ->get();
+        } else {
+            $lichhen = collect(); //không có userId  khởi tạo collection rỗng
+        }
+
+        return view("layouts.lichsukham", array_merge($this->data, compact('lichhen', 'userId')));
     }
 
 
+    public function huylichhen()
+    {
+        $this->data['title'] = "LỊCH KHÁM";
+        $userId = session('user')['CUS_Id'];
+        $lichhen = DB::table('lichhen')
+            ->where('lichhen.LH_CustomerID', $userId)
+            ->orderBy('lichhen.LH_Ngaykham', 'desc')
+            ->get();
+
+
+        return view("layouts.huylichhen", $this->data, compact('lichhen'));
+    }
+    public function posthuylichhen($id)
+    {
+        // Tìm lịch hẹn theo ID
+        $lichhen = lichhen::find($id);
+        if (!$lichhen) {
+            return redirect()->route('User.Home')->with('error', 'Không tìm thấy lịch hẹn.');
+        }
+
+        $TimeNow = Carbon::now();
+
+        // Lấy thời gian hẹn khám từ lịch hẹn (bao gồm ngày và giờ)
+        $time = Carbon::parse($lichhen->LH_Ngaykham . ' ' . $lichhen->LH_Giokham);
+
+        // Kiểm tra nếu thời gian hiện tại lớn hơn hoặc bằng thời gian hẹn khám - 1 ngày
+        if ($TimeNow->diffInDays($time) < 1) {
+            return redirect()->back()->with('error', 'Bạn chỉ có thể hủy lịch hẹn trước 1 ngày.');
+        }
+
+        // Xóa lịch hẹn
+        $lichhen->delete();
+
+        return redirect()->route('User.Home')->with('success', 'Lịch hẹn đã được hủy thành công.');
+    }
 
     public function showPassword()
     {

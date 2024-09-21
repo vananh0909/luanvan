@@ -26,8 +26,34 @@
     <div class="container-fluid"style="background-color:rgb(234, 235, 239)">
 
         <div class="row">
+            @if (session('status'))
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        Swal.fire({
+                            title: "Thành Công ✅",
+                            text: "{{ session('status') }}",
+                            icon: "success",
+                            confirmButtonText: "OK"
+                        });
+                    });
+                </script>
+            @elseif (session('error'))
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        Swal.fire({
+                            title: "Thất Bại ❌",
+                            text: "{{ session('error') }}",
+                            icon: "error",
+                            confirmButtonText: "OK"
+                        });
+                    });
+                </script>
+            @endif
 
             @yield('content')
+
         </div>
 
     </div>

@@ -79,7 +79,7 @@
 
 
     </div>
-@endsection --}}
+@endsection
 
 
 
@@ -96,24 +96,24 @@
 
 
     {{-- .col-md-1{
-                                                        margin-right:34px;
-                                                        width:65px;
-                                                        }
+                                                            margin-right:34px;
+                                                            width:65px;
+                                                            }
 
-                                                        .header{
-                                                        height:60px;
-                                                        border-bottom-left-radius: 6px;
-                                                        border-bottom-right-radius: 6px;
-                                                        }
+                                                            .header{
+                                                            height:60px;
+                                                            border-bottom-left-radius: 6px;
+                                                            border-bottom-right-radius: 6px;
+                                                            }
 
-                                                        .col-md-8{
-                                                        width: 1000px;
-                                                        margin-right:25px;
-                                                        border-radius: 6px;
+                                                            .col-md-8{
+                                                            width: 1000px;
+                                                            margin-right:25px;
+                                                            border-radius: 6px;
 
-                                                        }
+                                                            }
 
-                                                        footer{
-                                                        background-color:green;
-                                                        }
+                                                            footer{
+                                                            background-color:green;
+                                                            }
     @endsection

@@ -1,3 +1,28 @@
+@if (session('status'))
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: "Thành Công ✅",
+                text: "{{ session('status') }}",
+                icon: "success",
+                confirmButtonText: "OK"
+            });
+        });
+    </script>
+@elseif (session('error'))
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: "Thất Bại ❌",
+                text: "{{ session('error') }}",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+        });
+    </script>
+@endif
 <div class="row">
     <div class="col-md-8" style="background-color:rgb(234, 235, 239)">
         <!-- Nội dung của lớp col-md-8 -->
@@ -11,10 +36,10 @@
             <div class="col-md-8" style="background-color:#ffffff;  height:110px;margin-left:8px; display: flex;">
 
                 <div style="width:300px;margin-left:18px">
-                    <a href="{{ route('User.lichkham') }}"
+                    <a href="{{ route('User.huylichhen') }}"
                         style="text-decoration:none ; font-size:20px; color:rgb(86, 86, 86);">
                         <i style="font-size:40px; margin-top:32px; margin-left:46px; color:rgb(47, 47, 197)"
-                            class="fa-regular fa-calendar-plus"></i> Lịch hẹn
+                            class="fa-regular fa-calendar-plus"></i> Lịch hẹn của bạn
                     </a>
                 </div>
 
@@ -25,7 +50,15 @@
                 <div style="width:300px; margin-left: 18px;">
                     <a style="font-size:20px; color:rgb(86, 86, 86);">
                         <i style="text-decoration:none ; font-size:40px;margin-top:32px; margin-left:46px; color: rgb(205, 30, 30)"
-                            class="fa-solid fa-file-circle-exclamation"></i> Giải quyết khẩn cấp
+                            class="fa-solid fa-file-circle-exclamation"></i> Liên hệ khẩn cấp
+                        <div class="alert alert-warning">
+                            <strong>Cảnh báo!</strong> Nếu bạn gặp tình huống khẩn cấp, hãy nhấp vào nút dưới đây để gọi
+                            ngay đến số điện thoại khẩn cấp.
+                            <br>
+                            <a href="https://www.facebook.com/messages/e2ee/t/7079699168807689"
+                                class="btn btn-danger">Gọi Khẩn Cấp</a>
+                        </div>
+
 
                     </a>
                 </div>
