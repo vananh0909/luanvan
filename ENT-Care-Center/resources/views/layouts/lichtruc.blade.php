@@ -1,9 +1,8 @@
-{{-- @extends('Clients.Client')
+@extends('Clients.Client')
 @section('title')
     {{ $title }}
 @endsection
 @section('content')
-
     <div style=" background: linear-gradient(rgba(127, 168, 209, 0.3) ,rgba(68, 158, 210, 0.8)); height: 728px;
         position: fixed;  top: 0; left: 0; bottom: 0; "
         class="col-md-1">
@@ -28,9 +27,11 @@
                             <thead>
                                 <tr style="color: rgba(68, 158, 210, 0.8);">
                                     <th scope="col">STT</th>
-                                    <th scope="col">Ngày Khám</th>
+                                    <th scope="col">Tên bác sĩ:</th>
                                     <th scope="col">Ảnh</th>
-                                    <th scope="col">Bác Sĩ</th>
+                                    <th scope="col">Ngày Khám</th>
+                                    <th scope="col">Giờ khám:</th>
+
 
 
                                 </tr>
@@ -39,13 +40,19 @@
 
                                 @foreach ($bacsitruc as $bs)
                                     <tr>
-                                        <th style="color: rgba(68, 158, 210, 0.8);" scope="row">{{ $loop->iteration }}
-                                        </th>
-                                        <td> {{ date('d-m-Y', strtotime($bs->lt_Ngaytruc)) }}</td>
-                                        <td><img src="{{ asset('uploads/avtnhanvien/' . $bs->NV_Avatar) }} "
-                                                style="width:80px; height: 80px"></td>
-                                        <td>{{ $bs->lt_tenbacsi }}</td>
-
+                                        <th scope="row">{{ $loop->iteration }}</th>
+                                        <td>{{ $bs->lt_tenbs }}</td>
+                                        <td>
+                                            <img src="{{ asset('uploads/avtnhanvien/' . $bs->NV_Avatar) }}"
+                                                style="width:80px; height: 80px; border-radius: 50%;">
+                                        </td>
+                                        <td>{{ date('d-m-Y', strtotime($bs->lt_Ngaytruc)) }}</td>
+                                        <td>
+                                            @foreach (explode(', ', $bs->lt_Giotruc) as $time)
+                                                <span class="btn btn-success"
+                                                    style="margin-right: 4px;font-size: 0.8rem;">{{ $time }}</span>
+                                            @endforeach
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -89,24 +96,24 @@
 
 
     {{-- .col-md-1{
-    margin-right:34px;
-    width:65px;
-    }
+                                                        margin-right:34px;
+                                                        width:65px;
+                                                        }
 
-    .header{
-    height:60px;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
-    }
+                                                        .header{
+                                                        height:60px;
+                                                        border-bottom-left-radius: 6px;
+                                                        border-bottom-right-radius: 6px;
+                                                        }
 
-    .col-md-8{
-    width: 1000px;
-    margin-right:25px;
-    border-radius: 6px;
+                                                        .col-md-8{
+                                                        width: 1000px;
+                                                        margin-right:25px;
+                                                        border-radius: 6px;
 
-    }
+                                                        }
 
-    footer{
-    background-color:green;
-    } --}}
-@endsection
+                                                        footer{
+                                                        background-color:green;
+                                                        }
+    @endsection

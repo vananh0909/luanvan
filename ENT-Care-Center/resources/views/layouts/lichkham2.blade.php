@@ -17,16 +17,16 @@
 
             <div class="row">
                 <div class="col-md-8" style="background-color:rgb(234, 235, 239); margin-left: 6px">
-                    <div style="text-align:center; margin-top: 6px; padding-bottom: 8px">
-                        <h1 style=" font-size: 24px; "> XÁC NHẬN THÔNG TIN </h1>
-
-                    </div>
 
 
-                    <div style="background-color: #ffffff; width: 1000px; height:584px; border-radius:6px; margin:0 auto"
+
+                    <div style="background-color: #ffffff; width: 1000px; height:636px; border-radius:6px; margin:0 auto"
                         class="col-md-6">
                         <div style=" margin-left:8px; padding-top: 4px">
+                            <div style="text-align:center; margin-top: 6px;">
+                                <h1 style=" font-size: 24px; "> THÔNG TIN LỊCH HẸN </h1>
 
+                            </div>
                             <hr style="margin-left:-8px; color:#a1a1a1">
                             <h2 style="font-size:18px; font-weight:bold; color:rgb(77, 141, 197)"> Dịch vụ </h2>
                             <div style=" margin-top: 10px">
@@ -96,7 +96,7 @@
                                 <p>No data available</p>
                                 @endif
                             </div>
-                            <div style=" text-align:center ">
+                            <div style=" text-align:center; margin-top:6px">
 
                                 <a style="width:82px; margin-right:10px" href="{{ route('User.lichkham') }}"
                                     class="btn btn-outline-secondary">
@@ -109,7 +109,7 @@
                                         const confirmButton = document.getElementById('xacnhan');
                                         confirmButton.addEventListener('click', function() {
                                             Swal.fire({
-                                                title: "Đặt Lịch Thành Công ✅",
+                                                title: "Thông tin đã được xác nhận ✅",
                                                 text: "Chúng Tôi Sẽ Liên Hệ Đến Bạn Trong Thời Gian Sớm Nhất",
                                                 icon: "success"
                                             });

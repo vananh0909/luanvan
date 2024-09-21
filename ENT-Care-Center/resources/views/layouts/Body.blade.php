@@ -53,13 +53,13 @@
                 </p>
 
             </div>
-            {{-- @foreach ($bacsitruc as $bs)
+            @foreach ($bacsitruc as $bs)
                 <div class="col-md-3" id="dr"
                     style="background-color:#ffffff;  height:224px; margin-right:30px; margin-left:40px;border-radius: 6px; ">
                     <img style="width:90px; height:80px; margin-top:24px; margin-left:66px; border-radius: 6px;"
                         src="{{ asset('uploads/avtnhanvien/' . $bs->NV_Avatar) }} ">
                     <div style="text-align:center; margin-top:8px; color:rgb(86, 86, 86);">
-                        <h1 style="font-size:18px">{{ $bs->lt_tenbacsi }}</h1>
+                        <h1 style="font-size:18px">{{ $bs->lt_tenbs }}</h1>
                         <p style="font-size:14px;margin-top:2px">Tai-Mũi-Họng</p>
                     </div>
 
@@ -70,7 +70,7 @@
                     </h1>
 
                 </div>
-            @endforeach --}}
+            @endforeach
 
         </div>
     </div>

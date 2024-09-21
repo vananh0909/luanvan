@@ -35,16 +35,17 @@ class UserController extends Controller
     }
     public function index()
     {
-        $this->data['title'] = "TRANG CHỦ";
-        // $bacsitruc = DB::table('nhanvien')
-        //     ->join('lt_lichtruc', 'nhanvien.NV_Ten', '=', 'lt_lichtruc.lt_tenbacsi')
-        //     ->select('nhanvien.*', 'lt_lichtruc.*') // Chọn tất cả các cột từ cả hai bảng
-        //     ->distinct()
-        //     ->orderBy('lt_lichtruc.lt_Id', 'desc') // Sắp xếp theo khóa chính của bảng lt_lichtruc
-        //     ->take(3) // Giới hạn chỉ trả về 3 bản ghi
-        //     ->get();
 
-        return view("Home", $this->data);
+        $this->data['title'] = "TRANG CHỦ";
+        $bacsitruc = DB::table('nhanvien')
+            ->join('lt_lichtruc', 'nhanvien.id_user', '=', 'lt_lichtruc.user_id')
+            ->select('nhanvien.*', 'lt_lichtruc.*') // Chọn tất cả các cột từ cả hai bảng
+            ->orderBy('lt_Ngaytruc', 'desc')
+            ->take(3)
+            ->distinct()
+            ->get();
+
+        return view("Home", $this->data, compact('bacsitruc'));
     }
 
 
@@ -152,9 +153,10 @@ class UserController extends Controller
     {
         $this->data['title'] = "DANH SÁCH BÁC SĨ TRỰC";
         $bacsitruc = DB::table('nhanvien')
-            ->join('lt_lichtruc', 'nhanvien.NV_Ten', '=', 'lt_lichtruc.lt_tenbacsi')
+            ->join('lt_lichtruc', 'nhanvien.id_user', '=', 'lt_lichtruc.user_id')
             ->select('nhanvien.*', 'lt_lichtruc.*') // Chọn tất cả các cột từ cả hai bảng
-            ->distinct()
+            ->orderBy('lt_Ngaytruc', 'desc')
+
             ->get();
 
 
@@ -184,10 +186,19 @@ class UserController extends Controller
 
         // Tìm bác sĩ theo tên
         $user = User::where('name', $request->LH_BSkham)->first();
-
+        $id_user = $user->id;
         // Kiểm tra xem có tìm thấy người dùng không
         if (!$user) {
             return redirect()->back()->with('error', 'Không tìm thấy bác sĩ với tên đã chọn.');
+        }
+
+        $giotruc = lt_lichtruc::where('user_id', $id_user)
+            ->where('lt_Ngaytruc', $request->LH_Ngaykham)
+            ->where('lt_Giotruc', 'LIKE', '%' . $request->LH_Giokham . '%') // Kiểm tra xem giờ có nằm trong chuỗi giờ trực không
+            ->exists();
+
+        if (!$giotruc) {
+            return redirect()->back()->with('error', 'Bác sĩ không trực vào giờ này. Vui lòng chọn giờ khác.');
         }
 
         $lichhen = lichhen::where('LH_BSkham', $request->LH_BSkham)
@@ -199,7 +210,7 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'Lịch khám trùng với lịch đã có. Vui lòng chọn thời gian khác.');
         }
 
-        $id_user = $user->id;
+
 
 
         $data = [
