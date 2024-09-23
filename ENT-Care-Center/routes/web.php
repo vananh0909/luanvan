@@ -78,6 +78,7 @@ Route::post('alluser', [UserAuthController::class, 'phanquyen'])->name('phanquye
 //Users
 Route::prefix('User')->name('User.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('Home');
+
     Route::get('Lichkham', [UserController::class, 'lichkham'])->name('lichkham');
     Route::post('Lichkham', [UserController::class, 'postlichkham'])->name('postlichkham');
     Route::get('Lichkham2', [UserController::class, 'lichkham2'])->name('lichkham2');
@@ -85,7 +86,8 @@ Route::prefix('User')->name('User.')->group(function () {
     Route::post('huylichhen/{id}', [UserController::class, 'posthuylichhen'])->name('posthuylichhen');
 
     Route::get('doctors', [UserController::class, 'doctors'])->name('doctors');
-
+    Route::get('lienhe', [UserController::class, 'lienhe'])->name('lienhe');
+    Route::post('lienhe', [UserController::class, 'postlienhe'])->name('postlienhe');
     Route::get('dichvu', [UserController::class, 'dichvu'])->name('dichvu');
     Route::get('caidattaikhoan', [UserController::class, 'Setting'])->name('Setting');
     Route::get('suatrangcanhan/{id}', [UserController::class, 'suatrangcanhan'])->name('suatrangcanhan');

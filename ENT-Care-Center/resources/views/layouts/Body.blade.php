@@ -48,16 +48,17 @@
                 </div>
 
                 <div style="width:300px; margin-left: 18px;">
-                    <a style="font-size:20px; color:rgb(86, 86, 86);">
+                    <a style="font-size:20px; color:rgb(86, 86, 86);" href="{{ route('User.lienhe') }}">
                         <i style="text-decoration:none ; font-size:40px;margin-top:32px; margin-left:46px; color: rgb(205, 30, 30)"
-                            class="fa-solid fa-file-circle-exclamation"></i> Liên hệ khẩn cấp
-                        <div class="alert alert-warning">
+                            class="fa-solid fa-file-circle-exclamation"></i> Liên hệ
+                        khẩn cấp
+                        {{-- <div class="alert alert-warning">
                             <strong>Cảnh báo!</strong> Nếu bạn gặp tình huống khẩn cấp, hãy nhấp vào nút dưới đây để gọi
                             ngay đến số điện thoại khẩn cấp.
                             <br>
                             <a href="https://www.facebook.com/messages/e2ee/t/7079699168807689"
                                 class="btn btn-danger">Gọi Khẩn Cấp</a>
-                        </div>
+                        </div> --}}
 
 
                     </a>

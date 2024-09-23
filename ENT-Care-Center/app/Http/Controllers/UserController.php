@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Benhan;
 use App\Models\DonThuoc;
+use App\Models\lienhe;
 use App\Models\KhoThuoc;
 // băm pass
 use Illuminate\Support\Facades\Hash;
@@ -356,19 +357,41 @@ class UserController extends Controller
 
         $TimeNow = Carbon::now();
 
-        // Lấy thời gian hẹn khám từ lịch hẹn (bao gồm ngày và giờ)
+        //  thời gian hẹn khám từ lịch hẹn
         $time = Carbon::parse($lichhen->LH_Ngaykham . ' ' . $lichhen->LH_Giokham);
 
-        // Kiểm tra nếu thời gian hiện tại lớn hơn hoặc bằng thời gian hẹn khám - 1 ngày
+        // nếu thời gian hiện tại lớn hơn hoặc bằng thời gian hẹn khám - 1 ngày
         if ($TimeNow->diffInDays($time) < 1) {
             return redirect()->back()->with('error', 'Bạn chỉ có thể hủy lịch hẹn trước 1 ngày.');
         }
 
-        // Xóa lịch hẹn
+
         $lichhen->delete();
 
         return redirect()->route('User.Home')->with('success', 'Lịch hẹn đã được hủy thành công.');
     }
+
+
+    public function lienhe()
+    {
+        $this->data['title'] = 'LIÊN HỆ';
+
+        return view('layouts.lienhe', $this->data);
+    }
+
+    public function postlienhe(Request $request)
+    {
+        $benhan = lienhe::create([
+
+            'ten'        => $request->input('ten'),
+            'email'  => $request->input('email'),
+            'phone'    => $request->input('phone'),
+            'mess'    => $request->input('mess')
+
+        ]);
+        return redirect()->back()->with('status', 'Thông tin được gửi thành công!');
+    }
+
 
     public function showPassword()
     {
