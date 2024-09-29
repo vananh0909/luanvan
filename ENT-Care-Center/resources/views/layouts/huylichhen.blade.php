@@ -42,48 +42,65 @@
                 <div class="col-md-8" style="background-color: rgb(234, 235, 239); margin-left: 6px">
                     <div style="background-color: #ffffff; width: 1000px; height: 636px; border-radius: 6px; margin: 0 auto"
                         class="col-md-6">
-                        <div style="margin-left: 8px; padding-top: 4px">
-                            @if ($lichhen)
-                                <div class="container mt-4">
-                                    <h2 style="text-align: center;">Danh sách lịch hẹn của bạn</h2>
-                                    <table class="table table-bordered table-striped mt-3">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th scope="col">STT</th>
-                                                <th scope="col">Ngày Khám</th>
-                                                <th scope="col">Giờ Khám</th>
-                                                <th scope="col">Bác Sĩ Khám</th>
-                                                <th scope="col">Hành Động</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($lichhen as $lh)
+                        @if (session('user'))
+                            <div style="margin-left: 8px; padding-top: 4px">
+                                @if ($lichhen)
+                                    <div class="container mt-4">
+                                        <h2 style="text-align: center;">Danh sách lịch hẹn của bạn</h2>
+                                        <table class="table table-bordered table-striped mt-3">
+                                            <thead class="thead-dark">
                                                 <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ date('d-m-Y', strtotime($lh->LH_Ngaykham)) }}</td>
-                                                    <td>{{ $lh->LH_Giokham }}</td>
-                                                    <td>{{ $lh->LH_BSkham }}</td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-center">
-
-                                                            <form action="{{ route('User.posthuylichhen', $lh->LH_Id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                <button type="submit" class="btn btn-danger"
-                                                                    onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn này?')">Hủy
-                                                                    lịch hẹn</button>
-                                                            </form>
-                                                        </div>
-                                                    </td>
+                                                    <th scope="col">STT</th>
+                                                    <th scope="col">Ngày Khám</th>
+                                                    <th scope="col">Giờ Khám</th>
+                                                    <th scope="col">Bác Sĩ Khám</th>
+                                                    <th scope="col">Hành Động</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            @else
-                                <p>No data available</p>
-                            @endif
-                        </div>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($lichhen as $lh)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ date('d-m-Y', strtotime($lh->LH_Ngaykham)) }}</td>
+                                                        <td>{{ $lh->LH_Giokham }}</td>
+                                                        <td>{{ $lh->LH_BSkham }}</td>
+                                                        <td>
+                                                            <div class="d-flex justify-content-center">
+
+                                                                <form
+                                                                    action="{{ route('User.posthuylichhen', $lh->LH_Id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    <button type="submit" class="btn btn-danger"
+                                                                        onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn này?')">Hủy
+                                                                        lịch hẹn</button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @else
+                                    <p>Không có lịch hẹn!</p>
+                                @endif
+                            </div>
+                        @else
+                            <div style="background-color: #ffffff; width: 1000px; height:584px; border-radius:6px; margin:0 auto"
+                                class="col-md-6">
+
+                                <h1
+                                    style="text-align: center; padding-top: 240px; font-size: 22px;  color:rgb(86, 86, 86);">
+                                    XIN VUI LÒNG ĐĂNG NHẬP ĐỂ XEM
+
+                                    <br>
+                                    <a class="btn btn-info" href="{{ route('User.dangnhap') }}"
+                                        style="text-decoration: none; margin-top: 8px">Đăng
+                                        Nhập</a>
+                                </h1>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="col-md-3"

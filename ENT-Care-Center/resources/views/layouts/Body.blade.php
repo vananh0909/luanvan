@@ -48,8 +48,9 @@
                 </div>
 
                 <div style="width:300px; margin-left: 18px;">
-                    <a style="font-size:20px; color:rgb(86, 86, 86);" href="{{ route('User.lienhe') }}">
-                        <i style="text-decoration:none ; font-size:40px;margin-top:32px; margin-left:46px; color: rgb(205, 30, 30)"
+                    <a style="text-decoration:none ;font-size:20px; color:rgb(86, 86, 86);"
+                        href="{{ route('User.lienhe') }}">
+                        <i style=" font-size:40px;margin-top:32px; margin-left:46px; color: rgb(205, 30, 30)"
                             class="fa-solid fa-file-circle-exclamation"></i> Liên hệ
                         khẩn cấp
                         {{-- <div class="alert alert-warning">

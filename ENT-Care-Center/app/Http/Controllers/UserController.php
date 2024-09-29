@@ -338,14 +338,18 @@ class UserController extends Controller
     public function huylichhen()
     {
         $this->data['title'] = "LỊCH KHÁM";
-        $userId = session('user')['CUS_Id'];
-        $lichhen = DB::table('lichhen')
-            ->where('lichhen.LH_CustomerID', $userId)
-            ->orderBy('lichhen.LH_Ngaykham', 'desc')
-            ->get();
+        $userId = session('user')['CUS_Id'] ?? null;
+        if ($userId) {
+            $lichhen = DB::table('lichhen')
+                ->where('lichhen.LH_CustomerID', $userId)
+                ->orderBy('lichhen.LH_Ngaykham', 'desc')
+                ->get();
+        } else {
+            $lichhen = collect(); //không có userId  khởi tạo collection rỗng
+        }
 
 
-        return view("layouts.huylichhen", $this->data, compact('lichhen'));
+        return view("layouts.huylichhen", $this->data, compact('lichhen', 'userId'));
     }
     public function posthuylichhen($id)
     {

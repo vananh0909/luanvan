@@ -28,31 +28,6 @@ $thongtin = dv_dichvu2::orderBy('created_at', 'desc')->limit(4)->get();
 @endforeach
 
 
-{{-- <div class="alert alert-light" id="right" style="box-shadow: 0 2px 4px rgba(105, 105, 105, 0.2)" role="alert">
-    <div style="overflow: auto;">
-        <img style="width: 42px; border-radius: 4px; float: left; padding:0"
-            src="{{ asset('images/img-nen/right2.png') }}">
-        <a style="float: right; font-size: 16px; margin-right: 122px; font-weight:500"> Tư vấn và điều trị</a>
-    </div>
-</div>
-
-
-<div class="alert alert-light" id="right" style="box-shadow: 0 2px 4px rgba(105, 105, 105, 0.2)" role="alert">
-    <div style="overflow: auto;">
-        <img style="width: 42px; border-radius: 4px; float: left; padding:0"
-            src="{{ asset('images/img-nen/right3.jpg') }}">
-        <a style="float: right; font-size: 16px; margin-right: 122px; font-weight:500"> Sàng lọc ung thư</a>
-    </div>
-</div>
-
-
-<div class="alert alert-light" id="right" style="box-shadow: 0 2px 4px rgba(105, 105, 105, 0.2)"role="alert">
-    <div style="overflow: auto;">
-        <img style="width: 42px; border-radius: 4px; float: left; padding:0"
-            src="{{ asset('images/img-nen/right4.jpg') }}">
-        <a style="float: right; font-size: 16px; margin-right: 122px; font-weight:500"> Xét nghiệm máu</a>
-    </div>
-</div> --}}
 
 
 <div style="text-align: center; color:rgb(86, 86, 86); margin-top: -10px;">

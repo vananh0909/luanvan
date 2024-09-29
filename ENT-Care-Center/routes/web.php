@@ -4,13 +4,14 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\TinnhanController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('sendmail', [UserController::class, 'sendmail'])->name('sendmail');
-
-
+Route::get('nguoidung', [TinnhanController::class, 'nguoidung'])->name('nguoidung');
+Route::get('tinnhan', [TinnhanController::class, 'tinnhan'])->name('tinnhan');
 
 #Admin
 Route::prefix('Admin')->name('Admin.')->middleware(['auth', 'checkroles'])->group(function () {

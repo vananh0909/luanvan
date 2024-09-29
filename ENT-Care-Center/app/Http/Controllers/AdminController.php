@@ -206,10 +206,22 @@ class AdminController extends Controller
 
 
 
-    public function quanlybenhnhan()
+    public function quanlybenhnhan(Request $request)
     {
         $this->data['title'] = "QUẢN LÝ BỆNH NHÂN";
-        $khachhang = Users::all();
+        $search = $request->input('search');
+
+
+        if ($search) {
+            $khachhang  = Users::where('CUS_Name', 'LIKE', "%{$search}%")
+                ->orWhere('CUS_Email', 'LIKE', "%{$search}%")
+                ->orWhere('CUS_Phone', 'LIKE', "%{$search}%")
+                ->get();
+        } else {
+
+            $khachhang = Users::all();
+        }
+
 
         return view("Admin.layoutsAd.qlbenhnhan", $this->data, compact('khachhang'));
     }
@@ -410,28 +422,33 @@ class AdminController extends Controller
         return redirect()->back()->with('status', 'Xóa thành công  !');
     }
 
-    public function quanlynhanvien()
+    public function quanlynhanvien(Request $request)
     {
         $this->data['title'] = "QUẢN LÝ NHÂN VIÊN";
-        $Nhanvien = DB::table('users')
-            ->leftJoin('nhanvien', 'users.id', '=', 'nhanvien.id_user')
-            ->select('users.id', 'users.name', 'users.phone', 'users.email', 'nhanvien.*')
-            ->get();
+
+        $search = $request->input('search');
 
 
+        if ($search) {
 
-        // Truyền dữ liệu đến view
+
+            $Nhanvien = users::where('CUS_Name', 'LIKE', "%{$search}%")
+                ->orWhere('CUS_Email', 'LIKE', "%{$search}%")
+                ->orWhere('CUS_Phone', 'LIKE', "%{$search}%")
+                ->get();
+        } else {
+
+            $Nhanvien = DB::table('users')
+                ->leftJoin('nhanvien', 'users.id', '=', 'nhanvien.id_user')
+                ->select('users.id', 'users.name', 'users.phone', 'users.email', 'nhanvien.*')
+                ->get();
+        }
+
+
         return view('Admin.layoutsAd.qlinhanvien', $this->data, compact('Nhanvien'));
     }
 
-    // public function themnhanvien()
-    // {
-    //     $this->data['title'] = "THÊM NHÂN VIÊN";
 
-    //     $chucvu = roles::all();
-
-    //     return view("Admin.layoutsAd.nhanvien.addnv", $this->data, compact('chucvu'));
-    // }
 
     public function postnhanvien(Request $request)
     {
