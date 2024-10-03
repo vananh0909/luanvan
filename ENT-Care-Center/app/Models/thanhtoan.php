@@ -11,5 +11,5 @@ class thanhtoan extends Model
     protected $primaryKey = 'id';
     protected $table = 'thanhtoan';
     public $timestamps = false;
-    protected $fillable = ['id', 'id_benhan', 'id_donthuoc', 'tongtien', 'ngaythanhtoan', 'trangthai'];
+    protected $fillable = ['id_donthuoc', 'trangthai'];
 }

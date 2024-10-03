@@ -22,6 +22,7 @@ use App\Models\User;
 use App\Models\lt_lichtruc;
 use App\Models\lt_lichtrucbs;
 use App\Models\KhoThuoc;
+use App\Models\thanhtoan;
 
 class AdminController extends Controller
 {
@@ -596,6 +597,40 @@ class AdminController extends Controller
     }
 
 
+    public function thanhtoan()
+    {
+
+        $this->data['title'] = "THANHTOAN";
+        $thanhtoan = DB::table('lichhen')
+            ->join('benhan', 'lichhen.LH_Id', '=', 'benhan.id_lh')
+            ->join('donthuoc', 'benhan.id_benhan', '=', 'donthuoc.id_benhan')
+            ->join('customer', 'lichhen.LH_CustomerID', '=', 'customer.CUS_Id')
+            ->join('thanhtoan', 'donthuoc.id_donthuoc', '=', 'thanhtoan.id_donthuoc')
+            ->select('lichhen.*', 'benhan.*', 'donthuoc.*', 'customer.*', 'thanhtoan.*')
+            ->orderBy('donthuoc.id_donthuoc', 'desc') // Chỉ định rõ bảng cho cột
+            ->get();
+
+
+
+
+        return view("Admin.layoutsAd.thanhtoan", $this->data, compact('thanhtoan'));
+    }
+
+    public function trangthai($id)
+    {
+
+        $thanhtoan = thanhtoan::find($id);
+
+        if ($thanhtoan) {
+            $thanhtoan->trangthai = 'đã thanh toán';
+            $thanhtoan->save();
+        }
+
+        return redirect()->back();
+    }
+
+
+
 
     public function khothuoc()
     {
@@ -604,7 +639,7 @@ class AdminController extends Controller
         $khothuoc = DB::table('khothuoc')
             ->get();
 
-        return view("Admin.layoutsAd..khothuoc.khothuoc", $this->data, compact('khothuoc'));
+        return view("Admin.layoutsAd.khothuoc.khothuoc", $this->data, compact('khothuoc'));
     }
 
     public function themthuoc()

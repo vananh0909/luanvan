@@ -244,7 +244,7 @@ class UserController extends Controller
     public function doctors()
     {
         $this->data['title'] = "DANH SÁCH BÁC SĨ";
-        $bacsi = DB::table('nhanvien')->where('NV_Chucvu', 'Bác sĩ')->get();
+        $bacsi = DB::table('nhanvien')->where('NV_Chucvu', 'doctor')->get();
         return view("layouts.doctors", $this->data, compact('bacsi'));
     }
 

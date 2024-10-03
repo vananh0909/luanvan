@@ -34,10 +34,11 @@
                                 <div style="flex: 2; margin-right: 30px ">
                                     <h3 style="font-size: 18px; color: rgba(68, 158, 210, 0.8); margin-top:10px">
                                         {{ $bs->NV_Ten }}</h3>
-                                    <p><i class="fa-solid fa-graduation-cap"></i> Thạc sĩ, Bác sĩ</p>
+                                    <p><i class="fa-solid fa-graduation-cap"></i> {{ $bs->NV_Trinhdo }}</p>
                                     <p style="width:700px;text-align: justify;"> {{ $bs->NV_Gioithieu }}</p>
                                 </div>
                             </div>
+                            <br>
                         @endforeach
                         <br>
                         <br>

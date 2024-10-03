@@ -11,8 +11,12 @@
                 NHÂN</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('Admin.quanlybacsy') }}" style="color:rgb(86, 86, 86);">QUẢN LÝ BÁC
-                SỸ</a>
+            <a class="nav-link " href="{{ route('Admin.thanhtoan') }}" style="color:rgb(86, 86, 86);">THANH TOÁN
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('Admin.quanlybacsy') }}" style="color:rgb(86, 86, 86);">PHÂN LỊCH
+                TRỰC</a>
         </li>
         <li class="nav-item">
             <a class="nav-link " href="{{ route('Admin.quanlydichvu') }}" style="color:rgb(86, 86, 86);">QUẢN LÝ DỊCH
@@ -22,6 +26,7 @@
             <a class="nav-link " href="{{ route('Admin.quanlynhanvien') }}" style="color:rgb(86, 86, 86);">QUẢN LÝ NHÂN
                 VIÊN</a>
         </li>
+
 
         <li class="nav-item">
             <a class="nav-link " href="{{ route('Admin.khothuoc') }}" style="color:rgb(86, 86, 86);">KHO THUỐC </a>

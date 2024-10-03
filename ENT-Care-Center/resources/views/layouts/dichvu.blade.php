@@ -16,14 +16,14 @@
 
             <div class="row">
                 <div class="col-md-8" style="background-color:rgb(234, 235, 239); margin-left: 6px">
-                    <div style="text-align:center; margin-top: 6px; padding-bottom: 8px">
-                        <h1 style=" font-size: 22px; "> GÓI DỊCH VỤ</h1>
-
-                    </div>
-
 
                     <div style="background-color: #ffffff; width: 1000px; border-radius:6px; margin:0 auto" class="col-md-6">
                         <div style=" width:95%; margin: 0 auto">
+                            <div style="text-align:center; padding-bottom: 8px">
+                                <h1 style=" font-size: 22px;padding-top: 10px; "> GÓI DỊCH VỤ</h1>
+
+                            </div>
+
 
                             <p style="padding-top:14px; font-weight:500; font-style:italic; text-align: justify;">
                                 Phòng khám Tai Mũi Họng ENT Care Center cung cấp các dịch vụ chăm
@@ -61,40 +61,24 @@
                         <br>
                         <hr style="width:99%; margin:0 auto">
                         <br>
-                        <div style=" margin-left:8px; margin-bottom: 20px; padding-top: 8px">
-
-
-
-
+                        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; margin: 18px;">
                             @foreach ($Dichvu2 as $dv2)
-                                <div style="margin-top: 8px; display: inline-block; padding-bottom: 50px ">
-                                    <div style="width: 200px; float: left; position: relative; margin-right:10px">
-                                        <img style="width: 200px; border-radius:6px; "
-                                            src="{{ asset('uploads/dichvu/' . $dv2->DV2_anhdv) }}">
-
-                                    </div>
-
-                                    <a
-                                        style="float: right; margin-right: 420px;  font-size:20px ; margin-bottom: 10px; font-weight:500">
-                                        {{ $dv2->DV2_Tendv }}
-                                    </a>
-                                    <br>
-
-                                    <div
-                                        style=" padding: 10px; margin-left: 10px;margin-top: 12px; font-size: 16px; text-align: justify;  ">
-                                        <p>
+                                <div
+                                    style="flex: 0 0 30%; margin: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); border-radius: 6px; overflow: hidden;">
+                                    <img style="width: 100%; height: 150px; object-fit: cover;"
+                                        src="{{ asset('uploads/dichvu/' . $dv2->DV2_anhdv) }}">
+                                    <div style="padding: 10px;">
+                                        <a style="font-size: 20px; font-weight: 500; color: #333; text-decoration: none;">
+                                            {{ $dv2->DV2_Tendv }}
+                                        </a>
+                                        <p style="margin-top: 10px; font-size: 16px; color: #666; text-align: justify;">
                                             {{ $dv2->DV2_gioithieu }}
                                         </p>
                                     </div>
-
                                 </div>
                             @endforeach
-                            <hr style="margin-right: 6px">
-
-
-
-
                         </div>
+
 
 
                     </div>

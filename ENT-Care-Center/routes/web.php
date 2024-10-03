@@ -53,6 +53,8 @@ Route::prefix('Admin')->name('Admin.')->middleware(['auth', 'checkroles'])->grou
     Route::get('suathuoc/{id}', [AdminController::class, 'suathuoc'])->name('suathuoc');
     Route::post('suathuoc/{id}', [AdminController::class, 'postsuathuoc'])->name('postsuathuoc');
     Route::post('xoathuoc/{id}', [AdminController::class, 'xoathuoc'])->name('xoathuoc');
+    Route::get('thanhtoan', [AdminController::class, 'thanhtoan'])->name('thanhtoan');
+    Route::post('trangthai/{id}', [AdminController::class, 'trangthai'])->name('trangthai');
 
 
     Route::get('doctor', [AdminController::class, 'doctor'])->name('doctor')->middleware('admindoctor');

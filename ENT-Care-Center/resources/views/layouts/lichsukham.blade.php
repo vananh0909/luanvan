@@ -46,6 +46,7 @@
                                                 <i style="margin-left:55px" id="icon" data-bs-toggle="modal"
                                                     data-bs-target="#modal-{{ $index }}"
                                                     class="fa-solid fa-pills"></i>
+
                                                 <div class="modal fade" id="modal-{{ $index }}" tabindex="-1"
                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-lg">

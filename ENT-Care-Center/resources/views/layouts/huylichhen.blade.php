@@ -66,15 +66,27 @@
                                                         <td>{{ $lh->LH_BSkham }}</td>
                                                         <td>
                                                             <div class="d-flex justify-content-center">
+                                                                @php
+                                                                    $TimeNow = Carbon\Carbon::now();
 
-                                                                <form
-                                                                    action="{{ route('User.posthuylichhen', $lh->LH_Id) }}"
-                                                                    method="POST">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-danger"
-                                                                        onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn này?')">Hủy
-                                                                        lịch hẹn</button>
-                                                                </form>
+                                                                    //  thời gian hẹn khám từ lịch hẹn
+                                                                    $time = Carbon\Carbon::parse(
+                                                                        $lh->LH_Ngaykham . ' ' . $lh->LH_Giokham,
+                                                                    );
+                                                                @endphp
+                                                                @if ($TimeNow->lessThan($time))
+                                                                    <form
+                                                                        action="{{ route('User.posthuylichhen', $lh->LH_Id) }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn btn-danger"
+                                                                            onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn này?')">
+                                                                            Hủy lịch hẹn
+                                                                        </button>
+                                                                    </form>
+                                                                @else
+                                                                    <span style="color: gray;">Lịch hẹn đã qua</span>
+                                                                @endif
                                                             </div>
                                                         </td>
                                                     </tr>

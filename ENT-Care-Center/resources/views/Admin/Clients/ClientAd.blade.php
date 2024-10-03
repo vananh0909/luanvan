@@ -15,7 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <style type="text/css">
         @yield('css')
     </style>
@@ -35,44 +35,44 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
 
     <script type="text/javascript">
         new Morris.Area({
-            // ID của phần tử để vẽ biểu đồ.
-            element: 'chart',
-            // Dữ liệu biểu đồ -- mỗi mục trong mảng này tương ứng với một điểm trên biểu đồ.
+            // ID of the element in which to draw the chart.
+            element: 'myfirstchart',
+            // Chart data records -- each entry in this array corresponds to a point on
+            // the chart.
             data: [{
-                    year: '2008',
-                    Nam: 10,
-                    Nu: 5,
-                    Soluong: 15
-                }, {
-                    year: '2009',
-                    Nam: 33,
-                    Nu: 7,
-                    Soluong: 40
+                    year: '2008-10-8',
+                    donthuoc: 10,
+                    doanhthu: 15000,
+                    soluongdonthuoc: 15
                 },
                 {
-                    year: '2010',
-                    Nam: 15,
-                    Nu: 4,
-                    Soluong: 19
-                }, {
-                    year: '2011',
-                    Nam: 90,
-                    Nu: 40,
-                    Soluong: 130
-                }
+                    year: '2008-10-7',
+                    donthuoc: 5,
+                    doanhthu: 10000,
+                    soluongdonthuoc: 10
+                },
+                {
+                    year: '2008-10-6',
+                    donthuoc: 20,
+                    doanhthu: 20000,
+                    soluongdonthuoc: 20
+                },
+
+
             ],
-            // Tên của thuộc tính dữ liệu chứa giá trị x.
+            // The name of the data record attribute that contains x-values.
             xkey: 'year',
-            // Danh sách tên của các thuộc tính dữ liệu chứa giá trị y.
-            ykeys: ['Nam', 'Nu', 'Soluong'],
-            // Nhãn cho các ykeys -- sẽ được hiển thị khi bạn di chuột qua biểu đồ.
-            labels: ['Nam', 'Nữ', 'Tổng Số lượng']
+            // A list of names of data record attributes that contain y-values.
+            ykeys: ['donthuoc', 'doanhthu', 'soluongdonthuoc'],
+            // Labels for the ykeys -- will be displayed when you hover over the
+            // chart.
+            labels: ['donthuoc', 'doanhthu', 'soluongdonthuoc']
         });
     </script>
 
