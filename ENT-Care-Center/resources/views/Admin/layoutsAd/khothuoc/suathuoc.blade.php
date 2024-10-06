@@ -45,6 +45,13 @@
                 <input type="text" class="form-control" id="tenthuoc" name="tenthuoc" value="{{ $suathuoc->tenthuoc }}"
                     required>
             </div>
+            <label for="tenthuoc" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Chọn Loại Thuốc: </label>
+            <select class="form-control" id="tenloai" name="id_loai" required>
+                <option value="">{{ $suathuoc->ten_loai }}</option>
+                @foreach ($loaithuoc as $thuoc)
+                    <option value="{{ $thuoc->id_loai }}">{{ $thuoc->ten_loai }}</option>
+                @endforeach
+            </select>
             <div class="form-group">
                 <label for="soluong" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Số Lượng: </label>
                 <input type="number" class="form-control" id="soluong" name="soluong" value="{{ $suathuoc->soluong }}"
@@ -63,12 +70,12 @@
 
             <div class="form-group">
                 <label for="donvi" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Liều Lượng: </label>
-                <input type="text" class="form-control" id="lieuluong" name="lieuluong" placeholder="Liều lượng dùng"
-                    required>
+                <input type="text" class="form-control" id="lieuluong" name="lieuluong"
+                    value="{{ $suathuoc->lieuluong }}" required>
             </div>
             <div class="form-group">
                 <label for="giathuoc" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Cách Dùng: </label>
-                <input type="text" class="form-control" id="cachdung" name="cachdung" placeholder="Cách sử dụng"
+                <input type="text" class="form-control" id="cachdung" name="cachdung" value="{{ $suathuoc->cachdung }}"
                     required>
             </div>
 

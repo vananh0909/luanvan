@@ -48,6 +48,14 @@
                 <input type="number" class="form-control" id="soluong" name="soluong" placeholder="Nhập số lượng"
                     required>
             </div>
+            <label for="tenthuoc" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Chọn Loại Thuốc: </label>
+            <select class="form-control" id="tenloai" name="id_loai" required>
+                <option value="">-- Chọn Loại Thuốc --</option>
+                @foreach ($loaithuoc as $thuoc)
+                    <option value="{{ $thuoc->id_loai }}">{{ $thuoc->ten_loai }}</option>
+                @endforeach
+            </select>
+
             <div class="form-group">
                 <label for="donvi" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Đơn Vị: </label>
                 <input type="text" class="form-control" id="donvi" name="donvi" placeholder="Nhập đơn vị" required>

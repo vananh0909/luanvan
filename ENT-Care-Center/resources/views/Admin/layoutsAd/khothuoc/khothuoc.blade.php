@@ -38,10 +38,26 @@
 
 
         <div class="container">
-            <header class="d-flex justify-content-between align-items-center mb-4">
 
-                <a href="{{ route('Admin.themthuoc') }}" class="btn btn-primary btn-custom">Thêm Thuốc Mới</a>
-            </header>
+            <div>
+                <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 35px; padding-bottom:40px">KHO
+                    THUỐC</h1>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <form class="flex-grow-1" style="margin-right: 10px;">
+                    <div class="form-group" style="">
+                        <input type="text" name="search" id="search" style="width: 20%;" class="form-control"
+                            placeholder="🔎 Tìm thuốc...">
+                        <div id="suggestions"
+                            style="border: 1px solid #ccc; display: none; position: absolute; background: white; z-index: 10;">
+                        </div>
+                    </div>
+                </form>
+
+                <a href="{{ route('Admin.themthuoc') }}" style="margin-top:5px" class="btn btn-primary btn-custom">Thêm
+                    Thuốc Mới</a>
+            </div>
+
 
 
             <table class="table table-striped table-bordered">
@@ -49,6 +65,7 @@
                     <tr>
                         <th>ID Thuốc</th>
                         <th>Tên Thuốc</th>
+                        <th>Loại Thuốc</th>
                         <th>Số Lượng</th>
                         <th>Đơn Vị</th>
                         <th>Giá Thuốc</th>
@@ -58,18 +75,19 @@
                         <th>Hành Động</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="patient-list">
                     @foreach ($khothuoc as $kt)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $kt->tenthuoc }}</td>
+                            <td>{{ $kt->ten_loai }}</td>
                             <td>{{ $kt->soluong }}</td>
                             <td>{{ $kt->donvi }}</td>
                             <td>{{ $kt->giathuoc }}</td>
                             <td>{{ $kt->lieuluong }}</td>
                             <td>{{ $kt->cachdung }}</td>
                             <td>{{ $kt->mota }}</td>
-                            <td class="d-flex align-items-center">
+                            <td class="d-flex align-items-center" style="padding-bottom:17px;padding-top:16px">
                                 <a href="{{ route('Admin.suathuoc', ['id' => $kt->id_thuoc]) }}"
                                     class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
 
@@ -86,7 +104,29 @@
                 </tbody>
             </table>
             <br>
+
     </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#search').on('keyup', function() {
+                var query = $(this).val().toLowerCase();
+
+                // Nếu ô tìm kiếm rỗng, hiển thị lại tất cả các dòng
+                if (query === '') {
+                    $('#patient-list tr').show();
+                    return;
+                }
+
+                // Lọc các dòng trong bảng
+                $('#patient-list tr').filter(function() {
+                    var rowText = $(this).text().toLowerCase();
+                    $(this).toggle(rowText.indexOf(query) > -
+                        1); // Hiện hoặc ẩn dòng dựa trên kết quả tìm kiếm
+                });
+            });
+        });
+    </script>
 @endsection
 
 @section('css')

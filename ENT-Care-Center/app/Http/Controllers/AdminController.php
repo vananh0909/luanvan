@@ -23,6 +23,7 @@ use App\Models\lt_lichtruc;
 use App\Models\lt_lichtrucbs;
 use App\Models\KhoThuoc;
 use App\Models\thanhtoan;
+use App\Models\loaithuoc;
 
 class AdminController extends Controller
 {
@@ -634,25 +635,37 @@ class AdminController extends Controller
 
     public function khothuoc()
     {
-
         $this->data['title'] = "KHO THUỐC";
+
         $khothuoc = DB::table('khothuoc')
+            ->join('loaithuoc', 'khothuoc.id_loai', '=', 'loaithuoc.id_loai')
+            // ->select('khothuoc.*', 'loaithuoc*') //
+            ->orderBy('loaithuoc.id_loai', 'ASC') // Sắp xếp theo loại thuốc
             ->get();
 
         return view("Admin.layoutsAd.khothuoc.khothuoc", $this->data, compact('khothuoc'));
     }
 
+
     public function themthuoc()
     {
 
         $this->data['title'] = "THÊM THUỐC";
-        return view("Admin.layoutsAd.khothuoc.themthuoc", $this->data);
+        $loaithuoc = DB::table('loaithuoc')
+            ->get();
+
+        return view("Admin.layoutsAd.khothuoc.themthuoc", $this->data, compact('loaithuoc'));
     }
 
     public function postthemthuoc(Request $request)
     {
+        $kiemtra = khothuoc::where('tenthuoc', $request->input('tenthuoc'))->first();
+        if ($kiemtra) {
+            return  redirect()->back()->with('error', 'Thuốc đã tồn tại!');
+        }
         khothuoc::create([
             'tenthuoc' => $request->input('tenthuoc'),
+            'id_loai' => $request->input('id_loai'),
             'soluong' => $request->input('soluong'),
             'donvi' => $request->input('donvi'),
             'giathuoc' => $request->input('giathuoc'),
@@ -667,11 +680,14 @@ class AdminController extends Controller
     {
 
         $this->data['title'] = "SỬA THUỐC";
+        $loaithuoc = DB::table('loaithuoc')
+            ->get();
         $suathuoc = DB::table('khothuoc')
+            ->join('loaithuoc', 'khothuoc.id_loai', '=', 'loaithuoc.id_loai')
             ->where('id_thuoc', $id)
             ->first();
 
-        return view("Admin.layoutsAd..khothuoc.suathuoc", $this->data, compact('suathuoc'));
+        return view("Admin.layoutsAd..khothuoc.suathuoc", $this->data, compact('suathuoc', 'loaithuoc'));
     }
 
     public function postsuathuoc(Request $request, $id)
@@ -685,6 +701,7 @@ class AdminController extends Controller
 
         $thuoc->update([
             'tenthuoc' => $request->input('tenthuoc'),
+            'id_loai' => $request->input('id_loai'),
             'soluong' => $request->input('soluong'),
             'donvi' => $request->input('donvi'),
             'giathuoc' => $request->input('giathuoc'),
