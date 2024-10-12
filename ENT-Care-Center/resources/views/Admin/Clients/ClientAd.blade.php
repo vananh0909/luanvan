@@ -39,42 +39,6 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
 
-    <script type="text/javascript">
-        new Morris.Area({
-            // ID of the element in which to draw the chart.
-            element: 'myfirstchart',
-            // Chart data records -- each entry in this array corresponds to a point on
-            // the chart.
-            data: [{
-                    year: '2008-10-8',
-                    donthuoc: 10,
-                    doanhthu: 15000,
-                    soluongdonthuoc: 15
-                },
-                {
-                    year: '2008-10-7',
-                    donthuoc: 5,
-                    doanhthu: 10000,
-                    soluongdonthuoc: 10
-                },
-                {
-                    year: '2008-10-6',
-                    donthuoc: 20,
-                    doanhthu: 20000,
-                    soluongdonthuoc: 20
-                },
-
-
-            ],
-            // The name of the data record attribute that contains x-values.
-            xkey: 'year',
-            // A list of names of data record attributes that contain y-values.
-            ykeys: ['donthuoc', 'doanhthu', 'soluongdonthuoc'],
-            // Labels for the ykeys -- will be displayed when you hover over the
-            // chart.
-            labels: ['donthuoc', 'doanhthu', 'soluongdonthuoc']
-        });
-    </script>
 
 
 </body>

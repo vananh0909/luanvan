@@ -46,7 +46,7 @@ Route::prefix('Admin')->name('Admin.')->middleware(['auth', 'checkroles'])->grou
     Route::post('editnhanvien/{id}', [AdminController::class, 'editnhanvien'])->name('editnhanvien');
     Route::get('xoanhanvien/{id}', [AdminController::class, 'xoanhanvien'])->name('xoanhanvien');
     Route::get('thongkebaocao', [AdminController::class, 'thongkebaocao'])->name('thongkebaocao');
-    Route::get('thongke', [AdminController::class, 'thongke'])->name('thongke');
+    Route::post('thongke', [AdminController::class, 'thongke'])->name('thongke');
     Route::get('khothuoc', [AdminController::class, 'khothuoc'])->name('khothuoc');
     Route::get('themthuoc', [AdminController::class, 'themthuoc'])->name('themthuoc');
     Route::post('postthemthuoc', [AdminController::class, 'postthemthuoc'])->name('postthemthuoc');

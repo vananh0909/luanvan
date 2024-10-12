@@ -24,6 +24,8 @@ use App\Models\lt_lichtrucbs;
 use App\Models\KhoThuoc;
 use App\Models\thanhtoan;
 use App\Models\loaithuoc;
+use App\Models\thongke;
+
 
 class AdminController extends Controller
 {
@@ -736,6 +738,47 @@ class AdminController extends Controller
 
         $this->data['title'] = "THỐNG KÊ SỐ LƯỢNG BỆNH NHÂN";
         return view("Admin.layoutsAd.thongkebaocao", $this->data);
+    }
+
+    public function thongke(Request $request)
+    {
+        // Kiểm tra nếu người dùng chọn thời gian thông qua request
+        $thoigian = $request->input('thoigian', '');
+
+        if ($thoigian == '7ngay') {
+            $subdays = Carbon::now('Asia/Ho_Chi_Minh')->subDays(7)->toDateString();
+        } elseif ($thoigian == '28ngay') {
+            $subdays = Carbon::now('Asia/Ho_Chi_Minh')->subDays(28)->toDateString();
+        } elseif ($thoigian == '90ngay') {
+            $subdays = Carbon::now('Asia/Ho_Chi_Minh')->subDays(90)->toDateString();
+        } elseif ($thoigian == '365ngay') {
+            $subdays = Carbon::now('Asia/Ho_Chi_Minh')->subDays(365)->toDateString();
+        } else {
+            // Mặc định nếu không có 'thoigian' nào được chọn
+            $subdays = Carbon::now('Asia/Ho_Chi_Minh')->subDays(365)->toDateString();
+        }
+
+        // Lấy ngày hiện tại
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+
+        // Truy vấn dữ liệu theo khoảng thời gian
+        $thongke = thongke::whereBetween('ngay', [$subdays, $now])
+            ->orderBy('ngay', 'ASC')
+            ->get();
+
+        // Chuẩn bị dữ liệu cho biểu đồ
+        $chart_data = [];
+
+        foreach ($thongke as $val) {
+            $chart_data[] = [
+                'ngay' => $val->ngay,
+                'donthuoc' => $val->donthuoc,
+                'doanhthu' => $val->doanhthu,
+            ];
+        }
+
+        // Trả về dữ liệu dưới dạng JSON
+        return response()->json($chart_data);
     }
 
 
