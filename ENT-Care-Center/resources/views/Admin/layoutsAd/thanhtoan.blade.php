@@ -155,7 +155,9 @@
                                                     <tr>
                                                         <td><strong>Tổng tiền:</strong></td>
                                                         <td style="font-weight:bold">
-                                                            {{ $tt->tonggia ?? 0 }} đ</td>
+                                                            {{ number_format($tt->tonggia ?? 0, 0, ',', '.') }} đ
+                                                        </td>
+
                                                     </tr>
                                                 </tbody>
                                             </table>

@@ -35,7 +35,7 @@
                     <option value="365ngay">365 Ngày</option>
                 </select>
             </div>
-            <div id="myfirstchart" style="height: 330px; padding-bottom: 14px"></div>
+            <div id="myfirstchart" style="height: 330px; padding-bottom: 14px; "></div>
 
         </div>
 
@@ -55,8 +55,8 @@
                 xkey: 'ngay',
                 ykeys: ['donthuoc', 'doanhthu'],
                 labels: [' Đơn Thuốc', 'Doanh Thu'],
-                hideHover: 'auto',
-                parseTime: false
+
+
             });
 
             $('.form-select').change(function() {

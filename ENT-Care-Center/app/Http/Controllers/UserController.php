@@ -212,8 +212,6 @@ class UserController extends Controller
         }
 
 
-
-
         $data = [
             'LH_CustomerID' => $customerId,
             'id_user' => $id_user,

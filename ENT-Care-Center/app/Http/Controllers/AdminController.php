@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
+
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -26,6 +28,7 @@ use App\Models\thanhtoan;
 use App\Models\loaithuoc;
 use App\Models\thongke;
 
+use App\Models\donthuoc;
 
 class AdminController extends Controller
 {
@@ -621,16 +624,42 @@ class AdminController extends Controller
 
     public function trangthai($id)
     {
-
-        $thanhtoan = thanhtoan::find($id);
-
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+        $thanhtoan = thanhtoan::find($id); // Lấy bản ghi thanh toán dựa vào ID
         if ($thanhtoan) {
+            // Cập nhật trạng thái đơn thuốc thành đã thanh toán
             $thanhtoan->trangthai = 'đã thanh toán';
             $thanhtoan->save();
-        }
 
+            // Lấy thông tin đơn thuốc dựa vào id_donthuoc
+            $donthuoc = DonThuoc::where('id_donthuoc', $thanhtoan->id_donthuoc)->first();
+
+            if ($donthuoc) {
+                $tonggia = floatval($donthuoc->tonggia); // Chuyển đổi sang kiểu số
+                // Lấy tổng giá trị của đơn thuốc
+
+                // Kiểm tra xem đã có bản ghi thống kê cho ngày hiện tại chưa
+                $thongke = thongke::where('ngay', $now)->first();
+
+                if ($thongke) {
+                    // Cập nhật doanh thu và số lượng đơn thuốc
+                    $thongke->doanhthu += $tonggia;
+                    $thongke->donthuoc += 1;
+                    $thongke->save();
+                } else {
+                    // Tạo mới bản ghi thống kê cho ngày hiện tại
+                    thongke::create([
+                        'ngay' => $now,
+                        'doanhthu' => $tonggia,
+                        'donthuoc' => 1,
+                    ]);
+                }
+            }
+        }
         return redirect()->back();
     }
+
+
 
 
 
@@ -765,6 +794,7 @@ class AdminController extends Controller
         $thongke = thongke::whereBetween('ngay', [$subdays, $now])
             ->orderBy('ngay', 'ASC')
             ->get();
+        Log::info('Dữ liệu thống kê:', $thongke->toArray());
 
         // Chuẩn bị dữ liệu cho biểu đồ
         $chart_data = [];
@@ -793,7 +823,7 @@ class AdminController extends Controller
         $this->data['title'] = "BÁC SĨ";
         $user = auth()->user(); // Lấy thông tin bác sĩ đã đăng nhập
 
-        // Lấy tất cả bản ghi của bác sĩ từ bảng lt_lichtrucbs
+
         $lichtruc = DB::table('lt_lichtrucbs')
             ->select('lt_Idlt', 'lt_tenbacsi', 'lt_ngaytruc', 'lt_giotruc')
             ->where('user_id', $user->id)

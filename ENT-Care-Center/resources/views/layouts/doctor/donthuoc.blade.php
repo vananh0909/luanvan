@@ -94,7 +94,9 @@
                                         @endif
                                         <tr>
                                             <td style="width: 30%;"><strong>Tổng tiền:</strong></td>
-                                            <td style="text-align:right;font-weight:bold">{{ $donthuoc->tonggia }} đ</td>
+                                            <td style="text-align:right;font-weight:bold">
+                                                {{ number_format($donthuoc->tonggia, 0, ',', '.') }} đ</td>
+
 
                                         </tr>
 
