@@ -674,7 +674,18 @@ class AdminController extends Controller
             ->orderBy('loaithuoc.id_loai', 'ASC') // Sắp xếp theo loại thuốc
             ->get();
 
-        return view("Admin.layoutsAd.khothuoc.khothuoc", $this->data, compact('khothuoc'));
+        // Tạo mảng lưu các cảnh báo
+        $canhbaothuoc = [];
+
+
+        foreach ($khothuoc as $thuoc) {
+            if ($thuoc->soluong < $thuoc->nguongtoithieu) {
+                $canhbaothuoc[] = 'Thuốc ' . $thuoc->tenthuoc . ' có số lượng ' . $thuoc->soluong . ' dưới ngưỡng tối thiểu ' . $thuoc->nguongtoithieu . ' !';
+            }
+        }
+
+
+        return view("Admin.layoutsAd.khothuoc.khothuoc", $this->data, compact('khothuoc', 'canhbaothuoc'));
     }
 
 
@@ -783,11 +794,11 @@ class AdminController extends Controller
         } elseif ($thoigian == '365ngay') {
             $subdays = Carbon::now('Asia/Ho_Chi_Minh')->subDays(365)->toDateString();
         } else {
-            // Mặc định nếu không có 'thoigian' nào được chọn
+
             $subdays = Carbon::now('Asia/Ho_Chi_Minh')->subDays(365)->toDateString();
         }
 
-        // Lấy ngày hiện tại
+
         $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
 
         // Truy vấn dữ liệu theo khoảng thời gian

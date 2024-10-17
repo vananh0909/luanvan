@@ -58,6 +58,19 @@
                     Thuốc Mới</a>
             </div>
 
+            @if (!empty($canhbaothuoc))
+                <div class="alert alert-warning alert-dismissible fade show position-relative" role="alert"
+                    style="padding-top:14px; padding-bottom:0px">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                        style="float:right; margin-top:-6px; font-size: 12px"></button>
+
+                    <ul style="list-style-type: none; font-weight: bold; color: rgb(245, 92, 92)">
+                        @foreach ($canhbaothuoc as $canhbao)
+                            <li><i class="fa-solid fa-triangle-exclamation" style="color: red"></i> {{ $canhbao }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
 
             <table class="table table-striped table-bordered">
@@ -78,7 +91,9 @@
                 <tbody id="patient-list">
                     @foreach ($khothuoc as $kt)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>
+                                {{ $loop->iteration }}
+                            </td>
                             <td>{{ $kt->tenthuoc }}</td>
                             <td>{{ $kt->ten_loai }}</td>
                             <td>{{ $kt->soluong }}</td>

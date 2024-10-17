@@ -35,7 +35,8 @@
                     <option value="365ngay">365 Ngày</option>
                 </select>
             </div>
-            <div id="myfirstchart" style="height: 330px; padding-bottom: 14px; "></div>
+            <div id="myfirstchart" style="height: 330px; padding-bottom: 18px;margin-top:24px "></div>
+            <br>
 
         </div>
 
