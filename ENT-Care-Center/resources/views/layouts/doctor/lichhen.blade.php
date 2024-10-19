@@ -68,8 +68,16 @@
                         <td>{{ $lh->LH_Giokham }} </td>
                         <td>{{ date('d-m-Y', strtotime($lh->LH_Ngaykham)) }}</td>
                         <td> {{ $lh->LH_trieuchung }}</td>
-                        <td><a href='{{ route('User.khambenh', ['id' => $lh->LH_Id]) }}' class="btn btn-success">Khám
-                                Bệnh</a></td>
+
+                        <td>
+                            @if (Carbon\Carbon::parse($lh->LH_Ngaykham)->isPast())
+                                <a href='{{ route('User.khambenh', ['id' => $lh->LH_Id]) }}' class="badge bg-secondary">Đã
+                                    khám</a>
+                            @else
+                                <a href='{{ route('User.khambenh', ['id' => $lh->LH_Id]) }}' class="btn btn-success">Khám
+                                    Bệnh</a>
+                            @endif
+                        </td>
 
 
                         {{-- <td>

@@ -605,6 +605,7 @@ class UserController extends Controller
         $xemlichtruc = DB::table('lt_lichtruc')
 
             ->where('user_id', $user->id)
+            ->orderBy('lt_lichtruc.lt_Ngaytruc', 'desc')
             ->get();
 
         return view("layouts.doctor.xemlichtruc", $this->data, compact('xemlichtruc'));

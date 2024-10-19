@@ -56,6 +56,8 @@
                 xkey: 'ngay',
                 ykeys: ['donthuoc', 'doanhthu'],
                 labels: [' Đơn Thuốc', 'Doanh Thu'],
+                xLabels: 'day',
+                parseTime: false,
 
 
             });
