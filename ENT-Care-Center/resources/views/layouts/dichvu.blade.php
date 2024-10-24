@@ -48,7 +48,8 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $dv->DV_Tendv }} </td>
-                                        <td> {{ $dv->DV_Gia }}</td>
+                                        <td>
+                                            {{ number_format($dv->DV_Gia ?? 0, 0, ',', '.') }} đ</td>
 
                                     </tr>
                                 @endforeach

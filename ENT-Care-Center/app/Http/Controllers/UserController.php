@@ -614,7 +614,14 @@ class UserController extends Controller
     {
         $this->data['title'] = "KHÁM BỆNH";
         $user = auth()->user();
+        // $search = $request->input('search');
 
+        // // Khởi tạo biến $timthuoc với giá trị mặc định
+        // $timthuoc = collect(); // Sử dụng collect() để tạo một collection rỗng
+
+        // if ($search) {
+        //     $timthuoc = khothuoc::where('tenthuoc', 'LIKE', "%{$search}%")->get();
+        // }
         $benhnhan = DB::table('customer')
             ->join('lichhen', 'customer.CUS_Id', '=', 'lichhen.LH_CustomerID')
             ->select(
