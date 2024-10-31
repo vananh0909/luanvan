@@ -455,7 +455,8 @@ class UserController extends Controller
                 'lichhen.LH_Email',
                 'lichhen.LH_Ngaykham',
                 'lichhen.LH_Giokham',
-                'lichhen.LH_trieuchung'
+                'lichhen.LH_trieuchung',
+                'lichhen.LH_trangthai'
             )
             ->where('lichhen.id_user', $user->id)
             ->orderBy('lichhen.LH_Ngaykham', 'desc')
@@ -614,14 +615,7 @@ class UserController extends Controller
     {
         $this->data['title'] = "KHÁM BỆNH";
         $user = auth()->user();
-        // $search = $request->input('search');
 
-        // // Khởi tạo biến $timthuoc với giá trị mặc định
-        // $timthuoc = collect(); // Sử dụng collect() để tạo một collection rỗng
-
-        // if ($search) {
-        //     $timthuoc = khothuoc::where('tenthuoc', 'LIKE', "%{$search}%")->get();
-        // }
         $benhnhan = DB::table('customer')
             ->join('lichhen', 'customer.CUS_Id', '=', 'lichhen.LH_CustomerID')
             ->select(
@@ -631,7 +625,8 @@ class UserController extends Controller
                 'lichhen.LH_Email',
                 'lichhen.LH_Ngaykham',
                 'lichhen.LH_Giokham',
-                'lichhen.LH_trieuchung'
+                'lichhen.LH_trieuchung',
+                'lichhen.LH_trangthai'
             )
             ->where('lichhen.id_user', $user->id)
             ->where('lichhen.LH_Id', $id)
@@ -652,6 +647,33 @@ class UserController extends Controller
 
     public function postbenhandonthuoc(Request $request)
     {
+
+
+        $tenthuoc = $request->input('tenthuoc');
+        $lieuluong = $request->input('lieuluong');
+        $cachsd = $request->input('cachsd');
+        $soluong = $request->input('soluong');
+        $tonggia_thuoc = 0;
+        $thongbao_thuoc = [];
+
+        foreach ($tenthuoc as $index => $ten) {
+
+            $thuoc = DB::table('khothuoc')->where('tenthuoc', $ten)->first();
+            if ($thuoc) {
+                // Kiểm tra số lượng thuốc trong kho so với ngưỡng tối thiểu
+                if ($thuoc->soluong <= $thuoc->nguongtoithieu) {
+                    $thongbao_thuoc[] = "Thuốc $ten đã hết hàng. Vui lòng chọn loại thuốc khác.";
+                }
+                $tongtien_thuoc = $thuoc->giathuoc * $soluong[$index];
+                $tonggia_thuoc += $tongtien_thuoc;
+            }
+            DB::table('khothuoc')->where('tenthuoc', $ten)->decrement('soluong', $soluong[$index]);
+        }
+        // Trả về thông báo nếu có thuốc gần hết hoặc hết hàng
+        if (!empty($thongbao_thuoc)) {
+            return redirect()->back()->with('warnings', $thongbao_thuoc);
+        }
+
         $benhan = benhan::create([
             'id_lh'      => $request->input('id_lh'),
             'ten'        => $request->input('ten'),
@@ -661,22 +683,6 @@ class UserController extends Controller
             'nhietdo'    => $request->input('nhietdo'),
             'ghichu'     => $request->input('ghichu'),
         ]);
-
-
-        $tenthuoc = $request->input('tenthuoc');
-        $lieuluong = $request->input('lieuluong');
-        $cachsd = $request->input('cachsd');
-        $soluong = $request->input('soluong');
-        $tonggia_thuoc = 0;
-        foreach ($tenthuoc as $index => $ten) {
-
-            $thuoc = DB::table('khothuoc')->where('tenthuoc', $ten)->first();
-            if ($thuoc) {
-                $tongtien_thuoc = $thuoc->giathuoc * $soluong[$index];
-                $tonggia_thuoc += $tongtien_thuoc;
-            }
-            DB::table('khothuoc')->where('tenthuoc', $ten)->decrement('soluong', $soluong[$index]);
-        }
 
         $dichvukham = $request->input('dichvukham');
         $dichvu = DB::table('dv_dichvu1')->where('DV_Tendv', $dichvukham)->first();
@@ -694,7 +700,10 @@ class UserController extends Controller
             'tonggia'    => $tonggia,
             'dichvukham' => $dichvukham,
         ]);
-
+        // Cập nhật trạng thái lịch hẹn trong bảng lichhen
+        DB::table('lichhen')
+            ->where('LH_Id', $benhan->id_lh) // Lấy LH_Id từ bảng benhan
+            ->update(['LH_trangthai' => 1]);
         $id_benhan = $benhan->id_benhan;
         return redirect()->route('User.donthuoc', ['id' => $id_benhan]);
     }

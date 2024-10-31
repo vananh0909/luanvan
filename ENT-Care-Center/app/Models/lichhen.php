@@ -14,7 +14,7 @@ class lichhen extends Model
     protected $primaryKey = 'LH_Id';
     protected $table = 'lichhen';
     public $timestamps = false;
-    protected $fillable = ['LH_Id', 'id_user', 'LH_CustomerID', 'LH_BSkham', 'LH_Ngaykham', 'LH_Giokham', 'LH_Email', 'LH_trieuchung'];
+    protected $fillable = ['LH_Id', 'id_user', 'LH_CustomerID', 'LH_BSkham', 'LH_Ngaykham', 'LH_Giokham', 'LH_Email', 'LH_trieuchung', 'LH_trangthai'];
 
 
 

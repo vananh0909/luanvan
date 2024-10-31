@@ -35,6 +35,19 @@
                 });
             </script>
         @endif
+        @if (!empty(session('warnings')))
+            <div class="alert alert-warning alert-dismissible fade show position-relative" role="alert"
+                style="padding-top:14px; padding-bottom:0px">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                    style="float:right; margin-top:-6px; font-size: 12px"></button>
+
+                <ul style="list-style-type: none; font-weight: bold; color: rgb(245, 92, 92)">
+                    @foreach (session('warnings') as $warning)
+                        <li><i class="fa-solid fa-triangle-exclamation" style="color: red"></i> {{ $warning }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <div class="row" style="margin-top: -20px; margin-bottom: 5px">
             <div class="col-md-3">
