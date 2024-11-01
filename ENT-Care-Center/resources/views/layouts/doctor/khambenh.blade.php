@@ -36,11 +36,10 @@
             </script>
         @endif
         @if (!empty(session('warnings')))
-            <div class="alert alert-warning alert-dismissible fade show position-relative" role="alert"
-                style="padding-top:14px; padding-bottom:0px">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert"
+                style="padding-top: -40px; padding-bottom: 0px; margin-bottom: 20px;">
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
-                    style="float:right; margin-top:-6px; font-size: 12px"></button>
-
+                    style="float: right; margin-top: -6px; font-size: 12px"></button>
                 <ul style="list-style-type: none; font-weight: bold; color: rgb(245, 92, 92)">
                     @foreach (session('warnings') as $warning)
                         <li><i class="fa-solid fa-triangle-exclamation" style="color: red"></i> {{ $warning }}</li>
@@ -49,7 +48,7 @@
             </div>
         @endif
 
-        <div class="row" style="margin-top: -20px; margin-bottom: 5px">
+        <div class="row" style="margin-top: 5px; margin-bottom: 5px">
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-header bg-success text-white text-center">
@@ -79,14 +78,20 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label><strong>Giờ Khám:</strong></label>
-                                <p>{{ $benhnhan->LH_Giokham }}</p>
-                            </div>
+
                             <div class="col-md-6">
                                 <label><strong>Ngày Khám:</strong></label>
                                 <p>{{ date('d-m-Y', strtotime($benhnhan->LH_Ngaykham)) }}</p>
                             </div>
+
+                            <div class="col-md-6">
+                                <label><strong>Giờ Khám:</strong></label>
+                                <p>{{ $benhnhan->LH_Giokham }}</p>
+                            </div>
+                        </div>
+                        <div style="margin-top: -16px">
+                            <a href='{{ route('User.benhan', ['id' => $benhnhan->CUS_Id]) }}' class="btn btn-light"
+                                style="margin-top: -14px">Bệnh án</a>
                         </div>
                     </div>
                 </div>
@@ -156,8 +161,8 @@
                                                 placeholder="Số Lượng" required>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text" name="lieuluong[]" class="form-control search-lieuluong"
-                                                placeholder="Liều lượng">
+                                            <input type="text" name="lieuluong[]"
+                                                class="form-control search-lieuluong" placeholder="Liều lượng">
                                             <div class="suggestions-lieuluong"
                                                 style="border: 1px solid #ccc; display: none; position: absolute; background: white; z-index: 10; width: 23%;">
                                             </div>

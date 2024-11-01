@@ -77,13 +77,7 @@
                                 <a href='{{ route('User.khambenh', ['id' => $lh->LH_Id]) }}' class="btn btn-secondary">Đã
                                     khám</a>
                             @endif
-                            {{-- @if ($lh->LH_trangthai == '0')
-                                <a href='{{ route('User.khambenh', ['id' => $lh->LH_Id]) }}' class="badge bg-secondary">Đã
-                                    khám</a>
-                            @else
-                                <a href='{{ route('User.khambenh', ['id' => $lh->LH_Id]) }}' class="btn btn-success">Khám
-                                    Bệnh</a>
-                            @endif --}}
+
                         </td>
 
 

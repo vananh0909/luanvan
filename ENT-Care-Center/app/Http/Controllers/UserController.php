@@ -727,6 +727,26 @@ class UserController extends Controller
         return view("layouts.doctor.donthuoc", $this->data, compact('donthuoc', 'user'));
     }
 
+    public function benhan($id)
+    {
+
+        $this->data['title'] = "BỆNH ÁN";
+        $user = auth()->user();
+        $benhan = DB::table('benhan')
+            ->join('donthuoc', 'benhan.id_benhan', '=', 'donthuoc.id_benhan')
+            ->join('lichhen', 'benhan.id_lh', '=', 'lichhen.LH_Id')
+            ->join('customer', 'lichhen.LH_CustomerID', '=', 'customer.CUS_Id')
+            ->where('customer.CUS_Id', $id) // Lọc bệnh án theo bệnh nhân
+            ->select('donthuoc.*', 'benhan.*', 'lichhen.*', 'customer.*')
+            ->get();  // Sử dụng get() để lấy toàn bộ bệnh án của bệnh nhân
+
+
+
+        $firstLhId = $benhan->first()->LH_Id;
+
+        return view("layouts.doctor.benhan", $this->data, compact('benhan', 'firstLhId'));
+    }
+
     public function trangcanhan()
     {
 
