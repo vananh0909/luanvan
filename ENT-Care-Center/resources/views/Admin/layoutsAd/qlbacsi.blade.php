@@ -74,7 +74,7 @@
                         <td>
                             @foreach (['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'] as $time)
                                 <div style="display: inline-block; margin: 5px;">
-                                    <input type="checkbox" name="lt_Giotruc[]" value="{{ $time }}">
+                                    <input type="checkbox" name="lt_Giotruc[]" value="{{ $time }}" checked>
                                     {{ $time }}
                                 </div>
                             @endforeach

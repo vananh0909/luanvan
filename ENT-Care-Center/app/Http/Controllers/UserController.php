@@ -169,10 +169,14 @@ class UserController extends Controller
     {
         $this->data['title'] = "ĐẶT LỊCH KHÁM";
 
-        // Lấy ngày hiện tại theo lịch dương
+        // Lấy ngày hiện tại
         $ngayHienTai = date('Y-m-d');
 
-        $bacsitruc = lt_lichtruc::whereDate('lt_Ngaytruc', $ngayHienTai)->get();
+        // Tính toán ngày kết thúc là 6 ngày sau
+        $ngayKetThuc = date('Y-m-d', strtotime($ngayHienTai . ' + 6 days'));
+
+        // Lấy danh sách bác sĩ trực trong khoảng từ ngày hiện tại đến 6 ngày sau
+        $bacsitruc = lt_lichtruc::whereBetween('lt_Ngaytruc', [$ngayHienTai, $ngayKetThuc])->get();
 
         return view("layouts.lichkham", $this->data, compact('bacsitruc'));
     }
@@ -183,6 +187,13 @@ class UserController extends Controller
         $customerId = session('user')['CUS_Id'];
         if (!$customerId) {
             return redirect()->route('User.Home')->with('error', 'Thất bại');
+        }
+
+        // Lấy ngày hiện tại
+        $ngayhientai = date('Y-m-d');
+
+        if ($request->LH_Ngaykham < $ngayhientai) {
+            return redirect()->back()->with('error', 'Không thể chọn ngày đã qua. Vui lòng chọn ngày hợp lệ.');
         }
 
         // Tìm bác sĩ theo tên
