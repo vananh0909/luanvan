@@ -385,6 +385,19 @@ class UserController extends Controller
     }
 
 
+    public function sualichhen($id)
+    {
+        $this->data['title'] = "SỬA LỊCH KHÁM";
+
+        $sualichhen = DB::table('lichhen')
+            ->where('lichhen.LH_Id', $id)
+            ->first();
+
+
+        return view("layouts.sualichhen", $this->data, compact('sualichhen'));
+    }
+
+
     public function lienhe()
     {
         $this->data['title'] = 'LIÊN HỆ';

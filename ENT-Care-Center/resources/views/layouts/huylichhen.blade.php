@@ -84,9 +84,14 @@
                                                                             Hủy lịch hẹn
                                                                         </button>
                                                                     </form>
+
+                                                                    <a href="{{ route('User.sualichhen', $lh->LH_Id) }}"
+                                                                        class="btn btn-warning"
+                                                                        style="margin-left: 4px">Chỉnh sửa</a>
                                                                 @else
                                                                     <span style="color: gray;">Lịch hẹn đã qua</span>
                                                                 @endif
+
                                                             </div>
                                                         </td>
                                                     </tr>
