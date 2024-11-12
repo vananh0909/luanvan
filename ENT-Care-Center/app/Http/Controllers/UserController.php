@@ -387,16 +387,74 @@ class UserController extends Controller
 
     public function sualichhen($id)
     {
-        $this->data['title'] = "SỬA LỊCH KHÁM";
+        $this->data['title'] = "SỬA LỊCH HẸN";
 
         $sualichhen = DB::table('lichhen')
             ->where('lichhen.LH_Id', $id)
             ->first();
 
+        $ngayHienTai = date('Y-m-d');
 
-        return view("layouts.sualichhen", $this->data, compact('sualichhen'));
+        // Tính toán ngày kết thúc là 6 ngày sau
+        $ngayKetThuc = date('Y-m-d', strtotime($ngayHienTai . ' + 6 days'));
+
+        $bacsitruc = lt_lichtruc::whereBetween('lt_Ngaytruc', [$ngayHienTai, $ngayKetThuc])->get();
+        return view("layouts.sualichhen", $this->data, compact('sualichhen', 'bacsitruc'));
     }
 
+    public function postsualichhen(Request $request, $id)
+    {
+        // Lấy ID của người dùng từ session
+        $customerId = session('user')['CUS_Id'];
+        if (!$customerId) {
+            return redirect()->route('User.Home')->with('error', 'Thất bại');
+        }
+        $ngayhientai = date('Y-m-d');
+
+        if ($request->LH_Ngaykham < $ngayhientai) {
+            return redirect()->back()->with('error', 'Không thể chọn ngày đã qua. Vui lòng chọn ngày hợp lệ.');
+        }
+
+        $user = User::where('name', $request->LH_BSkham)->first();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Không tìm thấy bác sĩ với tên đã chọn.');
+        }
+        $id_user = $user->id;
+
+        // Kiểm tra lịch trực của bác sĩ
+        $giotruc = lt_lichtruc::where('user_id', $id_user)
+            ->where('lt_Ngaytruc', $request->LH_Ngaykham)
+            ->where('lt_Giotruc', 'LIKE', '%' . $request->LH_Giokham . '%')
+            ->exists();
+
+        if (!$giotruc) {
+            return redirect()->back()->with('error', 'Bác sĩ không trực vào giờ này. Vui lòng chọn giờ khác.');
+        }
+
+        // Kiểm tra lịch hẹn trùng
+        $lichhen = lichhen::where('LH_BSkham', $request->LH_BSkham)
+            ->where('LH_Ngaykham', $request->LH_Ngaykham)
+            ->where('LH_Giokham', $request->LH_Giokham)
+            ->exists();
+
+        if ($lichhen) {
+            return redirect()->back()->with('error', 'Lịch khám trùng với lịch đã có. Vui lòng chọn thời gian khác.');
+        }
+
+        $lichhenData = [
+            'LH_CustomerID' => $customerId,
+            'id_user' => $id_user,
+            'LH_BSkham' => $request->LH_BSkham,
+            'LH_Ngaykham' => $request->LH_Ngaykham,
+            'LH_Giokham' => $request->LH_Giokham,
+            'LH_Email' => $request->LH_Email,
+            'LH_trieuchung' => $request->LH_trieuchung,
+        ];
+
+        $this->lichhen->where('LH_Id', $id)->update($lichhenData);
+
+        return redirect()->route('User.sualichhen', ['id' => $id])->with('status', 'Cập nhật thành công');
+    }
 
     public function lienhe()
     {
