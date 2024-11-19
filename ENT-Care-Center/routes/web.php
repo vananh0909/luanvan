@@ -57,12 +57,12 @@ Route::prefix('Admin')->name('Admin.')->middleware(['auth', 'checkroles'])->grou
     Route::post('trangthai/{id}', [AdminController::class, 'trangthai'])->name('trangthai');
 
 
-    Route::get('doctor', [AdminController::class, 'doctor'])->name('doctor')->middleware('admindoctor');
-    Route::post('doctor', [AdminController::class, 'postdoctor'])->name('postdoctor');
-    Route::get('xemlichtruc', [AdminController::class, 'xemlichtruc'])->name('xemlichtruc');
-    Route::get('sualichtruc/{id}', [AdminController::class, 'sualichtrucbs'])->name('sualichtruc');
-    Route::post('sualichtruc/{id}', [AdminController::class, 'postsualichtruc'])->name('postsualichtruc');
-    Route::post('xoalichtruc/{id}', [AdminController::class, 'xoalichtrucbs'])->name('xoalichtrucbs');
+    // Route::get('doctor', [AdminController::class, 'doctor'])->name('doctor')->middleware('admindoctor');
+    // Route::post('doctor', [AdminController::class, 'postdoctor'])->name('postdoctor');
+    // Route::get('xemlichtruc', [AdminController::class, 'xemlichtruc'])->name('xemlichtruc');
+    // Route::get('sualichtruc/{id}', [AdminController::class, 'sualichtrucbs'])->name('sualichtruc');
+    // Route::post('sualichtruc/{id}', [AdminController::class, 'postsualichtruc'])->name('postsualichtruc');
+    // Route::post('xoalichtruc/{id}', [AdminController::class, 'xoalichtrucbs'])->name('xoalichtrucbs');
 });
 
 //phan quyen

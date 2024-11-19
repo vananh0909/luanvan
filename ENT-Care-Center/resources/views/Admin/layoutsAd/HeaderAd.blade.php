@@ -50,8 +50,8 @@
     <a href="{{ route('alluser') }}" class="btn btn-light" style="margin: 4px;"> Phân Quyền <i
             class="fas fa-user"></i></a>
 
-    <a href="{{ route('Admin.doctor') }}" class="btn btn-light" style="margin: 4px;"> Bác Sĩ <i
-            class="fas fa-user-md"></i></a>
+    {{-- <a href="{{ route('Admin.doctor') }}" class="btn btn-light" style="margin: 4px;"> Bác Sĩ <i
+            class="fas fa-user-md"></i></a> --}}
 
     <form id="logout-form" action="{{ route('logoutAuth') }}" method="POST" style="margin: 4px;">
         @csrf

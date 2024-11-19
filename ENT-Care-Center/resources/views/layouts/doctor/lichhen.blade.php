@@ -41,6 +41,17 @@
             </script>
         @endif
 
+
+
+        <div style="text-align: right; margin-bottom: 20px;">
+            @if ($All)
+                <a href="{{ route('User.lichhen') }}" class="btn btn-primary">Xem Lịch Hẹn Hôm Nay</a>
+            @else
+                <a href="{{ route('User.lichhen', ['all' => true]) }}" class="btn btn-secondary">Xem Tất Cả</a>
+            @endif
+        </div>
+
+
         <table class="table table-striped" style="width: 100%;margin: 0 auto">
             <thead>
                 <tr style="text-align: center">

@@ -524,10 +524,16 @@ class UserController extends Controller
 
 
 
-    public function lichhen()
+    public function lichhen(Request $request)
     {
         $this->data['title'] = "LỊCH HẸN";
         $user = auth()->user();
+
+        $today = Carbon::now()->format('Y-m-d');
+
+        // Kiểm tra xem người dùng có yêu cầu xem tất cả hay không
+        $All = $request->query('all', false);
+
         $Lichhen = DB::table('customer')
             ->join('lichhen', 'customer.CUS_Id', '=', 'lichhen.LH_CustomerID')
             ->select(
@@ -541,11 +547,15 @@ class UserController extends Controller
                 'lichhen.LH_trangthai'
             )
             ->where('lichhen.id_user', $user->id)
+            ->when(!$All, function ($query) use ($today) {
+                // Nếu không phải "Xem tất cả", chỉ lấy lịch hẹn hôm nay
+                return $query->whereDate('lichhen.LH_Ngaykham', $today);
+            })
             ->orderBy('lichhen.LH_Ngaykham', 'desc')
             ->get();
 
 
-        return view("layouts.doctor.lichhen", $this->data, compact('Lichhen'));
+        return view("layouts.doctor.lichhen", $this->data, compact('Lichhen', 'All'));
     }
 
     public function dklichtruc()

@@ -40,6 +40,16 @@
             </script>
         @endif
 
+        <form>
+            <div class="form-group" style="padding-top: 10px; padding-bottom: 40px">
+                <input type="text" name="search" id="search" style="width: 20%; " class="form-control"
+                    placeholder="🔎 Tìm kiếm...">
+                <div id="suggestions"
+                    style="border: 1px solid #ccc; display: none; position: absolute; background: white; z-index: 10;">
+                </div>
+            </div>
+        </form>
+
         <table class="table table-striped" style="width: 100%;margin: 0 auto">
             <thead>
                 <tr>
@@ -86,6 +96,27 @@
 
 
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#search').on('keyup', function() {
+                var query = $(this).val().toLowerCase();
+
+                // Nếu ô tìm kiếm rỗng, hiển thị lại tất cả các dòng
+                if (query === '') {
+                    $('#patient-list tr').show();
+                    return;
+                }
+
+                // Lọc các dòng trong bảng
+                $('#patient-list tr').filter(function() {
+                    var rowText = $(this).text().toLowerCase();
+                    $(this).toggle(rowText.indexOf(query) > -
+                        1); // Hiện hoặc ẩn dòng dựa trên kết quả tìm kiếm
+                });
+            });
+        });
+    </script>
 @endsection
 
 

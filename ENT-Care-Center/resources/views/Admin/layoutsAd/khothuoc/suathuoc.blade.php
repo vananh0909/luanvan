@@ -83,6 +83,17 @@
                 <label for="mota" style="font-weight:bold;margin-bottom:4px; margin-top:4px">Mô Tả: </label>
                 <textarea class="form-control" id="mota" name="mota" rows="3">{{ $suathuoc->mota }}</textarea>
             </div>
+
+            <div class="form-group">
+                <label for="ngaysanxuat" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Ngày Sản Xuất: </label>
+                <input type="text" class="form-control" id="ngaysanxuat" name="ngaysanxuat"
+                    value="{{ $suathuoc->ngaysanxuat }}" required>
+            </div>
+            <div class="form-group">
+                <label for="hansudung" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Hạn Sử Dụng: </label>
+                <input type="text" class="form-control" id="hansudung" name="hansudung"
+                    value="{{ $suathuoc->hansudung }}" required>
+            </div>
             <br>
             <div class="text-center mt-3">
                 <a href="{{ route('Admin.khothuoc') }}" class="btn btn-secondary" style="margin-right:4px; width:80px">Trở

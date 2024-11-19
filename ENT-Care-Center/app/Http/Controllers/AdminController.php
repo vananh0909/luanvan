@@ -51,16 +51,49 @@ class AdminController extends Controller
 
 
 
-    public function quanlylichhen()
+    public function quanlylichhen(Request $request)
     {
         $this->data['title'] = "DANH SÁCH LỊCH HẸN";
 
         // Thực hiện truy vấn để lấy ra thông tin của những người có lịch hẹn
-        $Lichhen = DB::select('
-        SELECT customer.*, lichhen.LH_BSkham, lichhen.LH_Id, lichhen.LH_Email, lichhen.LH_Ngaykham, lichhen.LH_Giokham, lichhen.LH_trieuchung
-        FROM customer
-        INNER JOIN lichhen ON customer.CUS_Id = lichhen.LH_CustomerID
-        ORDER BY  LH_Ngaykham ASC');
+        $search = $request->input('search');
+
+
+        if ($search) {
+
+            $Lichhen = DB::table('customer')
+                ->join('lichhen', 'customer.CUS_Id', '=', 'lichhen.LH_CustomerID')
+                ->select(
+                    'customer.*',
+                    'lichhen.LH_BSkham',
+                    'lichhen.LH_Id',
+                    'lichhen.LH_Email',
+                    'lichhen.LH_Ngaykham',
+                    'lichhen.LH_Giokham',
+                    'lichhen.LH_trieuchung'
+                )
+                ->where('customer.CUS_Name', 'LIKE', "%{$search}%")
+                ->orWhere('customer.CUS_Email', 'LIKE', "%{$search}%")
+                ->orWhere('customer.CUS_Phone', 'LIKE', "%{$search}%")
+                ->orWhere('lichhen.LH_Ngaykham', 'LIKE', "%{$search}%")
+                ->get();
+        } else {
+
+            $Lichhen = DB::table('customer')
+                ->join('lichhen', 'customer.CUS_Id', '=', 'lichhen.LH_CustomerID')
+                ->select(
+                    'customer.*',
+                    'lichhen.LH_BSkham',
+                    'lichhen.LH_Id',
+                    'lichhen.LH_Email',
+                    'lichhen.LH_Ngaykham',
+                    'lichhen.LH_Giokham',
+                    'lichhen.LH_trieuchung'
+                )
+                ->orderBy('lichhen.LH_Ngaykham', 'asc')
+                ->get();
+        }
+
 
 
         return view("Admin.layoutsAd.qllichhen", $this->data, compact('Lichhen'));
@@ -676,11 +709,15 @@ class AdminController extends Controller
 
         // Tạo mảng lưu các cảnh báo
         $canhbaothuoc = [];
-
+        $Date = date('Y-m-d');
 
         foreach ($khothuoc as $thuoc) {
             if ($thuoc->soluong < $thuoc->nguongtoithieu) {
                 $canhbaothuoc[] = 'Thuốc ' . $thuoc->tenthuoc . ' có số lượng ' . $thuoc->soluong . ' dưới ngưỡng tối thiểu ' . $thuoc->nguongtoithieu . ' !';
+            }
+
+            if ($thuoc->hansudung && $thuoc->hansudung <= $Date) {
+                $canhbaothuoc[] = 'Thuốc ' . $thuoc->tenthuoc . ' đã hết hạn sử dụng vào ngày ' . date('d-m-Y', strtotime($thuoc->hansudung)) . '!';
             }
         }
 
@@ -827,154 +864,154 @@ class AdminController extends Controller
 
 
 
-    // Lịch trực bác sĩ
+    //     // Lịch trực bác sĩ
 
-    public function doctor()
-    {
-        $this->data['title'] = "BÁC SĨ";
-        $user = auth()->user(); // Lấy thông tin bác sĩ đã đăng nhập
-
-
-        $lichtruc = DB::table('lt_lichtrucbs')
-            ->select('lt_Idlt', 'lt_tenbacsi', 'lt_ngaytruc', 'lt_giotruc')
-            ->where('user_id', $user->id)
-            ->get();
-
-        return view("Admin.doctors.doctor", array_merge($this->data, compact('user', 'lichtruc')));
-    }
+    //     public function doctor()
+    //     {
+    //         $this->data['title'] = "BÁC SĨ";
+    //         $user = auth()->user(); // Lấy thông tin bác sĩ đã đăng nhập
 
 
-    public function postdoctor(Request $request)
-    {
-        $ten = $request->input('lt_tenbacsi');
-        $ngaytruc = $request->input('lt_ngaytruc');
-        $giotruc = $request->input('lt_giotruc'); // Đây sẽ là một mảng chứa các giờ đã chọn
-        $userId = $request->input('user_id');
+    //         $lichtruc = DB::table('lt_lichtrucbs')
+    //             ->select('lt_Idlt', 'lt_tenbacsi', 'lt_ngaytruc', 'lt_giotruc')
+    //             ->where('user_id', $user->id)
+    //             ->get();
 
-        if (!is_array($giotruc) || empty($giotruc)) {
-            return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
-        }
-
-        // Chuyển mảng giờ trực thành chuỗi
-        $giotruc_list = implode(', ', $giotruc);
-
-        // Kiểm tra xem đã có bản ghi nào cho ngày và bác sĩ cụ thể chưa
-        $lichtruc = DB::table('lt_lichtrucbs')
-            ->where('lt_giotruc', $giotruc_list)
-            ->where('lt_ngaytruc', $ngaytruc)
-            ->where('user_id', $userId)
-            ->first();
-
-        if ($lichtruc) {
-
-            return redirect()->back()->with('error', 'Lịch trực đã tồn tại!');
-        } else {
-            // Nếu chưa có bản ghi, thêm mới
-            DB::table('lt_lichtrucbs')->insert([
-                'lt_tenbacsi' => $ten,
-                'lt_ngaytruc' => $ngaytruc,
-                'lt_giotruc' => $giotruc_list,
-                'user_id' => $userId,
-            ]);
-        }
-
-        return redirect()->back()->with('status', 'Lịch trực đã được đăng ký thành công!');
-    }
+    //         return view("Admin.doctors.doctor", array_merge($this->data, compact('user', 'lichtruc')));
+    //     }
 
 
+    //     public function postdoctor(Request $request)
+    //     {
+    //         $ten = $request->input('lt_tenbacsi');
+    //         $ngaytruc = $request->input('lt_ngaytruc');
+    //         $giotruc = $request->input('lt_giotruc'); // Đây sẽ là một mảng chứa các giờ đã chọn
+    //         $userId = $request->input('user_id');
 
-    public function xemlichtruc()
-    {
+    //         if (!is_array($giotruc) || empty($giotruc)) {
+    //             return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
+    //         }
 
-        $this->data['title'] = "LỊCH TRỰC";
-        $user = auth()->user();
-        $xemlichtruc = DB::table('lt_lichtruc')
+    //         // Chuyển mảng giờ trực thành chuỗi
+    //         $giotruc_list = implode(', ', $giotruc);
 
-            ->where('user_id', $user->id)
-            ->get();
+    //         // Kiểm tra xem đã có bản ghi nào cho ngày và bác sĩ cụ thể chưa
+    //         $lichtruc = DB::table('lt_lichtrucbs')
+    //             ->where('lt_giotruc', $giotruc_list)
+    //             ->where('lt_ngaytruc', $ngaytruc)
+    //             ->where('user_id', $userId)
+    //             ->first();
 
+    //         if ($lichtruc) {
 
-        return view("Admin.doctors.xemlichtruc", $this->data, compact('xemlichtruc'));
-    }
-    public function sualichtrucbs($id)
-    {
-        $user = auth()->user();
-        $this->data['title'] = "SỬA LỊCH TRỰC";
+    //             return redirect()->back()->with('error', 'Lịch trực đã tồn tại!');
+    //         } else {
+    //             // Nếu chưa có bản ghi, thêm mới
+    //             DB::table('lt_lichtrucbs')->insert([
+    //                 'lt_tenbacsi' => $ten,
+    //                 'lt_ngaytruc' => $ngaytruc,
+    //                 'lt_giotruc' => $giotruc_list,
+    //                 'user_id' => $userId,
+    //             ]);
+    //         }
 
-        // Lấy bản ghi của bác sĩ trong ngày
-        $sualichtruc = DB::table('lt_lichtrucbs')
-            ->select('lt_Idlt', 'lt_tenbacsi', 'lt_ngaytruc', 'lt_giotruc')
-            ->where('lt_Idlt', $id)
-            ->where('user_id', $user->id)
-            ->first();
-
-        if (!$sualichtruc) {
-            return back()->with('error', 'Không tìm thấy lịch trực');
-        }
-
-        $giotruc = $sualichtruc->lt_giotruc ? explode(', ', $sualichtruc->lt_giotruc) : [];
-
-        return view("Admin.doctors.sualichtruc", array_merge($this->data, compact('user', 'sualichtruc', 'giotruc', 'id')));
-    }
+    //         return redirect()->back()->with('status', 'Lịch trực đã được đăng ký thành công!');
+    //     }
 
 
 
+    //     public function xemlichtruc()
+    //     {
 
-    public function postsualichtruc(Request $request, $id)
-    {
-        $user = auth()->user();
-        $lt_tenbacsi = $request->input('lt_tenbacsi');
-        $lt_ngaytruc = $request->input('lt_ngaytruc');
-        $lt_giotruc = $request->input('lt_giotruc', []); // Mảng giờ trực từ request
+    //         $this->data['title'] = "LỊCH TRỰC";
+    //         $user = auth()->user();
+    //         $xemlichtruc = DB::table('lt_lichtruc')
 
-        if (!is_array($lt_giotruc) || empty($lt_giotruc)) {
-            return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
-        }
+    //             ->where('user_id', $user->id)
+    //             ->get();
 
-        // Chuyển mảng giờ trực thành chuỗi
-        $giotruc_list = implode(', ', $lt_giotruc);
 
-        // Kiểm tra xem đã có bản ghi nào cho ngày và bác sĩ cụ thể chưa
-        $lichtruc = DB::table('lt_lichtrucbs')
-            ->where('lt_tenbacsi', $lt_tenbacsi)
-            ->where('lt_ngaytruc', $lt_ngaytruc)
-            ->where('user_id', $user->id)
-            ->first();
+    //         return view("Admin.doctors.xemlichtruc", $this->data, compact('xemlichtruc'));
+    //     }
+    //     public function sualichtrucbs($id)
+    //     {
+    //         $user = auth()->user();
+    //         $this->data['title'] = "SỬA LỊCH TRỰC";
 
-        if ($lichtruc) {
+    //         // Lấy bản ghi của bác sĩ trong ngày
+    //         $sualichtruc = DB::table('lt_lichtrucbs')
+    //             ->select('lt_Idlt', 'lt_tenbacsi', 'lt_ngaytruc', 'lt_giotruc')
+    //             ->where('lt_Idlt', $id)
+    //             ->where('user_id', $user->id)
+    //             ->first();
 
-            DB::table('lt_lichtrucbs')
-                ->where('lt_tenbacsi', $lt_tenbacsi)
-                ->where('lt_ngaytruc', $lt_ngaytruc)
-                ->where('user_id', $user->id)
-                ->update([
-                    'lt_giotruc' => $giotruc_list,
-                ]);
-        } else {
+    //         if (!$sualichtruc) {
+    //             return back()->with('error', 'Không tìm thấy lịch trực');
+    //         }
 
-            DB::table('lt_lichtrucbs')->insert([
-                'lt_tenbacsi' => $lt_tenbacsi,
-                'lt_ngaytruc' => $lt_ngaytruc,
-                'lt_giotruc' => $giotruc_list,
-                'user_id' => $user->id,
-            ]);
-        }
+    //         $giotruc = $sualichtruc->lt_giotruc ? explode(', ', $sualichtruc->lt_giotruc) : [];
 
-        return redirect()->back()->with('status', 'Cập nhật lịch trực thành công');
-    }
+    //         return view("Admin.doctors.sualichtruc", array_merge($this->data, compact('user', 'sualichtruc', 'giotruc', 'id')));
+    //     }
 
 
 
-    public function xoalichtrucbs($id)
-    {
+
+    //     public function postsualichtruc(Request $request, $id)
+    //     {
+    //         $user = auth()->user();
+    //         $lt_tenbacsi = $request->input('lt_tenbacsi');
+    //         $lt_ngaytruc = $request->input('lt_ngaytruc');
+    //         $lt_giotruc = $request->input('lt_giotruc', []); // Mảng giờ trực từ request
+
+    //         if (!is_array($lt_giotruc) || empty($lt_giotruc)) {
+    //             return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
+    //         }
+
+    //         // Chuyển mảng giờ trực thành chuỗi
+    //         $giotruc_list = implode(', ', $lt_giotruc);
+
+    //         // Kiểm tra xem đã có bản ghi nào cho ngày và bác sĩ cụ thể chưa
+    //         $lichtruc = DB::table('lt_lichtrucbs')
+    //             ->where('lt_tenbacsi', $lt_tenbacsi)
+    //             ->where('lt_ngaytruc', $lt_ngaytruc)
+    //             ->where('user_id', $user->id)
+    //             ->first();
+
+    //         if ($lichtruc) {
+
+    //             DB::table('lt_lichtrucbs')
+    //                 ->where('lt_tenbacsi', $lt_tenbacsi)
+    //                 ->where('lt_ngaytruc', $lt_ngaytruc)
+    //                 ->where('user_id', $user->id)
+    //                 ->update([
+    //                     'lt_giotruc' => $giotruc_list,
+    //                 ]);
+    //         } else {
+
+    //             DB::table('lt_lichtrucbs')->insert([
+    //                 'lt_tenbacsi' => $lt_tenbacsi,
+    //                 'lt_ngaytruc' => $lt_ngaytruc,
+    //                 'lt_giotruc' => $giotruc_list,
+    //                 'user_id' => $user->id,
+    //             ]);
+    //         }
+
+    //         return redirect()->back()->with('status', 'Cập nhật lịch trực thành công');
+    //     }
 
 
-        $lichtruc = lt_lichtrucbs::where('lt_Idlt', $id)->first();
+
+    //     public function xoalichtrucbs($id)
+    //     {
+
+
+    //         $lichtruc = lt_lichtrucbs::where('lt_Idlt', $id)->first();
 
 
 
-        $lichtruc->delete();
+    //         $lichtruc->delete();
 
-        return redirect()->back()->with('status', 'Xóa thành công  !');
-    }
+    //         return redirect()->back()->with('status', 'Xóa thành công  !');
+    //     }
 }

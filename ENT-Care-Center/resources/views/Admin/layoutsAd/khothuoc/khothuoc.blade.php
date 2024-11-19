@@ -73,7 +73,7 @@
             @endif
 
 
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered" style="width: 100%; table-layout: fixed;">
                 <thead>
                     <tr>
                         <th>ID Thuốc</th>
@@ -85,6 +85,8 @@
                         <th>Liều Lượng</th>
                         <th>Cách Dùng</th>
                         <th>Mô Tả</th>
+                        <th>Ngày Sản Xuất</th>
+                        <th>Hạn Sử Dụng</th>
                         <th>Hành Động</th>
                     </tr>
                 </thead>
@@ -102,7 +104,10 @@
                             <td>{{ $kt->lieuluong }}</td>
                             <td>{{ $kt->cachdung }}</td>
                             <td>{{ $kt->mota }}</td>
-                            <td class="d-flex align-items-center" style="padding-bottom:17px;padding-top:16px">
+                            <td>{{ date('d-m-Y', strtotime($kt->ngaysanxuat)) }}</td>
+                            <td>{{ date('d-m-Y', strtotime($kt->hansudung)) }}</td>
+                            <td class="d-flex align-items-center"
+                                style="padding-bottom:42px;padding-top:30px; padding-left: 15px">
                                 <a href="{{ route('Admin.suathuoc', ['id' => $kt->id_thuoc]) }}"
                                     class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
 
