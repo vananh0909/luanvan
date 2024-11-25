@@ -61,7 +61,6 @@
                     <th scope="col">SĐT</th>
                     <th scope="col">Ngân Hàng</th>
                     <th scope="col">STK</th>
-                    <th scope="col">Lịch Sử Khám</th>
                     <th scope="col">Hành Động</th>
                 </tr>
             </thead>
@@ -79,7 +78,7 @@
                         <td> {{ $kh->CUS_Phone }}</td>
                         <td>{{ $kh->CUS_Nganhang }} </td>
                         <td> {{ $kh->CUS_Stk }}</td>
-                        <td><i class="fa-solid fa-clock-rotate-left"></i></td>
+
                         <td>
                             <a href="{{ route('Admin.suathongtin', ['id' => $kh->CUS_Id]) }}" class="btn btn-primary"><i
                                     class="fa-regular fa-pen-to-square"></i></a>

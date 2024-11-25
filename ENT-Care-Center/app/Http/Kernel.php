@@ -76,6 +76,10 @@ class Kernel extends HttpKernel
         'admindoctor' => \App\Http\Middleware\AdminDoctor::class,
         'adminquanly' => \App\Http\Middleware\AdminQuanly::class,
         'checkroles' => \App\Http\Middleware\CheckRoles::class,
+        'logout' => \App\Http\Middleware\logout::class,
+        'bacsi' => \App\Http\Middleware\checkbacsi::class,
+        'benhnhan' => \App\Http\Middleware\checkbenhnhan::class,
+
 
     ];
 }

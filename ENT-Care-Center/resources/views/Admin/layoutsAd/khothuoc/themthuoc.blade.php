@@ -83,13 +83,13 @@
             </div>
             <div class="form-group">
                 <label for="ngaysanxuat" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Ngày Sản Xuất: </label>
-                <input type="text" class="form-control" id="ngaysanxuat" name="ngaysanxuat" placeholder="Ngày Sản Xuất"
+                <input type="date" class="form-control" id="ngaysanxuat" name="ngaysanxuat" placeholder="Ngày Sản Xuất"
                     required>
             </div>
 
             <div class="form-group">
                 <label for="hansudung" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Hạn Sử Dụng: </label>
-                <input type="text" class="form-control" id="hansudung" name="hansudung" placeholder="Hạn Sử Dụng"
+                <input type="date" class="form-control" id="hansudung" name="hansudung" placeholder="Hạn Sử Dụng"
                     required>
             </div>
             <br>

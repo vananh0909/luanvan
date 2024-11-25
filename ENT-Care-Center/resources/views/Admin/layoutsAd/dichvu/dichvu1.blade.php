@@ -25,7 +25,7 @@
 
         <form method="POST" action="{{ route('Admin.postdichvu1') }}" enctype="multipart/form-data">
             @csrf
-            <table class="table table-striped" style="width: 50%; margin: 0 auto; ">
+            <table class="table table-striped" style="width: 50%; margin: 0 auto;">
 
                 <tbody>
 
@@ -52,8 +52,23 @@
         </form>
 
     </main>
-    </div>
 
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+    </div>
 
 
     </div>

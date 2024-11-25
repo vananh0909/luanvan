@@ -85,8 +85,8 @@
                             <a href="{{ route('Admin.suanhanvien', ['id' => $nv->id]) }}" class="btn btn-primary"><i
                                     class="fa-regular fa-pen-to-square"></i></a>
 
-                            <a href="{{ route('Admin.xoanhanvien', ['id' => $nv->id]) }}" class="btn btn-danger"><i
-                                    class="fa-solid fa-trash"></i></a>
+                            <a href="{{ route('Admin.xoanhanvien', ['id' => $nv->id]) }}" class="btn btn-danger"
+                                style="margin-top: 2px"><i class="fa-solid fa-trash"></i></a>
                         </td>
                     </tr>
                 @endforeach

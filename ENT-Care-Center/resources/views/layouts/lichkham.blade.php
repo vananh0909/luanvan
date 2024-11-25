@@ -131,7 +131,7 @@
                                         <a style="width:82px; margin-right:4px"
                                             href="{{ route('User.Home') }}"class="btn btn-outline-secondary">
                                             Trở lại</a>
-                                        <button type="submit" class="btn btn-info">Tiếp tục</button>
+                                        <button type="submit" class="btn btn-info">Đặt Lịch</button>
                                     </div>
 
                                 </div>

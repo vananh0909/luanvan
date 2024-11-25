@@ -53,8 +53,8 @@
                         <td><a class="btn btn-light"href="{{ route('Admin.quanlydichvu') }}"
                                 style="width: 134px; margin-left: 100px">
                                 Trở Về</a>
-                            <button type="submit" class="btn btn-primary" style="margin-left: 5px">Cập Nhật Gói Dịch
-                                Vụ</button>
+                            <button type="submit" class="btn btn-primary" style="margin-left: 5px">Cập Nhật Gói
+                                Khám</button>
                         </td>
                     </tr>
 

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class CheckRoles
+class checkbacsi
 {
     /**
      * Handle an incoming request.
@@ -20,7 +20,7 @@ class CheckRoles
         if (Auth::check()) {
             $user = Auth::user();
 
-            if ($user->hasAnyRoles(['admin', 'doctor', 'nhanvienquanli'])) {
+            if ($user->hasAnyRoles(['doctor'])) {
                 return $next($request);
             }
         }

@@ -14,7 +14,6 @@
             @include('layouts.Header')
         </header>
         <main>
-
             <div class="row">
                 <div class="col-md-8" style="background-color:rgb(234, 235, 239); margin-left: 6px">
 
@@ -46,7 +45,6 @@
                                             <p style="display: inline-block; margin-right:64px"> Giới Tính : </p>
                                             <p style="display: inline-block;"> {{ $data->CUS_Gender }}</p>
                                         </div>
-
                                         <div>
                                             <p style="display: inline-block; margin-right:58px"> Ngày sinh : </p>
                                             <p style="display: inline-block;">
@@ -68,6 +66,7 @@
                                             <p style="display: inline-block;"> {{ $data->LH_trieuchung }} </p>
                                         </div>
                             </div>
+
 
                             <h2 style="font-size:18px; font-weight:bold; color:rgb(77, 141, 197)"> Bác Sĩ </h2>
                             <div style=" margin-top: 10px">
@@ -101,7 +100,7 @@
                                 <a style="width:82px; margin-right:10px" href="{{ route('User.lichkham') }}"
                                     class="btn btn-outline-secondary">
                                     Trở lại</a>
-                                <a id="xacnhan" href="{{ route('sendmail') }}" class="btn btn-info"> Xác nhận </a>
+                                <a id="xacnhan" href="{{ route('sendmail') }}" class="btn btn-info"> Xong </a>
 
                                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                                 <script>

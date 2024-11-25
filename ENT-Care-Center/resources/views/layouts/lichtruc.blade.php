@@ -23,7 +23,7 @@
 
                     <div style="background-color: #ffffff; width: 1000px; border-radius:6px; margin:0 auto" class="col-md-6">
 
-                        <table class="table table-striped table-hover" style=" width:98%; margin: 0 auto; font-weight:400;">
+                        <table class="table table-striped table-hover" style=" width:99%; margin: 0 auto; font-weight:400;">
                             <thead>
                                 <tr style="color: rgba(68, 158, 210, 0.8);">
                                     <th scope="col">STT</th>
@@ -50,7 +50,7 @@
                                         <td>
                                             @foreach (explode(', ', $bs->lt_Giotruc) as $time)
                                                 <span class="btn btn-success"
-                                                    style="margin-right: 4px;font-size: 0.8rem;">{{ $time }}</span>
+                                                    style="margin-right: 4px; margin-top: 2px ;font-size: 0.8rem;">{{ $time }}</span>
                                             @endforeach
                                         </td>
                                     </tr>
@@ -96,24 +96,24 @@
 
 
     {{-- .col-md-1{
-                                                                    margin-right:34px;
-                                                                    width:65px;
-                                                                    }
+                                                                            margin-right:34px;
+                                                                            width:65px;
+                                                                            }
 
-                                                                    .header{
-                                                                    height:60px;
-                                                                    border-bottom-left-radius: 6px;
-                                                                    border-bottom-right-radius: 6px;
-                                                                    }
+                                                                            .header{
+                                                                            height:60px;
+                                                                            border-bottom-left-radius: 6px;
+                                                                            border-bottom-right-radius: 6px;
+                                                                            }
 
-                                                                    .col-md-8{
-                                                                    width: 1000px;
-                                                                    margin-right:25px;
-                                                                    border-radius: 6px;
+                                                                            .col-md-8{
+                                                                            width: 1000px;
+                                                                            margin-right:25px;
+                                                                            border-radius: 6px;
 
-                                                                    }
+                                                                            }
 
-                                                                    footer{
-                                                                    background-color:green;
-                                                                    }
+                                                                            footer{
+                                                                            background-color:green;
+                                                                            }
     @endsection

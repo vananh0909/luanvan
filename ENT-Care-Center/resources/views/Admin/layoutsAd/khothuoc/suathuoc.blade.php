@@ -86,12 +86,12 @@
 
             <div class="form-group">
                 <label for="ngaysanxuat" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Ngày Sản Xuất: </label>
-                <input type="text" class="form-control" id="ngaysanxuat" name="ngaysanxuat"
+                <input type="date" class="form-control" id="ngaysanxuat" name="ngaysanxuat"
                     value="{{ $suathuoc->ngaysanxuat }}" required>
             </div>
             <div class="form-group">
                 <label for="hansudung" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Hạn Sử Dụng: </label>
-                <input type="text" class="form-control" id="hansudung" name="hansudung"
+                <input type="date" class="form-control" id="hansudung" name="hansudung"
                     value="{{ $suathuoc->hansudung }}" required>
             </div>
             <br>

@@ -60,7 +60,9 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $dv1->DV_Tendv }} </td>
-                        <td> {{ $dv1->DV_Gia }}</td>
+                        <td>
+                            {{ number_format($dv1->DV_Gia ?? 0, 0, ',', '.') }} đ
+                        </td>
                         <td>
                             <a href="{{ route('Admin.suadichvu', ['id' => $dv1->DV_ID]) }}" class="btn btn-primary"><i
                                     class="fa-regular fa-pen-to-square"></i></a>

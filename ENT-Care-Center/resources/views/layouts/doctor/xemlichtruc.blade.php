@@ -66,7 +66,8 @@
                             <td>{{ date('d-m-Y', strtotime($ltbs->lt_Ngaytruc)) }}</td>
                             <td>
                                 @foreach (explode(', ', $ltbs->lt_Giotruc) as $time)
-                                    <span class="btn btn-success" style="margin-left:4px">{{ $time }}</span>
+                                    <span class="btn btn-success"
+                                        style="margin-left:4px; margin-top: 2px">{{ $time }}</span>
                                 @endforeach
                             </td>
 
