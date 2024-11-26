@@ -130,6 +130,12 @@ class AdminController extends Controller
         if (!is_array($giotruc) || empty($giotruc)) {
             return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
         }
+        // Lấy ngày hiện tại
+        $ngayhientai = date('Y-m-d');
+
+        if ($ngaytruc < $ngayhientai) {
+            return redirect()->back()->with('error', 'Không thể chọn ngày đã qua. Vui lòng chọn ngày hợp lệ.');
+        }
 
         // Lấy ID của bác sĩ từ bảng users dựa trên tên bác sĩ
         $user = User::where('name', $Tenbs)->first();
@@ -556,7 +562,6 @@ class AdminController extends Controller
         // Lấy thông tin người dùng từ bảng users
         $user = DB::table('users')->where('id', $id)->first();
 
-        // Kiểm tra nếu người dùng không tồn tại
         if (!$user) {
             return redirect()->route('Admin.quanlynhanvien')->with('error', 'Người dùng không tồn tại.');
         }
@@ -772,7 +777,8 @@ class AdminController extends Controller
     public function postsuathuoc(Request $request, $id)
     {
 
-        $thuoc = khothuoc::find($id);
+        // $thuoc = khothuoc::find($id);
+        $thuoc = khothuoc::where('id_thuoc', $id)->first();
 
         if (!$thuoc) {
             return redirect()->back()->with('error', 'Thuốc không tồn tại.');

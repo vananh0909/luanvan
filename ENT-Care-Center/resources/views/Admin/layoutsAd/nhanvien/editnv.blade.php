@@ -125,7 +125,7 @@
 
                     <tr>
                         <th scope="row"></th>
-                        <td><a class="btn btn-light"href="{{ route('Admin.quanlynhanvien', ['id' => $Nhanvien->id_user]) }}"
+                        <td><a class="btn btn-light"href="{{ route('Admin.quanlynhanvien') }}"
                                 style="width: 134px; margin-left: 100px">Trở
                                 Về</a>
                             <button type="submit" class="btn btn-primary" style="margin-left: 5px">Sửa Thông

@@ -147,6 +147,7 @@
             });
         });
     </script>
+
 @endsection
 
 @section('css')

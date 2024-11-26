@@ -66,13 +66,13 @@ Route::prefix('Admin')->name('Admin.')->middleware(['auth', 'checkroles', 'logou
 });
 
 //phan quyen
-Route::get('auth', [AuthController::class, 'auth'])->name('auth');
+Route::get('auth', [AuthController::class, 'auth'])->name('auth')->middleware('logout');
 Route::post('auth', [AuthController::class, 'postauth'])->name('postauth');
 Route::get('LoginAuth', [AuthController::class, 'LoginAuth'])->name('LoginAuth')->middleware('logout');
 Route::post('LoginAuth', [AuthController::class, 'postloginAuth'])->name('postLoginAuth');
 Route::post('logoutAuth', [AuthController::class, 'logoutAuth'])->name('logoutAuth')->middleware('logout');
 
-Route::get('alluser', [UserAuthController::class, 'index'])->name('alluser')->middleware('admin');
+Route::get('alluser', [UserAuthController::class, 'index'])->name('alluser')->middleware('admin', 'logout');
 Route::post('alluser', [UserAuthController::class, 'phanquyen'])->name('phanquyen');
 
 
