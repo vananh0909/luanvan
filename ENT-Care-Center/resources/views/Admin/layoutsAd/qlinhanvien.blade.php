@@ -82,10 +82,10 @@
                         <td> {{ $nv->NV_Chucvu }}</td>
                         <td> {{ $nv->NV_Gioithieu }}</td>
                         <td>
-                            <a href="{{ route('Admin.suanhanvien', ['id' => $nv->id]) }}" class="btn btn-primary"><i
+                            <a href="{{ route('Admin.suanhanvien', ['id' => $nv->id_user]) }}" class="btn btn-primary"><i
                                     class="fa-regular fa-pen-to-square"></i></a>
 
-                            <a href="{{ route('Admin.xoanhanvien', ['id' => $nv->id]) }}" class="btn btn-danger"
+                            <a href="{{ route('Admin.xoanhanvien', ['id' => $nv->id_user]) }}" class="btn btn-danger"
                                 style="margin-top: 2px"><i class="fa-solid fa-trash"></i></a>
                         </td>
                     </tr>

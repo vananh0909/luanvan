@@ -43,7 +43,7 @@
         @endif
 
 
-        <form method="POST" action="{{ route('Admin.editnhanvien', ['id' => $Nhanvien->NV_Id ?? $Nhanvien->id_user]) }}"
+        <form method="POST" action="{{ route('Admin.editnhanvien', ['id' => $Nhanvien->id_user]) }}"
             enctype="multipart/form-data">
 
             @csrf
@@ -125,7 +125,7 @@
 
                     <tr>
                         <th scope="row"></th>
-                        <td><a class="btn btn-light"href="{{ route('Admin.quanlynhanvien', ['id' => $Nhanvien->NV_Id]) }}"
+                        <td><a class="btn btn-light"href="{{ route('Admin.quanlynhanvien', ['id' => $Nhanvien->id_user]) }}"
                                 style="width: 134px; margin-left: 100px">Trở
                                 Về</a>
                             <button type="submit" class="btn btn-primary" style="margin-left: 5px">Sửa Thông

@@ -82,22 +82,22 @@ Route::post('alluser', [UserAuthController::class, 'phanquyen'])->name('phanquye
 Route::prefix('User')->name('User.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('Home');
 
-    Route::get('Lichkham', [UserController::class, 'lichkham'])->name('lichkham')->middleware('benhnhan');
+    Route::get('Lichkham', [UserController::class, 'lichkham'])->name('lichkham')->middleware('logout');
     Route::post('Lichkham', [UserController::class, 'postlichkham'])->name('postlichkham');
-    Route::get('Lichkham2', [UserController::class, 'lichkham2'])->name('lichkham2');
-    Route::get('huylichhen', [UserController::class, 'huylichhen'])->name('huylichhen');
+    Route::get('Lichkham2', [UserController::class, 'lichkham2'])->name('lichkham2')->middleware('logout');
+    Route::get('huylichhen', [UserController::class, 'huylichhen'])->name('huylichhen')->middleware('logout');
     Route::post('huylichhen/{id}', [UserController::class, 'posthuylichhen'])->name('posthuylichhen');
-    Route::get('sualichhen/{id}', [UserController::class, 'sualichhen'])->name('sualichhen');
+    Route::get('sualichhen/{id}', [UserController::class, 'sualichhen'])->name('sualichhen')->middleware('logout');
     Route::post('postsualichhen/{id}', [UserController::class, 'postsualichhen'])->name('postsualichhen');
 
     Route::get('doctors', [UserController::class, 'doctors'])->name('doctors');
     Route::get('lienhe', [UserController::class, 'lienhe'])->name('lienhe');
     Route::post('lienhe', [UserController::class, 'postlienhe'])->name('postlienhe');
     Route::get('dichvu', [UserController::class, 'dichvu'])->name('dichvu');
-    Route::get('caidattaikhoan', [UserController::class, 'Setting'])->name('Setting')->middleware('benhnhan');
-    Route::get('suatrangcanhan/{id}', [UserController::class, 'suatrangcanhan'])->name('suatrangcanhan');
+    Route::get('caidattaikhoan', [UserController::class, 'Setting'])->name('Setting')->middleware('logout');
+    Route::get('suatrangcanhan/{id}', [UserController::class, 'suatrangcanhan'])->name('suatrangcanhan')->middleware('logout');
     Route::post('posttrangcanhan/{id}', [UserController::class, 'posttrangcanhan'])->name('posttrangcanhan');
-    Route::get('lichsukham', [UserController::class, 'lichsukham'])->name('lichsukham')->middleware('benhnhan');
+    Route::get('lichsukham', [UserController::class, 'lichsukham'])->name('lichsukham')->middleware('logout');
 
     Route::get('dangnhap', [UserController::class, 'dangnhap'])->name('dangnhap');
     Route::post('dangnhap', [UserController::class, 'postdangnhap'])->name('postdangnhap');
@@ -107,20 +107,20 @@ Route::prefix('User')->name('User.')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout')->middleware('logout');
 
     //doctor
-    Route::get('bacsi', [UserController::class, 'bacsi'])->name('bacsi');
-    Route::get('lichhen', [UserController::class, 'lichhen'])->name('lichhen');
-    Route::get('dklichtruc', [UserController::class, 'dklichtruc'])->name('dklichtruc');
-    Route::post('dklichtruc', [UserController::class, 'postdklichtruc'])->name('postdklichtruc');
-    Route::get('sualichtrucdk/{id}', [UserController::class, 'sualichtrucdk'])->name('sualichtrucdk');
-    Route::post('sualichtrucdk/{id}', [UserController::class, 'postsualichtrucdk'])->name('postsualichtrucdk');
+    Route::get('bacsi', [UserController::class, 'bacsi'])->name('bacsi')->middleware('bacsi', 'logout');
+    Route::get('lichhen', [UserController::class, 'lichhen'])->name('lichhen')->middleware('bacsi', 'logout');
+    Route::get('dklichtruc', [UserController::class, 'dklichtruc'])->name('dklichtruc')->middleware('bacsi', 'logout');
+    Route::post('dklichtruc', [UserController::class, 'postdklichtruc'])->name('postdklichtruc')->middleware('bacsi');
+    Route::get('sualichtrucdk/{id}', [UserController::class, 'sualichtrucdk'])->name('sualichtrucdk')->middleware('bacsi', 'logout');
+    Route::post('sualichtrucdk/{id}', [UserController::class, 'postsualichtrucdk'])->name('postsualichtrucdk')->middleware('bacsi');
     Route::post('xoalichtrucdk/{id}', [UserController::class, 'xoalichtrucdk'])->name('xoalichtrucdk');
-    Route::get('xemlichtruc', [UserController::class, 'xemlichtrucbs'])->name('xemlichtrucbs');
-    Route::get('khambenh/{id}', [UserController::class, 'khambenh'])->name('khambenh');
-    Route::get('benhan/{id}', [UserController::class, 'benhan'])->name('benhan');
+    Route::get('xemlichtruc', [UserController::class, 'xemlichtrucbs'])->name('xemlichtrucbs')->middleware('bacsi', 'logout');
+    Route::get('khambenh/{id}', [UserController::class, 'khambenh'])->name('khambenh')->middleware('bacsi', 'logout');
+    Route::get('benhan/{id}', [UserController::class, 'benhan'])->name('benhan')->middleware('bacsi', 'logout');
     Route::post('postbenhandonthuoc', [UserController::class, 'postbenhandonthuoc'])->name('postbenhandonthuoc');
-    Route::get('donthuoc/{id}', [UserController::class, 'donthuoc'])->name('donthuoc');
-    Route::get('trangcanhan', [UserController::class, 'trangcanhan'])->name('trangcanhan');
-    Route::get('suathongtin/{id}', [UserController::class, 'suathongtin'])->name('suathongtin');
+    Route::get('donthuoc/{id}', [UserController::class, 'donthuoc'])->name('donthuoc')->middleware('bacsi', 'logout');
+    Route::get('trangcanhan', [UserController::class, 'trangcanhan'])->name('trangcanhan')->middleware('bacsi', 'logout');
+    Route::get('suathongtin/{id}', [UserController::class, 'suathongtin'])->name('suathongtin')->middleware('bacsi', 'logout');
     Route::post('suathongtin/{id}', [UserController::class, 'postsuathongtin'])->name('postsuathongtin');
-    Route::get('lichsukhambs', [UserController::class, 'lichsukhambs'])->name('lichsukhambs');
+    Route::get('lichsukhambs', [UserController::class, 'lichsukhambs'])->name('lichsukhambs')->middleware('bacsi', 'logout');
 });

@@ -25,6 +25,6 @@ class checkbacsi
             }
         }
 
-        return back()->with('error', 'Bạn chưa có quyền để truy cập trang này !');
+        return redirect()->route('User.dangnhap')->with('error', 'Xin vui lòng đăng nhập vào hệ thống !');
     }
 }
