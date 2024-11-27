@@ -41,9 +41,16 @@ return [
             'port' => 587,
             'encryption' => 'tls',
             'username' => 'ntvanh0909@gmail.com',
-            'password' => 'kbns ctwz dkek puev',
+            'password' => 'drsv vtck iean dtxb',
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'stream' => [
+                'ssl' => [
+                    'allow_self_signed' => true,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ],
         ],
 
         'ses' => [
@@ -130,5 +137,6 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
+
 
 ];

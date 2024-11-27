@@ -199,11 +199,16 @@ class AdminController extends Controller
         if (!is_array($lt_Giotruc) || empty($lt_Ngaytruc)) {
             return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
         }
+        // Lấy ngày hiện tại
+        $ngayhientai = date('Y-m-d');
 
+        if ($lt_Ngaytruc < $ngayhientai) {
+            return redirect()->back()->with('error', 'Không thể chọn ngày đã qua. Vui lòng chọn ngày hợp lệ.');
+        }
         // Chuyển mảng giờ trực thành chuỗi
         $giotruc_list = implode(', ', $lt_Giotruc);
 
-        // Kiểm tra xem đã có bản ghi nào cho ngày và bác sĩ cụ thể chưa
+
         $lichtruc = DB::table('lt_lichtruc')
             ->where('lt_tenbs', $lt_tenbs)
             ->where('lt_Ngaytruc', $lt_Ngaytruc)

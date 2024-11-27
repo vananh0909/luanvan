@@ -65,7 +65,7 @@
 
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="patient-list">
                 @foreach ($Lichhen as $lh)
                     <tr>
                         <td>{{ $loop->iteration }}</td>

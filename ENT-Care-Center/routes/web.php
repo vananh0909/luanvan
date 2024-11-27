@@ -96,7 +96,7 @@ Route::prefix('User')->name('User.')->group(function () {
     Route::get('dichvu', [UserController::class, 'dichvu'])->name('dichvu');
     Route::get('caidattaikhoan', [UserController::class, 'Setting'])->name('Setting')->middleware('logout');
     Route::get('suatrangcanhan/{id}', [UserController::class, 'suatrangcanhan'])->name('suatrangcanhan')->middleware('logout');
-    Route::post('posttrangcanhan/{id}', [UserController::class, 'posttrangcanhan'])->name('posttrangcanhan');
+    Route::post('posttrangcanhan/{id}', [UserController::class, 'posttrangcanhan'])->name('posttrangcanhan')->middleware('logout');
     Route::get('lichsukham', [UserController::class, 'lichsukham'])->name('lichsukham')->middleware('logout');
 
     Route::get('dangnhap', [UserController::class, 'dangnhap'])->name('dangnhap');

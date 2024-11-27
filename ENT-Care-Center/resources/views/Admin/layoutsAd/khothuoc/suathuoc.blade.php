@@ -46,12 +46,19 @@
                     required>
             </div>
             <label for="tenthuoc" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Chọn Loại Thuốc: </label>
-            <select class="form-control" id="tenloai" name="id_loai" required>
+            <select class="form-control" id="tenloai" name="id_loai">
+                @foreach ($loaithuoc as $thuoc)
+                    <option value="{{ $thuoc->id_loai }}" {{ $thuoc->id_loai == $suathuoc->id_loai ? 'selected' : '' }}>
+                        {{ $thuoc->ten_loai }}
+                    </option>
+                @endforeach
+            </select>
+            {{-- <select class="form-control" id="tenloai" name="id_loai">
                 <option value="">{{ $suathuoc->ten_loai }}</option>
                 @foreach ($loaithuoc as $thuoc)
                     <option value="{{ $thuoc->id_loai }}">{{ $thuoc->ten_loai }}</option>
                 @endforeach
-            </select>
+            </select> --}}
             <div class="form-group">
                 <label for="soluong" style="font-weight:bold; margin-bottom:4px; margin-top:4px">Số Lượng: </label>
                 <input type="number" class="form-control" id="soluong" name="soluong" value="{{ $suathuoc->soluong }}"

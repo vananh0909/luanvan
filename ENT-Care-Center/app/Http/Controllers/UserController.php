@@ -494,9 +494,12 @@ class UserController extends Controller
 
     public function sendmail()
     {
-        $name = session('user')['CUS_Name']; // Lấy thông tin người dùng từ session
+        $name = session('user')['CUS_Name'];  // Lấy thông tin người dùng từ session
+
         $lichhenModel = new lichhen();
+
         $lichhen = $lichhenModel->getLichHen();
+
         if ($lichhen) {
             // Lấy địa chỉ email từ dữ liệu lịch hẹn
             $emailAddress = $lichhen[0]->LH_Email;
@@ -507,8 +510,10 @@ class UserController extends Controller
                 $email->to($emailAddress, $name);
             });
         }
+
         return redirect()->back();
     }
+
 
 
 
