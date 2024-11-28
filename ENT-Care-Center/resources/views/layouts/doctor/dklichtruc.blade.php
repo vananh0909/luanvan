@@ -11,6 +11,7 @@
     <main style="font-family: Times New Roman, Times, serif;">
 
         <div>
+            <a href="{{ route('User.lichhen') }}"><i class="fas fa-backward" style="color:gray"></i></a>
             <h1 style="font-size:24px; text-align:center; font-weight:400; padding-top: 20px; padding-bottom:30px">
                 ĐĂNG KÝ LỊCH TRỰC
             </h1>
@@ -41,6 +42,7 @@
                 });
             </script>
         @endif
+
 
         <form action="{{ route('User.postdklichtruc') }}" method="POST">
             @csrf

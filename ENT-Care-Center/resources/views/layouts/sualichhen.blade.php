@@ -124,6 +124,10 @@
 
 
                             <div style="text-align: center">
+                                <a href="{{ route('User.huylichhen') }}" class="btn btn-light "
+                                    style=" border: none; margin-top: 6px">
+                                    Trở Về
+                                </a>
                                 <button type="submit" class="btn btn-primary " style=" border: none; margin-top: 6px">
                                     Cập Nhật
                                 </button>

@@ -9,6 +9,8 @@
             @include('layouts.doctor.headerdoctor')
         </header>
     </div>
+    <a href="{{ route('User.lichhen') }}" style="padding-bottom:0px; margin-top: -14px"><i class="fas fa-backward"
+            style="color:gray"></i></a>
     <main class="container mt-4">
         @if (session('status'))
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -48,7 +50,10 @@
             </div>
         @endif
 
-        <div class="row" style="margin-top: 5px; margin-bottom: 5px">
+
+
+        <div class="row" style="margin-top: -10px; margin-bottom: 5px">
+
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-header bg-success text-white text-center">

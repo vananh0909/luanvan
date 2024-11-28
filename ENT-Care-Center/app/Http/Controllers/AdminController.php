@@ -133,7 +133,7 @@ class AdminController extends Controller
         // Lấy ngày hiện tại
         $ngayhientai = date('Y-m-d');
 
-        if ($ngaytruc < $ngayhientai) {
+        if ($ngaytruc <= $ngayhientai) {
             return redirect()->back()->with('error', 'Không thể chọn ngày đã qua. Vui lòng chọn ngày hợp lệ.');
         }
 

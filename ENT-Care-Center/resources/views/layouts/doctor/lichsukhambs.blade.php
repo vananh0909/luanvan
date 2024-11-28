@@ -9,7 +9,7 @@
         </header>
     </div>
     <main style="font-family: Times New Roman, Times, serif;">
-
+        <a href="{{ route('User.lichhen') }}"><i class="fas fa-backward" style="color:gray"></i></a>
 
         <div class="container-fluid" style="background-color:rgb(234, 235, 239)">
             @if (Auth::check() && $lskham)
@@ -154,7 +154,23 @@
                 </div>
             @endif
         </div>
+        <br>
+        <br>
+        <br>
 
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <br>
 
 
     </main>

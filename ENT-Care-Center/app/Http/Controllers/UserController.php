@@ -169,13 +169,13 @@ class UserController extends Controller
     {
         $this->data['title'] = "ĐẶT LỊCH KHÁM";
 
-        // Lấy ngày hiện tại
+
         $ngayHienTai = date('Y-m-d');
 
-        // Tính toán ngày kết thúc là 6 ngày sau
+        // ngày kết thúc là 6 ngày sau
         $ngayKetThuc = date('Y-m-d', strtotime($ngayHienTai . ' + 6 days'));
 
-        // Lấy danh sách bác sĩ trực trong khoảng từ ngày hiện tại đến 6 ngày sau
+
         $bacsitruc = lt_lichtruc::whereBetween('lt_Ngaytruc', [$ngayHienTai, $ngayKetThuc])->get();
 
         return view("layouts.lichkham", $this->data, compact('bacsitruc'));
@@ -189,17 +189,17 @@ class UserController extends Controller
             return redirect()->route('User.Home')->with('error', 'Thất bại');
         }
 
-        // Lấy ngày hiện tại
+
         $ngayhientai = date('Y-m-d');
 
-        if ($request->LH_Ngaykham < $ngayhientai) {
+        if ($request->LH_Ngaykham <= $ngayhientai) {
             return redirect()->back()->with('error', 'Không thể chọn ngày đã qua. Vui lòng chọn ngày hợp lệ.');
         }
 
-        // Tìm bác sĩ theo tên
+
         $user = User::where('name', $request->LH_BSkham)->first();
         $id_user = $user->id;
-        // Kiểm tra xem có tìm thấy người dùng không
+
         if (!$user) {
             return redirect()->back()->with('error', 'Không tìm thấy bác sĩ với tên đã chọn.');
         }
@@ -317,7 +317,7 @@ class UserController extends Controller
         $kh->CUS_Stk = $request->input('CUS_Stk');
 
         $kh->update();
-        // Cập nhật lại session
+
         session(['user' => $kh]);
         return redirect()->back()->with('status', 'Cập nhật thành công !');
     }
@@ -337,7 +337,7 @@ class UserController extends Controller
                 ->select('lichhen.*', 'benhan.*', 'donthuoc.*')
                 ->get();
         } else {
-            $lichhen = collect(); //không có userId  khởi tạo collection rỗng
+            $lichhen = collect();
         }
 
         return view("layouts.lichsukham", array_merge($this->data, compact('lichhen', 'userId')));
@@ -354,7 +354,7 @@ class UserController extends Controller
                 ->orderBy('lichhen.LH_Ngaykham', 'desc')
                 ->get();
         } else {
-            $lichhen = collect(); //không có userId  khởi tạo collection rỗng
+            $lichhen = collect();
         }
 
 
@@ -362,7 +362,7 @@ class UserController extends Controller
     }
     public function posthuylichhen($id)
     {
-        // Tìm lịch hẹn theo ID
+
         $lichhen = lichhen::find($id);
         if (!$lichhen) {
             return redirect()->route('User.Home')->with('error', 'Không tìm thấy lịch hẹn.');
@@ -373,7 +373,7 @@ class UserController extends Controller
         //  thời gian hẹn khám từ lịch hẹn
         $time = Carbon::parse($lichhen->LH_Ngaykham . ' ' . $lichhen->LH_Giokham);
 
-        // nếu thời gian hiện tại lớn hơn hoặc bằng thời gian hẹn khám - 1 ngày
+        // tgian hiện tại lớn hơn hoặc bằng thời gian hẹn khám - 1 ngày
         if ($TimeNow->diffInDays($time) < 1) {
             return redirect()->back()->with('error', 'Bạn chỉ có thể hủy lịch hẹn trước 1 ngày.');
         }
@@ -587,11 +587,14 @@ class UserController extends Controller
         if (!is_array($giotruc) || empty($giotruc)) {
             return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
         }
+        $ngayhientai = date('Y-m-d');
 
-        // Chuyển mảng giờ trực thành chuỗi
+        if ($ngaytruc <= $ngayhientai) {
+            return redirect()->back()->with('error', 'Không thể chọn ngày đã qua. Vui lòng chọn ngày hợp lệ.');
+        }
+        //  mảng giờ trực thành chuỗi
         $giotruc_list = implode(', ', $giotruc);
 
-        // Kiểm tra xem đã có bản ghi nào cho ngày và bác sĩ cụ thể chưa
         $lichtruc = DB::table('lt_lichtrucbs')
             ->where('lt_giotruc', $giotruc_list)
             ->where('lt_ngaytruc', $ngaytruc)
@@ -642,16 +645,21 @@ class UserController extends Controller
         $user = auth()->user();
         $lt_tenbacsi = $request->input('lt_tenbacsi');
         $lt_ngaytruc = $request->input('lt_ngaytruc');
-        $lt_giotruc = $request->input('lt_giotruc', []); // Mảng giờ trực từ request
+        $lt_giotruc = $request->input('lt_giotruc', []);
 
         if (!is_array($lt_giotruc) || empty($lt_giotruc)) {
             return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một giờ.');
         }
 
-        // Chuyển mảng giờ trực thành chuỗi
+        $ngayhientai = date('Y-m-d');
+
+        if ($lt_ngaytruc <= $ngayhientai) {
+            return redirect()->back()->with('error', 'Không thể chọn ngày đã qua. Vui lòng chọn ngày hợp lệ.');
+        }
+        //  mảng giờ trực thành chuỗi
         $giotruc_list = implode(', ', $lt_giotruc);
 
-        // Kiểm tra xem đã có bản ghi nào cho ngày và bác sĩ cụ thể chưa
+
         $lichtruc = DB::table('lt_lichtrucbs')
             ->where('lt_tenbacsi', $lt_tenbacsi)
             ->where('lt_ngaytruc', $lt_ngaytruc)
@@ -839,9 +847,9 @@ class UserController extends Controller
 
 
 
-        $firstLhId = $benhan->first()->LH_Id;
+        $firstLhId = $benhan->isNotEmpty() ? $benhan->first()->LH_Id : null;
 
-        return view("layouts.doctor.benhan", $this->data, compact('benhan', 'firstLhId'));
+        return view("layouts.doctor.benhan", $this->data, compact('benhan', 'firstLhId', 'user'));
     }
 
     public function trangcanhan()

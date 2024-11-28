@@ -57,7 +57,7 @@
                                 @csrf
                                 <div style="padding-top: 8px">
                                     <p style=" margin-left: 8px"> Chọn bác sĩ khám (<span style="color:red">*</span>) Dưới
-                                        đây là danh sách bác sĩ trực trong ngày hôm nay</p>
+                                        đây là danh sách bác sĩ trực:</p>
 
                                     <select class="form-select" style=" width: 400px; margin: 0 auto; padding: 6px"
                                         aria-label="Default select example" name="LH_BSkham" required>

@@ -10,18 +10,28 @@
     </div>
     <main style="font-family: Times New Roman, Times, serif;">
 
+        @if (Auth::check() && $benhan)
+            @if ($firstLhId)
+                <div style="margin-bottom: 10px; margin-left: 54px">
+                    <a href="{{ route('User.khambenh', ['id' => $firstLhId]) }}" class="btn btn-light">
+                        <i class="fas fa-backward" style="font-size: 20px; "></i>
+                    </a>
 
-        <div style="margin-bottom: 10px; margin-left: 54px">
-            <a href="{{ route('User.khambenh', ['id' => $firstLhId]) }}" class="btn btn-light">
-                <i class="fas fa-backward" style="font-size: 20px; "></i>
-            </a>
+                </div>
+            @else
+                <div style=" margin-bottom: 10px; margin-left: 50px">
 
-        </div>
+                    <a href="{{ route('User.lichhen') }}"><i class="fas fa-backward" style="color:gray"></i></a>
 
-        <div class="container-fluid" style="background-color:rgb(234, 235, 239)">
-            @if (Auth::check() && $benhan)
+                    <button class="btn btn-warning" style="margin-left:6px">Bệnh nhân chưa
+                        có bệnh án
+                        !</button>
+                </div>
+            @endif
+
+            <div class="container-fluid" style="background-color:rgb(234, 235, 239)">
+
                 <div style="background-color: #ffffff; width: 1400px; border-radius:6px; margin:0 auto" class="col-md-6">
-
                     <table class="table table-striped table-hover" style=" width:99%; margin: 0 auto; font-weight:400;">
                         <thead>
                             <tr style="color: rgba(68, 158, 210, 0.8); font-weight:bold">
@@ -160,9 +170,26 @@
                     <h1 style="text-align: center; padding-top: 240px; font-size: 22px;  color:rgb(86, 86, 86);">
                         NGƯỜI DÙNG CHƯA CÓ BỆNH ÁN</h1>
                 </div>
-            @endif
+        @endif
         </div>
 
+        <br>
+        <br>
+        <br>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <br>
 
 
     </main>

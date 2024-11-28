@@ -45,8 +45,7 @@
                 </script>
             @endif
             <div style="margin-left: 154px; margin-bottom:10px">
-                <a href="{{ route('Admin.doctor') }}"><i style="color:rgb(99, 96, 96); font-size: 20px"
-                        class="fas fa-backward"></i></a>
+                <a href="{{ route('User.lichhen') }}"><i class="fas fa-backward" style="color:gray"></i></a>
             </div>
             <table class="table table-striped" style="width: 75%;margin: 0 auto">
                 <thead>
