@@ -113,14 +113,14 @@ Route::prefix('User')->name('User.')->group(function () {
     Route::post('dklichtruc', [UserController::class, 'postdklichtruc'])->name('postdklichtruc')->middleware('bacsi');
     Route::get('sualichtrucdk/{id}', [UserController::class, 'sualichtrucdk'])->name('sualichtrucdk')->middleware('bacsi', 'logout');
     Route::post('sualichtrucdk/{id}', [UserController::class, 'postsualichtrucdk'])->name('postsualichtrucdk')->middleware('bacsi');
-    Route::post('xoalichtrucdk/{id}', [UserController::class, 'xoalichtrucdk'])->name('xoalichtrucdk');
+    Route::post('xoalichtrucdk/{id}', [UserController::class, 'xoalichtrucdk'])->name('xoalichtrucdk')->middleware('bacsi', 'logout');
     Route::get('xemlichtruc', [UserController::class, 'xemlichtrucbs'])->name('xemlichtrucbs')->middleware('bacsi', 'logout');
     Route::get('khambenh/{id}', [UserController::class, 'khambenh'])->name('khambenh')->middleware('bacsi', 'logout');
     Route::get('benhan/{id}', [UserController::class, 'benhan'])->name('benhan')->middleware('bacsi', 'logout');
-    Route::post('postbenhandonthuoc', [UserController::class, 'postbenhandonthuoc'])->name('postbenhandonthuoc');
+    Route::post('postbenhandonthuoc', [UserController::class, 'postbenhandonthuoc'])->name('postbenhandonthuoc')->middleware('bacsi', 'logout');
     Route::get('donthuoc/{id}', [UserController::class, 'donthuoc'])->name('donthuoc')->middleware('bacsi', 'logout');
     Route::get('trangcanhan', [UserController::class, 'trangcanhan'])->name('trangcanhan')->middleware('bacsi', 'logout');
     Route::get('suathongtin/{id}', [UserController::class, 'suathongtin'])->name('suathongtin')->middleware('bacsi', 'logout');
-    Route::post('suathongtin/{id}', [UserController::class, 'postsuathongtin'])->name('postsuathongtin');
+    Route::post('suathongtin/{id}', [UserController::class, 'postsuathongtin'])->name('postsuathongtin')->middleware('bacsi', 'logout');
     Route::get('lichsukhambs', [UserController::class, 'lichsukhambs'])->name('lichsukhambs')->middleware('bacsi', 'logout');
 });

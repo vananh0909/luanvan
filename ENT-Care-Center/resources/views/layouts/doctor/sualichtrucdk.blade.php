@@ -91,7 +91,7 @@
         <div style="text-align: center; margin-top: 12px;">
             <p style="font-size: 13px;">
                 Vui lòng chỉ đăng ký lịch trực trong một tuần. Không đăng ký hai tuần liên tiếp !
-                <a href="{{ route('Admin.xemlichtruc') }}" class="hover">Xem lịch trực</a>
+                <a href="{{ route('User.xemlichtrucbs') }}" class="hover">Xem lịch trực</a>
             </p>
         </div>
 

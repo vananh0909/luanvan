@@ -90,7 +90,7 @@ class AdminController extends Controller
                     'lichhen.LH_Giokham',
                     'lichhen.LH_trieuchung'
                 )
-                ->orderBy('lichhen.LH_Ngaykham', 'asc')
+                ->orderBy('lichhen.LH_Ngaykham', 'DESC')
                 ->get();
         }
 

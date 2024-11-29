@@ -765,7 +765,14 @@ class UserController extends Controller
 
             $thuoc = DB::table('khothuoc')->where('tenthuoc', $ten)->first();
             if ($thuoc) {
-                // Kiểm tra số lượng thuốc trong kho so với ngưỡng tối thiểu
+
+                $ngayhientai = now();
+                if ($thuoc->hansudung < $ngayhientai) {
+                    $thongbao_thuoc[] = 'Thuốc' . $ten . ' đã hết hạn sử dụng vào ngày ' . date('d-m-Y', strtotime($thuoc->hansudung)) . '. Vui lòng chọn loại thuốc khác.';
+                }
+            }
+            if ($thuoc) {
+
                 if ($thuoc->soluong <= $thuoc->nguongtoithieu) {
                     $thongbao_thuoc[] = "Thuốc $ten đã hết hàng. Vui lòng chọn loại thuốc khác.";
                 }
