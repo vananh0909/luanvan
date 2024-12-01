@@ -76,7 +76,7 @@
                         <td> {{ $lh->LH_Email }}</td>
                         <td> {{ $lh->LH_BSkham }}</td>
                         <td>{{ $lh->LH_Giokham }} </td>
-                        <td> {{ $lh->LH_Ngaykham }}</td>
+                        <td> {{ date('d-m-Y', strtotime($lh->LH_Ngaykham)) }}</td>
                         <td> {{ $lh->LH_trieuchung }}</td>
 
 

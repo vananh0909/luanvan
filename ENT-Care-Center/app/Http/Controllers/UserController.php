@@ -848,13 +848,20 @@ class UserController extends Controller
             ->join('donthuoc', 'benhan.id_benhan', '=', 'donthuoc.id_benhan')
             ->join('lichhen', 'benhan.id_lh', '=', 'lichhen.LH_Id')
             ->join('customer', 'lichhen.LH_CustomerID', '=', 'customer.CUS_Id')
-            ->where('customer.CUS_Id', $id) // Lọc bệnh án theo bệnh nhân
+            ->where('customer.CUS_Id', $id)
+
             ->select('donthuoc.*', 'benhan.*', 'lichhen.*', 'customer.*')
-            ->get();  // Sử dụng get() để lấy toàn bộ bệnh án của bệnh nhân
+            ->get();
+        // Lấy ID lịch hẹn mới nhất của bệnh nhân
+        $firstLhId  = DB::table('lichhen')
+            ->where('LH_CustomerID', $id)
+            ->orderBy('LH_Ngaykham', 'desc')
+            ->value('LH_Id');
 
 
 
-        $firstLhId = $benhan->isNotEmpty() ? $benhan->first()->LH_Id : null;
+
+
 
         return view("layouts.doctor.benhan", $this->data, compact('benhan', 'firstLhId', 'user'));
     }
