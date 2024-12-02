@@ -54,7 +54,7 @@
                                     Khám</label>
                                 <select class="form-select" style=" margin: 0 auto; padding: 6px"
                                     aria-label="Default select example" name="LH_BSkham" required>
-                                    @foreach ($bacsitruc as $bs)
+                                    @foreach ($bacsitruc->unique('lt_tenbs') as $bs)
                                         <option value="{{ $bs->lt_tenbs }}"
                                             {{ $bs->lt_tenbs == $sualichhen->LH_BSkham ? 'selected' : '' }}>
                                             {{ $bs->lt_tenbs }}

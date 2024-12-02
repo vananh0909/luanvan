@@ -62,7 +62,7 @@
                                     <select class="form-select" style=" width: 400px; margin: 0 auto; padding: 6px"
                                         aria-label="Default select example" name="LH_BSkham" required>
                                         <option required selected> Chọn bác sĩ khám </option>
-                                        @foreach ($bacsitruc as $bs)
+                                        @foreach ($bacsitruc->unique('lt_tenbs') as $bs)
                                             <option value="{{ $bs->lt_tenbs }}">{{ $bs->lt_tenbs }}
                                             </option>
                                         @endforeach

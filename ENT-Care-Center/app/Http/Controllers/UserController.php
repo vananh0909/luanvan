@@ -302,9 +302,9 @@ class UserController extends Controller
                 File::delete($avtcu);
             }
             $file = $request->file('CUS_Avatar');
-            $extension = $file->getClientOriginalExtension(); //lay ten mo rong duoi jpg, png,..
+            $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension;
-            $file->move('uploads/avtkhachhang/', $filename); //upload lên thư mục
+            $file->move('uploads/avtkhachhang/', $filename);
             $kh->CUS_Avatar = $filename;
         }
         $kh->CUS_Name = $request->input('CUS_Name');
@@ -373,15 +373,15 @@ class UserController extends Controller
         //  thời gian hẹn khám từ lịch hẹn
         $time = Carbon::parse($lichhen->LH_Ngaykham . ' ' . $lichhen->LH_Giokham);
 
-        // tgian hiện tại lớn hơn hoặc bằng thời gian hẹn khám - 1 ngày
-        if ($TimeNow->diffInDays($time) < 1) {
+
+
+        // So sánh tgian
+        if ($TimeNow->greaterThanOrEqualTo($time->subDay())) {
             return redirect()->back()->with('error', 'Bạn chỉ có thể hủy lịch hẹn trước 1 ngày.');
         }
-
-
         $lichhen->delete();
 
-        return redirect()->route('User.Home')->with('success', 'Lịch hẹn đã được hủy thành công.');
+        return redirect()->back()->with('success', 'Lịch hẹn đã được hủy thành công.');
     }
 
 
@@ -404,7 +404,7 @@ class UserController extends Controller
 
     public function postsualichhen(Request $request, $id)
     {
-        // Lấy ID của người dùng từ session
+
         $customerId = session('user')['CUS_Id'];
         if (!$customerId) {
             return redirect()->route('User.Home')->with('error', 'Thất bại');
@@ -421,7 +421,7 @@ class UserController extends Controller
         }
         $id_user = $user->id;
 
-        // Kiểm tra lịch trực của bác sĩ
+
         $giotruc = lt_lichtruc::where('user_id', $id_user)
             ->where('lt_Ngaytruc', $request->LH_Ngaykham)
             ->where('lt_Giotruc', 'LIKE', '%' . $request->LH_Giokham . '%')
@@ -851,6 +851,7 @@ class UserController extends Controller
             ->where('customer.CUS_Id', $id)
 
             ->select('donthuoc.*', 'benhan.*', 'lichhen.*', 'customer.*')
+            ->orderBy('lichhen.LH_Ngaykham', 'desc')
             ->get();
         // Lấy ID lịch hẹn mới nhất của bệnh nhân
         $firstLhId  = DB::table('lichhen')
