@@ -39,7 +39,7 @@
 
         <div>
 
-            <div style="margin: 10px 0 30px 80px;">
+            <div style="margin: 10px 0 30px 0px;">
                 <a href="{{ route('Admin.quanlybacsy') }}"><i style="color:rgb(99, 96, 96);font-size:20px "
                         class="fas fa-backward"></i></a>
             </div>
@@ -48,7 +48,7 @@
         </div>
 
 
-        <table class="table table-striped" style="width: 90%;margin: 0 auto">
+        <table class="table table-striped" style="width: 100%;margin: 0 auto">
             <thead>
                 <tr>
                     <th scope="col">Tên Bác Sĩ</th>

@@ -144,9 +144,19 @@ class AdminController extends Controller
         if (!$user) {
             return redirect()->back()->with('error', 'Không tìm thấy bác sĩ với tên đã chọn.');
         }
-
-
         $user_id = $user->id; // Lấy ID của bác sĩ
+
+        $giotruc = lt_lichtruc::where('user_id',  $user_id)
+            ->where('lt_Ngaytruc', $request->lt_Ngaytruc)
+
+            ->exists();
+
+        if ($giotruc) {
+            return redirect()->back()->with('error', 'Ngày trực đã tồn tại');
+        }
+
+
+
 
         DB::table('lt_lichtruc')->insert([
             'lt_tenbs' => $Tenbs,

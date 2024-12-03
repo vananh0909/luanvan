@@ -88,7 +88,7 @@
                 </p>
 
             </div>
-            @foreach ($bacsitruc as $bs)
+            @foreach ($bacsitruc->unique('lt_tenbs') as $bs)
                 <div class="col-md-3" id="dr"
                     style="background-color:#ffffff;  height:224px; margin-right:30px; margin-left:40px;border-radius: 6px; ">
                     <img style="width:90px; height:80px; margin-top:24px; margin-left:66px; border-radius: 6px;"

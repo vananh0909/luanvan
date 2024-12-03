@@ -44,10 +44,10 @@
                     });
                 </script>
             @endif
-            <div style="margin-left: 154px; margin-bottom:10px">
+            <div style="margin-left: 4px; margin-bottom:10px">
                 <a href="{{ route('User.lichhen') }}"><i class="fas fa-backward" style="color:gray"></i></a>
             </div>
-            <table class="table table-striped" style="width: 75%;margin: 0 auto">
+            <table class="table table-striped" style="width: 100%;margin: 0 auto">
                 <thead>
                     <tr>
                         <th scope="col">STT</th>
