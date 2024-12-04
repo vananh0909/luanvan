@@ -192,9 +192,17 @@ class UserController extends Controller
 
         $ngayhientai = date('Y-m-d');
 
-        if ($request->LH_Ngaykham <= $ngayhientai) {
+        if ($request->LH_Ngaykham < $ngayhientai) {
             return redirect()->back()->with('error', 'Không thể chọn ngày đã qua. Vui lòng chọn ngày hợp lệ.');
         }
+
+        $giohientai = Carbon::now('Asia/Ho_Chi_Minh')->format('H:i');
+        $gioKham = date('H:i', strtotime($request->LH_Giokham));
+
+        if ($request->LH_Ngaykham == $ngayhientai && $gioKham <= $giohientai) {
+            return redirect()->back()->with('error', 'Không thể chọn giờ đã qua. Vui lòng chọn giờ hợp lệ.');
+        }
+
 
 
         $user = User::where('name', $request->LH_BSkham)->first();
@@ -206,7 +214,7 @@ class UserController extends Controller
 
         $giotruc = lt_lichtruc::where('user_id', $id_user)
             ->where('lt_Ngaytruc', $request->LH_Ngaykham)
-            ->where('lt_Giotruc', 'LIKE', '%' . $request->LH_Giokham . '%') // Kiểm tra xem giờ có nằm trong chuỗi giờ trực không
+            ->where('lt_Giotruc', 'LIKE', '%' . $request->LH_Giokham . '%')
             ->exists();
 
         if (!$giotruc) {
@@ -368,17 +376,27 @@ class UserController extends Controller
             return redirect()->route('User.Home')->with('error', 'Không tìm thấy lịch hẹn.');
         }
 
-        $TimeNow = Carbon::now();
+        $TimeNow = Carbon::now('Asia/Ho_Chi_Minh');
+
 
         //  thời gian hẹn khám từ lịch hẹn
-        $time = Carbon::parse($lichhen->LH_Ngaykham . ' ' . $lichhen->LH_Giokham);
+        $time = Carbon::parse($lichhen->LH_Ngaykham . ' ' . $lichhen->LH_Giokham, 'Asia/Ho_Chi_Minh');
 
 
 
         // So sánh tgian
-        if ($TimeNow->greaterThanOrEqualTo($time->subDay())) {
+        if ($TimeNow->diffInHours($time, false) < 24) {
             return redirect()->back()->with('error', 'Bạn chỉ có thể hủy lịch hẹn trước 1 ngày.');
         }
+
+        // Debug
+        // dd([
+        //     'Thời gian hiện tại' => $TimeNow->toDateTimeString(),
+        //     'Thời gian hẹn (gốc)' => $time->toDateTimeString(),
+        //     'Khoảng cách giờ' => $TimeNow->diffInHours($time, false),
+        // ]);
+
+
         $lichhen->delete();
 
         return redirect()->back()->with('success', 'Lịch hẹn đã được hủy thành công.');
@@ -414,6 +432,12 @@ class UserController extends Controller
         if ($request->LH_Ngaykham < $ngayhientai) {
             return redirect()->back()->with('error', 'Không thể chọn ngày đã qua. Vui lòng chọn ngày hợp lệ.');
         }
+
+        $giohientai = date('H:i');
+        if ($request->LH_Ngaykham == $ngayhientai && $request->LH_Giokham <= $giohientai) {
+            return redirect()->back()->with('error', 'Không thể chọn giờ đã qua. Vui lòng chọn giờ hợp lệ.');
+        }
+
 
         $user = User::where('name', $request->LH_BSkham)->first();
         if (!$user) {
